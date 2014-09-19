@@ -60,7 +60,7 @@ Test & Have Fun!
 5. Plugin enhancements to work with TSLink
 ========================================================================================================================
 
-  5.1 Facebook login
+  - Facebook login
 
   If you use the Facebook login plugin please change the following line in /inc/plugins/MyFacebookConnect
   class_facebook.php:
@@ -72,7 +72,7 @@ Test & Have Fun!
 6. Example of calling the functions of this plugin from somewhere else on your site.
 ========================================================================================================================
 
-  6.1 Woocommerce in Wordpress
+  - Woocommerce in Wordpress
   
   Add this to the function.php of your theme:
     
