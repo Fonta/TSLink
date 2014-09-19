@@ -61,7 +61,6 @@ Test & Have Fun!
 ========================================================================================================================
 
   5.1 Facebook login
-  ==================
 
   If you use the Facebook login plugin please change the following line in /inc/plugins/MyFacebookConnect
   class_facebook.php:
@@ -74,7 +73,6 @@ Test & Have Fun!
 ========================================================================================================================
 
   6.1 Woocommerce in Wordpress
-  ============================
   
   Add this to the function.php of your theme:
     
