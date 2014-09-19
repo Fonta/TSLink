@@ -49,6 +49,7 @@ When changed to 1, it will be a VIP member.
 4. Installation of the plugin
 ========================================================================================================================
 
+- Make a Teamspeak query user with enough i_group_member_add_power and i_group_member_remove_power to add and removes users     from the desired groups.
 - Edit the config.php in /inc/plugins/tslink folder.
 - Upload everything to your forum's folder.
 - Install & activate the plugin in the AdminCP.
