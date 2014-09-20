@@ -3,7 +3,7 @@ TSLink
 
 Servergroup control on TeamSpeak from MyBB forum
 
-1. What is LinkTS
+1. What is TSLink
 2. Still to do
 3. Already working
 4. Installation of the plugin
@@ -11,7 +11,7 @@ Servergroup control on TeamSpeak from MyBB forum
 6. Example of calling the functions of this plugin from somewhere else on your site.
 
 
-1. What is LinkTS
+1. What is TSLink
 ========================================================================================================================
 
 This plugin is created to add users on a teamspeak server to a group as soon as they register on the forum.
