@@ -227,14 +227,12 @@ $form->end();
 	{
 		require 'config.php';
 
-		$ip = bin2hex(inet_pton($givenip));
-
 		// Connect to the database.
 		$ConnectDB = mysql_connect($hostname, $username, $password) OR die(mysql_error());
 		mysql_select_db($database, $ConnectDB);
 
 		// Get the member from the mybb database.
-		$getit = mysql_query("SELECT * FROM $table WHERE HEX(lastip) = '$ip' LIMIT 1", $ConnectDB);
+		$getit = mysql_query("SELECT * FROM $table WHERE HEX(lastip) = '$mybb_ip' LIMIT 1", $ConnectDB);
 		$row = mysql_fetch_array($getit);
 
 		mysql_close($ConnectDB);
@@ -344,7 +342,7 @@ $form->end();
 		mysql_select_db($database, $ConnectDB);
 
 		// Set the memberstatus.
-		mysql_query("UPDATE $table SET memberstatus = '1' WHERE lastip = '$givenip'",$ConnectDB);
+		mysql_query("UPDATE $table SET memberstatus = '1' WHERE HEX(lastip) = '$mybb_ip'",$ConnectDB);
 	}
 
 	function UpdateMyBBDB_To0($givenip)
@@ -356,7 +354,7 @@ $form->end();
 		mysql_select_db($database, $ConnectDB);
 
 		// Set the memberstatus.
-		mysql_query("UPDATE $table SET memberstatus = '0' WHERE lastip = '$givenip'",$ConnectDB);
+		mysql_query("UPDATE $table SET memberstatus = '0' WHERE HEX(lastip) = '$mybb_ip'",$ConnectDB);
 
 	}
 	

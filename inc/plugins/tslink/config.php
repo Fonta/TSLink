@@ -31,10 +31,14 @@ $ts3_sgid_dont_remove =  array("6", "14", "10", "24", "18");
 // Define which groups should have access to the TS Link ModCP module.
 $tslink_modcp_groups =("4, 15");
 
-// Define the user's ip address if it isn't given to the function. 
+// Define the user's ip address.
 if ($givenip == '')
 {
 	$givenip = $_SERVER['REMOTE_ADDR'];
+	$mybb_ip = bin2hex(inet_pton($givenip));
+}
+else {
+	$mybb_ip = bin2hex(inet_pton($givenip));	
 }
 
 ?>
