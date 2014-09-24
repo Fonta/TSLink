@@ -23,9 +23,9 @@
 			"website"		=> "http://www.bug-community.com",
 			"author"		=> "Fonta",
 			"authorsite"	=> "",
-			"version"		=> "1.0.1",
+			"version"		=> "1.0.2",
 			"guid" 			=> "",
-			"compatibility" => "18"
+			"compatibility" => "18*"
 		);
 	}
 
