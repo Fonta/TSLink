@@ -25,7 +25,7 @@
 			"authorsite"	=> "",
 			"version"		=> "1.0.1",
 			"guid" 			=> "",
-			"compatibility" => "1.8"
+			"compatibility" => "18"
 		);
 	}
 
