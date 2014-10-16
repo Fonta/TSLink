@@ -76,7 +76,7 @@ Test & Have Fun!
   - Woocommerce in Wordpress
   
   Add this to the function.php of your theme:
-    
+```php    
     // hook into woocommerce when a order gets the status completed
     add_action( 'woocommerce_order_status_completed', 'Make_VIP_Member' );  
     /*
@@ -96,5 +96,5 @@ Test & Have Fun!
     	UpdateMyBBDB_To1($givenip);
     	tslink_doupdategroups($givenip);
     }
-    
+```    
 ========================================================================================================================
