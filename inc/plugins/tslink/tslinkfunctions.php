@@ -228,14 +228,23 @@ $form->end();
 		require 'config.php';
 
 		// Connect to the database.
-		$ConnectDB = mysql_connect($hostname, $username, $password) OR die(mysql_error());
-		mysql_select_db($database, $ConnectDB);
+		$ConnectDB = new mysqli($hostname, $username, $password, $database);
 
+		// check connection
+		if ($ConnectDB->connect_errno) {
+    		die($ConnectDB->connect_error);
+		}
+		
 		// Get the member from the mybb database.
-		$getit = mysql_query("SELECT * FROM $table WHERE HEX(lastip) = '$mybb_ip' LIMIT 1", $ConnectDB);
-		$row = mysql_fetch_array($getit);
+		$getit = "SELECT * FROM $table WHERE HEX(lastip) = '$mybb_ip' LIMIT 1";
+		$rows = $ConnectDB->query($getit);
+		$row = $rows->fetch_array(MYSQLI_ASSOC);
 
-		mysql_close($ConnectDB);
+		// Free result set
+		$rows->free();
+
+		// Close connection
+		$ConnectDB->close();
 
 		// Get the memberstatus from the user.
 		$memberstatus = $row['memberstatus'];
