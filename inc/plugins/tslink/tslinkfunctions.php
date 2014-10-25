@@ -347,11 +347,19 @@ $form->end();
 		require 'config.php';
 
 		// Connect to the database.
-		$ConnectDB = mysql_connect($hostname, $username, $password) OR die(mysql_error());
-		mysql_select_db($database, $ConnectDB);
+		$ConnectDB = new mysqli($hostname, $username, $password, $database);
 
-		// Set the memberstatus.
-		mysql_query("UPDATE $table SET memberstatus = '1' WHERE HEX(lastip) = '$mybb_ip'",$ConnectDB);
+		// check connection
+		if ($ConnectDB->connect_errno) {
+    		die($ConnectDB->connect_error);
+		}
+		
+		// Get the member from the mybb database.
+		$UpdateMyBBDBQuery = "UPDATE $table SET memberstatus = '1' WHERE HEX(lastip) = '$mybb_ip'";
+		$ConnectDB->query($UpdateMyBBDBQuery);
+		
+		// Close connection
+		$ConnectDB->close();
 	}
 
 	function UpdateMyBBDB_To0($givenip)
@@ -359,12 +367,19 @@ $form->end();
 		require 'config.php';
 
 		// Connect to the database.
-		$ConnectDB = mysql_connect($hostname, $username, $password) OR die(mysql_error());
-		mysql_select_db($database, $ConnectDB);
+		$ConnectDB = new mysqli($hostname, $username, $password, $database);
 
-		// Set the memberstatus.
-		mysql_query("UPDATE $table SET memberstatus = '0' WHERE HEX(lastip) = '$mybb_ip'",$ConnectDB);
-
+		// check connection
+		if ($ConnectDB->connect_errno) {
+    		die($ConnectDB->connect_error);
+		}
+		
+		// Get the member from the mybb database.
+		$UpdateMyBBDBQuery = "UPDATE $table SET memberstatus = '0' WHERE HEX(lastip) = '$mybb_ip'";
+		$ConnectDB->query($UpdateMyBBDBQuery);
+		
+		// Close connection
+		$ConnectDB->close();
 	}
 	
 ?>
