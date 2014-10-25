@@ -23,7 +23,7 @@
 			"website"		=> "http://www.bug-community.com",
 			"author"		=> "Fonta",
 			"authorsite"	=> "",
-			"version"		=> "1.0.3",
+			"version"		=> "1.0.4",
 			"guid" 			=> "",
 			"compatibility" => "18*"
 		);
