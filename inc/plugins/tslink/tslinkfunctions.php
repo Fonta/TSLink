@@ -349,12 +349,12 @@ $form->end();
 		// Connect to the database.
 		$ConnectDB = new mysqli($hostname, $username, $password, $database);
 
-		// check connection
+		// Check connection.
 		if ($ConnectDB->connect_errno) {
     		die($ConnectDB->connect_error);
 		}
 		
-		// Get the member from the mybb database.
+		// Update the MyBB database.
 		$UpdateMyBBDBQuery = "UPDATE $table SET memberstatus = '1' WHERE HEX(lastip) = '$mybb_ip'";
 		$ConnectDB->query($UpdateMyBBDBQuery);
 		
@@ -369,12 +369,12 @@ $form->end();
 		// Connect to the database.
 		$ConnectDB = new mysqli($hostname, $username, $password, $database);
 
-		// check connection
+		// Check connection.
 		if ($ConnectDB->connect_errno) {
     		die($ConnectDB->connect_error);
 		}
 		
-		// Get the member from the mybb database.
+		// Update the MyBB database.
 		$UpdateMyBBDBQuery = "UPDATE $table SET memberstatus = '0' WHERE HEX(lastip) = '$mybb_ip'";
 		$ConnectDB->query($UpdateMyBBDBQuery);
 		
