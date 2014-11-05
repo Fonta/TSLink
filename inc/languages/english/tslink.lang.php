@@ -19,4 +19,5 @@ $l['tslink_modcp_options'] = "Options";
 $l['tslink_modcp_status'] = "Current Status";
 $l['tslink_modcp_changestatus'] = "Change Status";
 $l['tslink_status_changed'] = "Status changed!";
+$l['tslink_noip_inmybbdb'] = "No IP of the user found!"
 ?>
