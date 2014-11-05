@@ -17,10 +17,9 @@ Servergroup control on TeamSpeak from MyBB forum
 This plugin is created to add users on a teamspeak server to a group as soon as they register on the forum.
 At our community someone becomes a member as soon as he registers on the forum and a VIP member when he donates to the community.
 We are running WooCommerce to let members donate to the community.
-As soon as we set the order to completed, the function UpdateMyBBDB_To1() and tslink_doupdategroups() are called from this plugin.
-This sets the 0 (which is set to every user on installing the plugin in MyBB) to 1 and updates the usergroups on the Teamspeak server.
-the function tslink_doupdategroups(), UpdateMyBBDB_To1 and UpdateMyBBDB_To0() are using the member's ip to determine the
-right user in the databases.
+As soon as we set the order to completed, the function UpdateMyBBDB_To1() and tslink_update_uids() are called from this plugin.
+This sets the user's status to 1 in the MyBB DB and update's the user's groups on the TeamSpeak server.
+
 In simple:
 The plugin adds a row to the mybb_users db with a value of 0.
 The 0 will represent member
@@ -29,10 +28,7 @@ When changed to 1, it will be a VIP member.
 2. Still to do
 ========================================================================================================================
 
-- With the new way of storing user ip addresses in MyBB 1.8 we had to convert the user's ip to 
-  hex making the plugin incompatible with MyBB 1.6. Wish is to make the plugin backwards compatible with MyBB 1.6 so 
-  we'll have to add a check if it's MyBB 1.6 or 1.8 and according to that number do or do not convert the ip addresses
-  to hex for comparising.
+- Update the readme
 - settings are now done in the config.php file in the /inc/plugins/tslink folder.
   Might make it so that more settings can be done from the AdminCP.
 - Make it possible to view a member's status in the memberlist and/or show it on the post_author block.
@@ -94,7 +90,7 @@ Test & Have Fun!
     	$givenip = get_post_meta( $order->id, '_customer_ip_address', true );
     
     	UpdateMyBBDB_To1($givenip);
-    	tslink_doupdategroups($givenip);
+    	tslink_update_uids($givenip);
     }
 ```    
 ========================================================================================================================
