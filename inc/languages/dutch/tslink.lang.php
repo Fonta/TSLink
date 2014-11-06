@@ -19,5 +19,5 @@ $l['tslink_modcp_options'] = "Opties";
 $l['tslink_modcp_status'] = "Huidige Status";
 $l['tslink_modcp_changestatus'] = "Verander Status";
 $l['tslink_status_changed'] = "Status gewijzigd!";
-$l['tslink_noip_inmybbdb'] = "Geen IP adres van de gebruiker gevonden!"
+$l['tslink_noip_inmybbdb'] = "Geen IP adres van de gebruiker gevonden!";
 ?>

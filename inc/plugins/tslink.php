@@ -23,7 +23,7 @@
 			"website"		=> "http://www.bug-community.com",
 			"author"		=> "Fonta",
 			"authorsite"	=> "",
-			"version"		=> "1.1.0",
+			"version"		=> "1.1.1",
 			"guid" 			=> "",
 			"compatibility" => "18*"
 		);
@@ -75,31 +75,30 @@
 		);
 
 
-	 		if($db->field_exists('memberstatus', "users"))
-	 		{
-	   			// Don't do anything
-	 		}
-	 		else 
-	 		{
-	 			// Insert our memberstatus column into the database.
-				$db->query("ALTER TABLE " . TABLE_PREFIX . "users ADD (`memberstatus` int(10) NOT NULL DEFAULT 0)");
-                $db->query("ALTER TABLE " . TABLE_PREFIX . "users ADD (`ts_uids` varchar(1024) NOT NULL DEFAULT '')");	
-	 		}
-        
-	 		if($db->table_exists("tslink_uids"))
-	 		{
-	   			// Don't do anything
-	 		}
-	 		else 
-	 		{
-                $db->query("CREATE TABLE IF NOT EXISTS ".TABLE_PREFIX."tslink_uids (
-                  uid int(10) NOT NULL,
-                  ts_uid varchar(50) NOT NULL,
-                  ts_cldbid int(10) DEFAULT NULL,
-                  UNIQUE KEY (uid)
-                ) ");
-            }
-        
+        if($db->field_exists('memberstatus', "users"))
+        {
+            // Don't do anything
+        }
+        else 
+        {
+            // Insert our memberstatus column into the database.
+            $db->query("ALTER TABLE " . TABLE_PREFIX . "users ADD (`memberstatus` int(10) NOT NULL DEFAULT 0)");
+            $db->query("ALTER TABLE " . TABLE_PREFIX . "users ADD (`ts_uids` varchar(1024) NOT NULL DEFAULT '')");	
+        }
+
+        if($db->table_exists("tslink_uids"))
+        {
+            // Don't do anything
+        }
+        else 
+        {
+            $db->query("CREATE TABLE IF NOT EXISTS ".TABLE_PREFIX."tslink_uids (
+              uid int(10) NOT NULL,
+              ts_uid varchar(50) NOT NULL,
+              ts_cldbid int(10) DEFAULT NULL,
+              UNIQUE KEY (uid)
+            ) ");
+        }
 	}
 
 	function tslink_is_installed()
@@ -324,8 +323,8 @@
 		if ($mybb->settings['tslink_settings_onregister']) {
 			// Hook the function to add the user to a certain group.
 			// You can use other hooks like member_do_register_end - just take a look at the mybb documentation.
-			$plugins->add_hook("member_activate_accountactivated", "tslink_update_groups_ip", $givenip);
-			$plugins->add_hook("fb_register_end", "tslink_update_groups_ip", $givenip);
+			$plugins->add_hook("member_activate_accountactivated", "tslink_update_uids", $givenip);
+			$plugins->add_hook("fb_register_end", "tslink_update_uids", $givenip);
 		}
 
 		if ($mybb->settings['tslink_settings_admincp']) {
