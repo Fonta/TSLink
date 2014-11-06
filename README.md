@@ -46,7 +46,7 @@ When changed to 1, it will be a VIP member.
 ========================================================================================================================
 
 - Make a Teamspeak query user with enough i_group_member_add_power and i_group_member_remove_power to add and removes users     from the desired groups.
-- Edit the config.php in /inc/plugins/tslink folder.
+- Edit the config.sample.php in the /inc/plugins/tslink folder and rename it to config.php.
 - Upload everything to your forum's folder.
 - Install & activate the plugin in the AdminCP.
 ** If you use the facebook plugin to let users login to your forum with their Facebook account, read point 5! **
@@ -59,7 +59,7 @@ Test & Have Fun!
 
   - Facebook login
 
-  If you use the Facebook login plugin please change the following line in /inc/plugins/MyFacebookConnect
+  If you use the Facebook login plugin please change the following line in /inc/plugins/MyFacebookConnect/
   class_facebook.php:
     Find:
       $plugins->run_hooks("member_do_register_end");
