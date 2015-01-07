@@ -277,8 +277,8 @@
         }
 
 		// Get the member from the mybb database.
-		$$mybb_user_query = "SELECT * FROM $table WHERE HEX(lastip) = '$mybb_ip' LIMIT 1";
-		$mybb_users = $ConnectDB->query($$mybb_user_query);
+		$mybb_user_query = "SELECT * FROM $table WHERE HEX(lastip) = '$mybb_ip' LIMIT 1";
+		$mybb_users = $ConnectDB->query($mybb_user_query);
 		$mybb_user = $mybb_users->fetch_array(MYSQLI_ASSOC);
 
 		// Get the memberstatus from the user.
