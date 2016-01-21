@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   TeamSpeak3
  * @version   1.1.23
+ *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -29,4 +29,6 @@
  * @class TeamSpeak3_Adapter_Update_Exception
  * @brief Enhanced exception class for TeamSpeak3_Adapter_Update objects.
  */
-class TeamSpeak3_Adapter_Update_Exception extends TeamSpeak3_Adapter_Exception {}
+class Teamspeak3_Adapter_Update_Exception extends TeamSpeak3_Adapter_Exception
+{
+}

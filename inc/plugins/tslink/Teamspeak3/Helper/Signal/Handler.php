@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   TeamSpeak3
  * @version   1.1.23
+ *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -29,9 +29,9 @@
  * @class TeamSpeak3_Helper_Signal_Handler
  * @brief Helper class providing handler functions for signals.
  */
-class TeamSpeak3_Helper_Signal_Handler
+class Teamspeak3_Helper_Signal_Handler
 {
-  /**
+    /**
    * Stores the name of the subscribed signal.
    *
    * @var string
@@ -50,29 +50,31 @@ class TeamSpeak3_Helper_Signal_Handler
    *
    * @param  string $signal
    * @param  mixed  $callback
+   *
    * @throws TeamSpeak3_Helper_Signal_Exception
+   *
    * @return TeamSpeak3_Helper_Signal_Handler
    */
   public function __construct($signal, $callback)
   {
-    $this->signal = (string) $signal;
+      $this->signal = (string) $signal;
 
-    if(!is_callable($callback))
-    {
-      throw new TeamSpeak3_Helper_Signal_Exception("invalid callback specified for signal '" . $signal . "'");
-    }
+      if (!is_callable($callback)) {
+          throw new TeamSpeak3_Helper_Signal_Exception("invalid callback specified for signal '".$signal."'");
+      }
 
-    $this->callback = $callback;
+      $this->callback = $callback;
   }
 
   /**
    * Invoke the signal handler.
    *
    * @param  array $args
+   *
    * @return mixed
    */
-  public function call(array $args = array())
+  public function call(array $args = [])
   {
-    return call_user_func_array($this->callback, $args);
+      return call_user_func_array($this->callback, $args);
   }
 }
