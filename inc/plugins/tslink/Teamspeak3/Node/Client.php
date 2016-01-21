@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   TeamSpeak3
  * @version   1.1.23
+ *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -29,53 +29,56 @@
  * @class TeamSpeak3_Node_Client
  * @brief Class describing a TeamSpeak 3 client and all it's parameters.
  */
-class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
+class Teamspeak3_Node_Client extends TeamSpeak3_Node_Abstract
 {
-  /**
+    /**
    * The TeamSpeak3_Node_Client constructor.
    *
    * @param  TeamSpeak3_Node_Server $server
    * @param  array  $info
    * @param  string $index
+   *
    * @throws TeamSpeak3_Adapter_ServerQuery_Exception
+   *
    * @return TeamSpeak3_Node_Client
    */
-  public function __construct(TeamSpeak3_Node_Server $server, array $info, $index = "clid")
+  public function __construct(TeamSpeak3_Node_Server $server, array $info, $index = 'clid')
   {
-    $this->parent = $server;
-    $this->nodeInfo = $info;
+      $this->parent = $server;
+      $this->nodeInfo = $info;
 
-    if(!array_key_exists($index, $this->nodeInfo))
-    {
-      throw new TeamSpeak3_Adapter_ServerQuery_Exception("invalid clientID", 0x200);
-    }
+      if (!array_key_exists($index, $this->nodeInfo)) {
+          throw new TeamSpeak3_Adapter_ServerQuery_Exception('invalid clientID', 0x200);
+      }
 
-    $this->nodeId = $this->nodeInfo[$index];
+      $this->nodeId = $this->nodeInfo[$index];
   }
 
   /**
    * Changes the clients properties using given properties.
    *
    * @param  array $properties
+   *
    * @return void
    */
   public function modify(array $properties)
   {
-    $properties["clid"] = $this->getId();
+      $properties['clid'] = $this->getId();
 
-    $this->execute("clientedit", $properties);
-    $this->resetNodeInfo();
+      $this->execute('clientedit', $properties);
+      $this->resetNodeInfo();
   }
 
   /**
    * Changes the clients properties using given properties.
    *
    * @param  array $properties
+   *
    * @return void
    */
   public function modifyDb(array $properties)
   {
-    return $this->getParent()->clientModifyDb($this["client_database_id"], $properties);
+      return $this->getParent()->clientModifyDb($this['client_database_id'], $properties);
   }
 
   /**
@@ -85,7 +88,7 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function deleteDb()
   {
-    return $this->getParent()->clientDeleteDb($this["client_database_id"]);
+      return $this->getParent()->clientDeleteDb($this['client_database_id']);
   }
 
   /**
@@ -95,66 +98,71 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function infoDb()
   {
-    return $this->getParent()->clientInfoDb($this["client_database_id"]);
+      return $this->getParent()->clientInfoDb($this['client_database_id']);
   }
 
   /**
    * Sends a text message to the client.
    *
    * @param  string $msg
+   *
    * @return void
    */
   public function message($msg)
   {
-    $this->execute("sendtextmessage", array("msg" => $msg, "target" => $this->getId(), "targetmode" => TeamSpeak3::TEXTMSG_CLIENT));
+      $this->execute('sendtextmessage', ['msg' => $msg, 'target' => $this->getId(), 'targetmode' => TeamSpeak3::TEXTMSG_CLIENT]);
   }
 
   /**
    * Moves the client to another channel.
    *
-   * @param  integer $cid
+   * @param  int $cid
    * @param  string  $cpw
+   *
    * @return void
    */
   public function move($cid, $cpw = null)
   {
-    return $this->getParent()->clientMove($this->getId(), $cid, $cpw);
+      return $this->getParent()->clientMove($this->getId(), $cid, $cpw);
   }
 
   /**
    * Kicks the client from his currently joined channel or from the server.
    *
-   * @param  integer $reasonid
+   * @param  int $reasonid
    * @param  string  $reasonmsg
+   *
    * @return void
    */
   public function kick($reasonid = TeamSpeak3::KICK_CHANNEL, $reasonmsg = null)
   {
-    return $this->getParent()->clientKick($this->getId(), $reasonid, $reasonmsg);
+      return $this->getParent()->clientKick($this->getId(), $reasonid, $reasonmsg);
   }
 
   /**
    * Sends a poke message to the client.
    *
    * @param  string $msg
+   *
    * @return void
    */
   public function poke($msg)
   {
-    return $this->getParent()->clientPoke($this->getId(), $msg);
+      return $this->getParent()->clientPoke($this->getId(), $msg);
   }
 
   /**
    * Bans the client from the server. Please note that this will create two separate
    * ban rules for the targeted clients IP address and his unique identifier.
    *
-   * @param  integer $timeseconds
+   * @param  int $timeseconds
    * @param  string  $reason
+   *
    * @return array
    */
   public function ban($timeseconds = null, $reason = null)
   {
-    return $this->getParent()->clientBan($this->getId(), $timeseconds, $reason);
+      return $this->getParent()->clientBan($this->getId(), $timeseconds, $reason);
   }
 
   /**
@@ -164,43 +172,46 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function customInfo()
   {
-    return $this->getParent()->customInfo($this["client_database_id"]);
+      return $this->getParent()->customInfo($this['client_database_id']);
   }
 
   /**
    * Returns an array containing the permission overview of the client.
    *
-   * @param  integer $cid
+   * @param  int $cid
+   *
    * @return array
    */
   public function permOverview($cid)
   {
-    return $this->execute("permoverview", array("cldbid" => $this["client_database_id"], "cid" => $cid, "permid" => 0))->toArray();
+      return $this->execute('permoverview', ['cldbid' => $this['client_database_id'], 'cid' => $cid, 'permid' => 0])->toArray();
   }
 
   /**
    * Returns a list of permissions defined for the client.
    *
-   * @param  boolean $permsid
+   * @param  bool $permsid
+   *
    * @return array
    */
-  public function permList($permsid = FALSE)
+  public function permList($permsid = false)
   {
-    return $this->getParent()->clientPermList($this["client_database_id"], $permsid);
+      return $this->getParent()->clientPermList($this['client_database_id'], $permsid);
   }
 
   /**
    * Adds a set of specified permissions to the client. Multiple permissions can be added by providing
    * the three parameters of each permission.
    *
-   * @param  integer $permid
-   * @param  integer $permvalue
-   * @param  integer $permskip
+   * @param  int $permid
+   * @param  int $permvalue
+   * @param  int $permskip
+   *
    * @return void
    */
-  public function permAssign($permid, $permvalue, $permskip = FALSE)
+  public function permAssign($permid, $permvalue, $permskip = false)
   {
-    return $this->getParent()->clientPermAssign($this["client_database_id"], $permid, $permvalue, $permskip);
+      return $this->getParent()->clientPermAssign($this['client_database_id'], $permid, $permvalue, $permskip);
   }
 
   /**
@@ -208,20 +219,21 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    *
    * @deprecated
    */
-  public function permAssignByName($permname, $permvalue, $permskip = FALSE)
+  public function permAssignByName($permname, $permvalue, $permskip = false)
   {
-    return $this->permAssign($permname, $permvalue, $permskip);
+      return $this->permAssign($permname, $permvalue, $permskip);
   }
 
   /**
    * Removes a set of specified permissions from a client. Multiple permissions can be removed at once.
    *
-   * @param integer $permid
+   * @param int $permid
+   *
    * @return void
    */
   public function permRemove($permid)
   {
-    return $this->getParent()->clientPermRemove($this["client_database_id"], $permid);
+      return $this->getParent()->clientPermRemove($this['client_database_id'], $permid);
   }
 
   /**
@@ -231,41 +243,44 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function permRemoveByName($permname)
   {
-    return $this->permRemove($permname);
+      return $this->permRemove($permname);
   }
 
   /**
    * Sets the channel group of a client to the ID specified.
    *
-   * @param  integer $cid
-   * @param  integer $cgid
+   * @param  int $cid
+   * @param  int $cgid
+   *
    * @return void
    */
   public function setChannelGroup($cid, $cgid)
   {
-    return $this->getParent()->clientSetChannelGroup($this["client_database_id"], $cid, $cgid);
+      return $this->getParent()->clientSetChannelGroup($this['client_database_id'], $cid, $cgid);
   }
 
   /**
    * Adds the client to the server group specified with $sgid.
    *
-   * @param  integer $sgid
+   * @param  int $sgid
+   *
    * @return void
    */
   public function addServerGroup($sgid)
   {
-    return $this->getParent()->serverGroupClientAdd($sgid, $this["client_database_id"]);
+      return $this->getParent()->serverGroupClientAdd($sgid, $this['client_database_id']);
   }
 
   /**
    * Removes the client from the server group specified with $sgid.
    *
-   * @param  integer $sgid
+   * @param  int $sgid
+   *
    * @return void
    */
   public function remServerGroup($sgid)
   {
-    return $this->getParent()->serverGroupClientDel($sgid, $this["client_database_id"]);
+      return $this->getParent()->serverGroupClientDel($sgid, $this['client_database_id']);
   }
 
   /**
@@ -275,7 +290,7 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function avatarGetName()
   {
-    return new TeamSpeak3_Helper_String("/avatar_" . $this["client_base64HashClientUID"]);
+      return new TeamSpeak3_Helper_String('/avatar_'.$this['client_base64HashClientUID']);
   }
 
   /**
@@ -285,12 +300,14 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function avatarDownload()
   {
-    if($this["client_flag_avatar"] == 0) return;
+      if ($this['client_flag_avatar'] == 0) {
+          return;
+      }
 
-    $download = $this->getParent()->transferInitDownload(rand(0x0000, 0xFFFF), 0, $this->avatarGetName());
-    $transfer = TeamSpeak3::factory("filetransfer://" . $download["host"] . ":" . $download["port"]);
+      $download = $this->getParent()->transferInitDownload(rand(0x0000, 0xFFFF), 0, $this->avatarGetName());
+      $transfer = TeamSpeak3::factory('filetransfer://'.$download['host'].':'.$download['port']);
 
-    return $transfer->download($download["ftkey"], $download["size"]);
+      return $transfer->download($download['ftkey'], $download['size']);
   }
 
   /**
@@ -300,17 +317,17 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function getClones()
   {
-    return $this->execute("clientgetids", array("cluid" => $this["client_unique_identifier"]))->toAssocArray("clid");
+      return $this->execute('clientgetids', ['cluid' => $this['client_unique_identifier']])->toAssocArray('clid');
   }
 
   /**
    * Returns the revision/build number from the clients version string.
    *
-   * @return integer
+   * @return int
    */
   public function getRev()
   {
-    return $this["client_type"] ? null : $this["client_version"]->section("[", 1)->filterDigits();
+      return $this['client_type'] ? null : $this['client_version']->section('[', 1)->filterDigits();
   }
 
   /**
@@ -320,14 +337,13 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function memberOf()
   {
-    $groups = array($this->getParent()->channelGroupGetById($this["client_channel_group_id"]));
+      $groups = [$this->getParent()->channelGroupGetById($this['client_channel_group_id'])];
 
-    foreach(explode(",", $this["client_servergroups"]) as $sgid)
-    {
-      $groups[] = $this->getParent()->serverGroupGetById($sgid);
-    }
+      foreach (explode(',', $this['client_servergroups']) as $sgid) {
+          $groups[] = $this->getParent()->serverGroupGetById($sgid);
+      }
 
-    return $groups;
+      return $groups;
   }
 
   /**
@@ -337,24 +353,27 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function iconDownload()
   {
-    if($this->iconIsLocal("client_icon_id") || $this["client_icon_id"] == 0) return;
+      if ($this->iconIsLocal('client_icon_id') || $this['client_icon_id'] == 0) {
+          return;
+      }
 
-    $download = $this->getParent()->transferInitDownload(rand(0x0000, 0xFFFF), 0, $this->iconGetName("client_icon_id"));
-    $transfer = TeamSpeak3::factory("filetransfer://" . $download["host"] . ":" . $download["port"]);
+      $download = $this->getParent()->transferInitDownload(rand(0x0000, 0xFFFF), 0, $this->iconGetName('client_icon_id'));
+      $transfer = TeamSpeak3::factory('filetransfer://'.$download['host'].':'.$download['port']);
 
-    return $transfer->download($download["ftkey"], $download["size"]);
+      return $transfer->download($download['ftkey'], $download['size']);
   }
-  
+
   /**
    * Sends a plugin command to the client.
    *
    * @param  string $plugin
    * @param  string $data
+   *
    * @return void
    */
   public function sendPluginCmd($plugin, $data)
   {
-    $this->execute("plugincmd", array("name" => $plugin, "data" => $data, "targetmode" => TeamSpeak3::PLUGINCMD_CLIENT, "target" => $this->getId()));
+      $this->execute('plugincmd', ['name' => $plugin, 'data' => $data, 'targetmode' => TeamSpeak3::PLUGINCMD_CLIENT, 'target' => $this->getId()]);
   }
 
   /**
@@ -362,9 +381,11 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   protected function fetchNodeInfo()
   {
-    if($this["client_type"] == 1) return;
+      if ($this['client_type'] == 1) {
+          return;
+      }
 
-    $this->nodeInfo = array_merge($this->nodeInfo, $this->execute("clientinfo", array("clid" => $this->getId()))->toList());
+      $this->nodeInfo = array_merge($this->nodeInfo, $this->execute('clientinfo', ['clid' => $this->getId()])->toList());
   }
 
   /**
@@ -374,7 +395,7 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function getUniqueId()
   {
-    return $this->getParent()->getUniqueId() . "_cl" . $this->getId();
+      return $this->getParent()->getUniqueId().'_cl'.$this->getId();
   }
 
   /**
@@ -384,38 +405,23 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function getIcon()
   {
-    if($this["client_type"])
-    {
-      return "client_query";
-    }
-    elseif($this["client_away"])
-    {
-      return "client_away";
-    }
-    elseif(!$this["client_output_hardware"])
-    {
-      return "client_snd_disabled";
-    }
-    elseif($this["client_output_muted"])
-    {
-      return "client_snd_muted";
-    }
-    elseif(!$this["client_input_hardware"])
-    {
-      return "client_mic_disabled";
-    }
-    elseif($this["client_input_muted"])
-    {
-      return "client_mic_muted";
-    }
-    elseif($this["client_is_channel_commander"])
-    {
-      return $this["client_flag_talking"] ? "client_cc_talk" : "client_cc_idle";
-    }
-    else
-    {
-      return $this["client_flag_talking"] ? "client_talk" : "client_idle";
-    }
+      if ($this['client_type']) {
+          return 'client_query';
+      } elseif ($this['client_away']) {
+          return 'client_away';
+      } elseif (!$this['client_output_hardware']) {
+          return 'client_snd_disabled';
+      } elseif ($this['client_output_muted']) {
+          return 'client_snd_muted';
+      } elseif (!$this['client_input_hardware']) {
+          return 'client_mic_disabled';
+      } elseif ($this['client_input_muted']) {
+          return 'client_mic_muted';
+      } elseif ($this['client_is_channel_commander']) {
+          return $this['client_flag_talking'] ? 'client_cc_talk' : 'client_cc_idle';
+      } else {
+          return $this['client_flag_talking'] ? 'client_talk' : 'client_idle';
+      }
   }
 
   /**
@@ -425,7 +431,7 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function getSymbol()
   {
-    return "@";
+      return '@';
   }
 
   /**
@@ -435,7 +441,6 @@ class TeamSpeak3_Node_Client extends TeamSpeak3_Node_Abstract
    */
   public function __toString()
   {
-    return (string) $this["client_nickname"];
+      return (string) $this['client_nickname'];
   }
 }
-

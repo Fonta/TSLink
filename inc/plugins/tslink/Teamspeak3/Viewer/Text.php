@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   TeamSpeak3
  * @version   1.1.23
+ *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -29,9 +29,9 @@
  * @class TeamSpeak3_Viewer_Text
  * @brief Renders nodes used in ASCII-based TeamSpeak 3 viewers.
  */
-class TeamSpeak3_Viewer_Text implements TeamSpeak3_Viewer_Interface
+class Teamspeak3_Viewer_Text implements TeamSpeak3_Viewer_Interface
 {
-  /**
+    /**
    * A pre-defined pattern used to display a node in a TeamSpeak 3 viewer.
    *
    * @var string
@@ -43,20 +43,21 @@ class TeamSpeak3_Viewer_Text implements TeamSpeak3_Viewer_Interface
    *
    * @param  TeamSpeak3_Node_Abstract $node
    * @param  array $siblings
+   *
    * @return string
    */
-  public function fetchObject(TeamSpeak3_Node_Abstract $node, array $siblings = array())
+  public function fetchObject(TeamSpeak3_Node_Abstract $node, array $siblings = [])
   {
-    $this->currObj = $node;
-    $this->currSib = $siblings;
+      $this->currObj = $node;
+      $this->currSib = $siblings;
 
-    $args = array(
+      $args = [
       $this->getPrefix(),
       $this->getCorpusIcon(),
       $this->getCorpusName(),
-    );
+    ];
 
-    return TeamSpeak3_Helper_String::factory($this->pattern)->arg($args);
+      return TeamSpeak3_Helper_String::factory($this->pattern)->arg($args);
   }
 
   /**
@@ -66,21 +67,19 @@ class TeamSpeak3_Viewer_Text implements TeamSpeak3_Viewer_Interface
    */
   protected function getPrefix()
   {
-    $prefix = "";
+      $prefix = '';
 
-    if(count($this->currSib))
-    {
-      $last = array_pop($this->currSib);
+      if (count($this->currSib)) {
+          $last = array_pop($this->currSib);
 
-      foreach($this->currSib as $sibling)
-      {
-        $prefix .=  ($sibling) ? "| " : "  ";
+          foreach ($this->currSib as $sibling) {
+              $prefix .=  ($sibling) ? '| ' : '  ';
+          }
+
+          $prefix .= ($last) ? '\\-' : '|-';
       }
 
-      $prefix .= ($last) ? "\\-" : "|-";
-    }
-
-    return $prefix;
+      return $prefix;
   }
 
   /**
@@ -91,7 +90,7 @@ class TeamSpeak3_Viewer_Text implements TeamSpeak3_Viewer_Interface
    */
   protected function getCorpusIcon()
   {
-    return $this->currObj->getSymbol();
+      return $this->currObj->getSymbol();
   }
 
   /**
@@ -102,6 +101,6 @@ class TeamSpeak3_Viewer_Text implements TeamSpeak3_Viewer_Interface
    */
   protected function getCorpusName()
   {
-    return $this->currObj;
+      return $this->currObj;
   }
 }

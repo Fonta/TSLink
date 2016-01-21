@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   TeamSpeak3
  * @version   1.1.23
+ *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -31,12 +31,13 @@
  */
 interface TeamSpeak3_Viewer_Interface
 {
-  /**
+    /**
    * Returns the code needed to display a node in a TeamSpeak 3 viewer.
    *
    * @param  TeamSpeak3_Node_Abstract $node
    * @param  array $siblings
+   *
    * @return string
    */
-  public function fetchObject(TeamSpeak3_Node_Abstract $node, array $siblings = array());
+  public function fetchObject(TeamSpeak3_Node_Abstract $node, array $siblings = []);
 }
