@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * @package   TeamSpeak3
  * @version   1.1.23
+ *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -29,9 +29,9 @@
  * @class TeamSpeak3_Adapter_ServerQuery_Reply
  * @brief Provides methods to analyze and format a ServerQuery reply.
  */
-class TeamSpeak3_Adapter_ServerQuery_Reply
+class Teamspeak3_Adapter_ServerQuery_Reply
 {
-  /**
+    /**
    * Stores the command used to get this reply.
    *
    * @var TeamSpeak3_Helper_String
@@ -57,39 +57,40 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    *
    * @var array
    */
-  protected $err = array();
+  protected $err = [];
 
   /**
    * Sotres an array of events that occured before or during this reply.
    *
    * @var array
    */
-  protected $evt = array();
+  protected $evt = [];
 
   /**
    * Indicates whether exceptions should be thrown or not.
    *
-   * @var boolean
+   * @var bool
    */
-  protected $exp = TRUE;
+  protected $exp = true;
 
   /**
    * Creates a new TeamSpeak3_Adapter_ServerQuery_Reply object.
    *
    * @param  array   $rpl
    * @param  string  $cmd
-   * @param  boolean $exp
+   * @param  bool $exp
    * @param  TeamSpeak3_Node_Host $con
+   *
    * @return TeamSpeak3_Adapter_ServerQuery_Reply
    */
-  public function __construct(array $rpl, $cmd = null, TeamSpeak3_Node_Host $con = null, $exp = TRUE)
+  public function __construct(array $rpl, $cmd = null, TeamSpeak3_Node_Host $con = null, $exp = true)
   {
-    $this->cmd = new TeamSpeak3_Helper_String($cmd);
-    $this->con = $con;
-    $this->exp = (bool) $exp;
-    
-    $this->fetchError(array_pop($rpl));
-    $this->fetchReply($rpl);
+      $this->cmd = new TeamSpeak3_Helper_String($cmd);
+      $this->con = $con;
+      $this->exp = (bool) $exp;
+
+      $this->fetchError(array_pop($rpl));
+      $this->fetchReply($rpl);
   }
 
   /**
@@ -99,7 +100,7 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function toString()
   {
-    return (!func_num_args()) ? $this->rpl->unescape() : $this->rpl;
+      return (!func_num_args()) ? $this->rpl->unescape() : $this->rpl;
   }
 
   /**
@@ -109,16 +110,19 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function toLines()
   {
-    if(!count($this->rpl)) return array();
+      if (!count($this->rpl)) {
+          return [];
+      }
 
-    $list = $this->toString(0)->split(TeamSpeak3::SEPARATOR_LIST);
+      $list = $this->toString(0)->split(TeamSpeak3::SEPARATOR_LIST);
 
-    if(!func_num_args())
-    {
-      for($i = 0; $i < count($list); $i++) $list[$i]->unescape();
-    }
+      if (!func_num_args()) {
+          for ($i = 0; $i < count($list); $i++) {
+              $list[$i]->unescape();
+          }
+      }
 
-    return $list;
+      return $list;
   }
 
   /**
@@ -128,21 +132,21 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function toTable()
   {
-    $table = array();
+      $table = [];
 
-    foreach($this->toLines(0) as $cells)
-    {
-      $pairs = $cells->split(TeamSpeak3::SEPARATOR_CELL);
+      foreach ($this->toLines(0) as $cells) {
+          $pairs = $cells->split(TeamSpeak3::SEPARATOR_CELL);
 
-      if(!func_num_args())
-      {
-        for($i = 0; $i < count($pairs); $i++) $pairs[$i]->unescape();
+          if (!func_num_args()) {
+              for ($i = 0; $i < count($pairs); $i++) {
+                  $pairs[$i]->unescape();
+              }
+          }
+
+          $table[] = $pairs;
       }
 
-      $table[] = $pairs;
-    }
-
-    return $table;
+      return $table;
   }
 
   /**
@@ -152,32 +156,26 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function toArray()
   {
-    $array = array();
-    $table = $this->toTable(1);
+      $array = [];
+      $table = $this->toTable(1);
 
-    for($i = 0; $i < count($table); $i++)
-    {
-      foreach($table[$i] as $pair)
-      {
-        if(!count($pair))
-        {
-          continue;
-        }
-        
-        if(!$pair->contains(TeamSpeak3::SEPARATOR_PAIR))
-        {
-          $array[$i][$pair->toString()] = null;
-        }
-        else
-        {
-          list($ident, $value) = $pair->split(TeamSpeak3::SEPARATOR_PAIR, 2);
+      for ($i = 0; $i < count($table); $i++) {
+          foreach ($table[$i] as $pair) {
+              if (!count($pair)) {
+                  continue;
+              }
 
-          $array[$i][$ident->toString()] = $value->isInt() ? $value->toInt() : (!func_num_args() ? $value->unescape() : $value);
-        }
+              if (!$pair->contains(TeamSpeak3::SEPARATOR_PAIR)) {
+                  $array[$i][$pair->toString()] = null;
+              } else {
+                  list($ident, $value) = $pair->split(TeamSpeak3::SEPARATOR_PAIR, 2);
+
+                  $array[$i][$ident->toString()] = $value->isInt() ? $value->toInt() : (!func_num_args() ? $value->unescape() : $value);
+              }
+          }
       }
-    }
 
-    return $array;
+      return $array;
   }
 
   /**
@@ -185,26 +183,23 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    * The identifier specified by key will be used while indexing the array.
    *
    * @param  $key
+   *
    * @return array
    */
   public function toAssocArray($ident)
   {
-    $nodes = (func_num_args() > 1) ? $this->toArray(1) : $this->toArray();
-    $array = array();
+      $nodes = (func_num_args() > 1) ? $this->toArray(1) : $this->toArray();
+      $array = [];
 
-    foreach($nodes as $node)
-    {
-      if(array_key_exists($ident, $node))
-      {
-        $array[(is_object($node[$ident])) ? $node[$ident]->toString() : $node[$ident]] = $node;
+      foreach ($nodes as $node) {
+          if (array_key_exists($ident, $node)) {
+              $array[(is_object($node[$ident])) ? $node[$ident]->toString() : $node[$ident]] = $node;
+          } else {
+              throw new TeamSpeak3_Adapter_ServerQuery_Exception('invalid parameter', 0x602);
+          }
       }
-      else
-      {
-        throw new TeamSpeak3_Adapter_ServerQuery_Exception("invalid parameter", 0x602);
-      }
-    }
 
-    return $array;
+      return $array;
   }
 
   /**
@@ -214,14 +209,13 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function toList()
   {
-    $array = func_num_args() ? $this->toArray(1) : $this->toArray();
+      $array = func_num_args() ? $this->toArray(1) : $this->toArray();
 
-    if(count($array) == 1)
-    {
-      return array_shift($array);
-    }
+      if (count($array) == 1) {
+          return array_shift($array);
+      }
 
-    return $array;
+      return $array;
   }
 
   /**
@@ -231,14 +225,13 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function toObjectArray()
   {
-    $array = (func_num_args() > 1) ? $this->toArray(1) : $this->toArray();
+      $array = (func_num_args() > 1) ? $this->toArray(1) : $this->toArray();
 
-    for($i = 0; $i < count($array); $i++)
-    {
-      $array[$i] = (object) $array[$i];
-    }
+      for ($i = 0; $i < count($array); $i++) {
+          $array[$i] = (object) $array[$i];
+      }
 
-    return $array;
+      return $array;
   }
 
   /**
@@ -248,7 +241,7 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function getCommandString()
   {
-    return new TeamSpeak3_Helper_String($this->cmd);
+      return new TeamSpeak3_Helper_String($this->cmd);
   }
 
   /**
@@ -258,7 +251,7 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    */
   public function getNotifyEvents()
   {
-    return $this->evt;
+      return $this->evt;
   }
 
   /**
@@ -266,11 +259,12 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    *
    * @param  string $ident
    * @param  mixed  $default
+   *
    * @return mixed
    */
   public function getErrorProperty($ident, $default = null)
   {
-    return (array_key_exists($ident, $this->err)) ? $this->err[$ident] : $default;
+      return (array_key_exists($ident, $this->err)) ? $this->err[$ident] : $default;
   }
 
   /**
@@ -278,69 +272,58 @@ class TeamSpeak3_Adapter_ServerQuery_Reply
    * there's an error.
    *
    * @param  string $err
+   *
    * @throws TeamSpeak3_Adapter_ServerQuery_Exception
+   *
    * @return void
    */
   protected function fetchError($err)
   {
-    $cells = $err->section(TeamSpeak3::SEPARATOR_CELL, 1, 3);
+      $cells = $err->section(TeamSpeak3::SEPARATOR_CELL, 1, 3);
 
-    foreach($cells->split(TeamSpeak3::SEPARATOR_CELL) as $pair)
-    {
-      list($ident, $value) = $pair->split(TeamSpeak3::SEPARATOR_PAIR);
+      foreach ($cells->split(TeamSpeak3::SEPARATOR_CELL) as $pair) {
+          list($ident, $value) = $pair->split(TeamSpeak3::SEPARATOR_PAIR);
 
-      $this->err[$ident->toString()] = $value->isInt() ? $value->toInt() : $value->unescape();
-    }
-
-    TeamSpeak3_Helper_Signal::getInstance()->emit("notifyError", $this);
-
-    if($this->getErrorProperty("id", 0x00) != 0x00 && $this->exp)
-    {
-      if($permid = $this->getErrorProperty("failed_permid"))
-      {
-        if($permsid = key($this->con->request("permget permid=" . $permid, FALSE)->toAssocArray("permsid")))
-        {
-          $suffix = " (failed on " . $permsid . ")";
-        }
-        else
-        {
-          $suffix = " (failed on " . $this->cmd->section(TeamSpeak3::SEPARATOR_CELL) . " " . $permid . "/0x" . strtoupper(dechex($permid)) . ")";
-        }
-      }
-      elseif($details = $this->getErrorProperty("extra_msg"))
-      {
-        $suffix = " (" . trim($details) . ")";
-      }
-      else
-      {
-        $suffix = "";
+          $this->err[$ident->toString()] = $value->isInt() ? $value->toInt() : $value->unescape();
       }
 
-      throw new TeamSpeak3_Adapter_ServerQuery_Exception($this->getErrorProperty("msg") . $suffix, $this->getErrorProperty("id"));
-    }
+      TeamSpeak3_Helper_Signal::getInstance()->emit('notifyError', $this);
+
+      if ($this->getErrorProperty('id', 0x00) != 0x00 && $this->exp) {
+          if ($permid = $this->getErrorProperty('failed_permid')) {
+              if ($permsid = key($this->con->request('permget permid='.$permid, false)->toAssocArray('permsid'))) {
+                  $suffix = ' (failed on '.$permsid.')';
+              } else {
+                  $suffix = ' (failed on '.$this->cmd->section(TeamSpeak3::SEPARATOR_CELL).' '.$permid.'/0x'.strtoupper(dechex($permid)).')';
+              }
+          } elseif ($details = $this->getErrorProperty('extra_msg')) {
+              $suffix = ' ('.trim($details).')';
+          } else {
+              $suffix = '';
+          }
+
+          throw new TeamSpeak3_Adapter_ServerQuery_Exception($this->getErrorProperty('msg').$suffix, $this->getErrorProperty('id'));
+      }
   }
 
   /**
    * Parses a ServerQuery reply and creates a TeamSpeak3_Helper_String object.
    *
    * @param  string $rpl
+   *
    * @return void
    */
   protected function fetchReply($rpl)
   {
-    foreach($rpl as $key => $val)
-    {
-      if($val->startsWith(TeamSpeak3::GREET))
-      {
-        unset($rpl[$key]);
+      foreach ($rpl as $key => $val) {
+          if ($val->startsWith(TeamSpeak3::GREET)) {
+              unset($rpl[$key]);
+          } elseif ($val->startsWith(TeamSpeak3::EVENT)) {
+              $this->evt[] = new TeamSpeak3_Adapter_ServerQuery_Event($rpl[$key], $this->con);
+              unset($rpl[$key]);
+          }
       }
-      elseif($val->startsWith(TeamSpeak3::EVENT))
-      {
-        $this->evt[] = new TeamSpeak3_Adapter_ServerQuery_Event($rpl[$key], $this->con);
-        unset($rpl[$key]);
-      }
-    }
 
-    $this->rpl = new TeamSpeak3_Helper_String(implode(TeamSpeak3::SEPARATOR_LIST, $rpl));
+      $this->rpl = new TeamSpeak3_Helper_String(implode(TeamSpeak3::SEPARATOR_LIST, $rpl));
   }
 }
