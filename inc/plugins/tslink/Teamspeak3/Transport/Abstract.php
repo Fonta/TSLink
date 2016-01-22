@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package   TeamSpeak3
  * @version   1.1.23
- *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -31,7 +31,7 @@
  */
 abstract class TeamSpeak3_Transport_Abstract
 {
-    /**
+  /**
    * Stores user-provided configuration settings.
    *
    * @var array
@@ -56,30 +56,32 @@ abstract class TeamSpeak3_Transport_Abstract
    * The TeamSpeak3_Transport_Abstract constructor.
    *
    * @param  array $config
-   *
    * @throws TeamSpeak3_Transport_Exception
-   *
    * @return TeamSpeak3_Transport_Abstract
    */
   public function __construct(array $config)
   {
-      if (!array_key_exists('host', $config)) {
-          throw new TeamSpeak3_Transport_Exception("config must have a key for 'host' which specifies the server host name");
-      }
+    if(!array_key_exists("host", $config))
+    {
+      throw new TeamSpeak3_Transport_Exception("config must have a key for 'host' which specifies the server host name");
+    }
 
-      if (!array_key_exists('port', $config)) {
-          throw new TeamSpeak3_Transport_Exception("config must have a key for 'port' which specifies the server port number");
-      }
+    if(!array_key_exists("port", $config))
+    {
+      throw new TeamSpeak3_Transport_Exception("config must have a key for 'port' which specifies the server port number");
+    }
 
-      if (!array_key_exists('timeout', $config)) {
-          $config['timeout'] = 10;
-      }
+    if(!array_key_exists("timeout", $config))
+    {
+      $config["timeout"] = 10;
+    }
 
-      if (!array_key_exists('blocking', $config)) {
-          $config['blocking'] = 1;
-      }
+    if(!array_key_exists("blocking", $config))
+    {
+      $config["blocking"] = 1;
+    }
 
-      $this->config = $config;
+    $this->config = $config;
   }
 
   /**
@@ -89,7 +91,7 @@ abstract class TeamSpeak3_Transport_Abstract
    */
   public function __sleep()
   {
-      return ['config'];
+    return array("config");
   }
 
   /**
@@ -99,7 +101,7 @@ abstract class TeamSpeak3_Transport_Abstract
    */
   public function __wakeup()
   {
-      $this->connect();
+    $this->connect();
   }
 
   /**
@@ -109,18 +111,18 @@ abstract class TeamSpeak3_Transport_Abstract
    */
   public function __destruct()
   {
-      if ($this->adapter instanceof TeamSpeak3_Adapter_Abstract) {
-          $this->adapter->__destruct();
-      }
+    if($this->adapter instanceof TeamSpeak3_Adapter_Abstract)
+    {
+      $this->adapter->__destruct();
+    }
 
-      $this->disconnect();
+    $this->disconnect();
   }
 
   /**
    * Connects to a remote server.
    *
    * @throws TeamSpeak3_Transport_Exception
-   *
    * @return void
    */
   abstract public function connect();
@@ -135,10 +137,8 @@ abstract class TeamSpeak3_Transport_Abstract
   /**
    * Reads data from the stream.
    *
-   * @param  int $length
-   *
+   * @param  integer $length
    * @throws TeamSpeak3_Transport_Exception
-   *
    * @return TeamSpeak3_Helper_String
    */
   abstract public function read($length = 4096);
@@ -147,7 +147,6 @@ abstract class TeamSpeak3_Transport_Abstract
    * Writes data to the stream.
    *
    * @param  string $data
-   *
    * @return void
    */
   abstract public function send($data);
@@ -159,7 +158,7 @@ abstract class TeamSpeak3_Transport_Abstract
    */
   public function getStream()
   {
-      return $this->stream;
+    return $this->stream;
   }
 
   /**
@@ -167,28 +166,27 @@ abstract class TeamSpeak3_Transport_Abstract
    *
    * @param  string $key
    * @param  mixed  $default
-   *
    * @return array
    */
   public function getConfig($key = null, $default = null)
   {
-      if ($key !== null) {
-          return array_key_exists($key, $this->config) ? $this->config[$key] : $default;
-      }
+    if($key !== null)
+    {
+      return array_key_exists($key, $this->config) ? $this->config[$key] : $default;
+    }
 
-      return $this->config;
+    return $this->config;
   }
 
   /**
    * Sets the TeamSpeak3_Adapter_Abstract object using this transport.
    *
    * @param  TeamSpeak3_Adapter_Abstract $adapter
-   *
    * @return void
    */
   public function setAdapter(TeamSpeak3_Adapter_Abstract $adapter)
   {
-      $this->adapter = $adapter;
+    $this->adapter = $adapter;
   }
 
   /**
@@ -198,7 +196,7 @@ abstract class TeamSpeak3_Transport_Abstract
    */
   public function getAdapter()
   {
-      return $this->adapter;
+    return $this->adapter;
   }
 
   /**
@@ -208,64 +206,63 @@ abstract class TeamSpeak3_Transport_Abstract
    */
   public function getAdapterType()
   {
-      if ($this->adapter instanceof TeamSpeak3_Adapter_Abstract) {
-          $string = TeamSpeak3_Helper_String::factory(get_class($this->adapter));
+    if($this->adapter instanceof TeamSpeak3_Adapter_Abstract)
+    {
+      $string = TeamSpeak3_Helper_String::factory(get_class($this->adapter));
 
-          return $string->substr($string->findLast('_'))->replace(['_', ' '], '')->toString();
-      }
+      return $string->substr($string->findLast("_"))->replace(array("_", " "), "")->toString();
+    }
 
-      return 'Unknown';
+    return "Unknown";
   }
 
   /**
    * Returns header/meta data from stream pointer.
    *
    * @throws TeamSpeak3_Transport_Exception
-   *
    * @return array
    */
   public function getMetaData()
   {
-      if ($this->stream === null) {
-          throw new TeamSpeak3_Transport_Exception('unable to retrieve header/meta data from stream pointer');
-      }
+    if($this->stream === null)
+    {
+      throw new TeamSpeak3_Transport_Exception("unable to retrieve header/meta data from stream pointer");
+    }
 
-      return stream_get_meta_data($this->stream);
+    return stream_get_meta_data($this->stream);
   }
 
   /**
    * Returns TRUE if the transport is connected.
    *
-   * @return bool
+   * @return boolean
    */
   public function isConnected()
   {
-      return (is_resource($this->stream)) ? true : false;
+    return (is_resource($this->stream)) ? TRUE : FALSE;
   }
 
   /**
    * Blocks a stream until data is available for reading if the stream is connected
    * in non-blocking mode.
    *
-   * @param  int $time
-   *
+   * @param  integer $time
    * @return void
    */
   protected function waitForReadyRead($time = 0)
   {
-      if (!$this->isConnected() || $this->config['blocking']) {
-          return;
+    if(!$this->isConnected() || $this->config["blocking"]) return;
+
+    do {
+      $read = array($this->stream);
+      $null = null;
+
+      if($time)
+      {
+        TeamSpeak3_Helper_Signal::getInstance()->emit(strtolower($this->getAdapterType()) . "WaitTimeout", $time, $this->getAdapter());
       }
 
-      do {
-          $read = [$this->stream];
-          $null = null;
-
-          if ($time) {
-              TeamSpeak3_Helper_Signal::getInstance()->emit(strtolower($this->getAdapterType()).'WaitTimeout', $time, $this->getAdapter());
-          }
-
-          $time = $time + $this->config['timeout'];
-      } while (@stream_select($read, $null, $null, $this->config['timeout']) == 0);
+      $time = $time+$this->config["timeout"];
+    } while(@stream_select($read, $null, $null, $this->config["timeout"]) == 0);
   }
 }

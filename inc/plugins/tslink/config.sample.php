@@ -21,14 +21,15 @@
     $ts3_nickname = 'what_name_should_be_displayed_in_teamspeak';
 
     // Teamspeak groups.
-    $ts3_sgid_member = '11'; // the group id of the group which should be added to a user on teamspeak after they register on the forum
-    $ts3_sgid_vip_member = '19'; // the group id of the group which should be set when a user is a vip member
+    $ts3_sgid_member = "11"; // the group id of the group which should be added to a user on teamspeak after they register on the forum
+    $ts3_sgid_don_member = "19"; // the group id of the group which should be set when a user is a Donating member
+    $ts3_sgid_vip_member = "35"; // the group id of the group which should be set when a user is a vip member
 
     // Define the servergroups the plugin shouldn't even try to remove.
-    $ts3_sgid_dont_remove = ['6', '14', '10', '24', '18'];
+    $ts3_sgid_dont_remove =  array("6", "14", "10", "24", "25", "26", "27", "28", "31", "33");
 
     // Define which groups should have access to the TS Link ModCP module.
-    $tslink_modcp_groups = ('4, 15');
+    $tslink_modcp_groups =("15");
 
     // Define the user's ip address.
     if ($givenip == '') {

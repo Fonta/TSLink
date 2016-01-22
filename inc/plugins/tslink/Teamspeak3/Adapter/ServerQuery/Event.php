@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package   TeamSpeak3
  * @version   1.1.23
- *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -29,9 +29,9 @@
  * @class TeamSpeak3_Adapter_ServerQuery_Event
  * @brief Provides methods to analyze and format a ServerQuery event.
  */
-class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
+class TeamSpeak3_Adapter_ServerQuery_Event implements ArrayAccess
 {
-    /**
+  /**
    * Stores the event type.
    *
    * @var TeamSpeak3_Helper_String
@@ -57,32 +57,32 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    *
    * @param  TeamSpeak3_Helper_String $evt
    * @param  TeamSpeak3_Node_Host     $con
-   *
    * @throws TeamSpeak3_Adapter_Exception
-   *
    * @return TeamSpeak3_Adapter_ServerQuery_Event
    */
   public function __construct(TeamSpeak3_Helper_String $evt, TeamSpeak3_Node_Host $con = null)
   {
-      if (!$evt->startsWith(TeamSpeak3::EVENT)) {
-          throw new TeamSpeak3_Adapter_Exception('invalid notification event format');
-      }
+    if(!$evt->startsWith(TeamSpeak3::EVENT))
+    {
+      throw new TeamSpeak3_Adapter_Exception("invalid notification event format");
+    }
 
-      list($type, $data) = $evt->split(TeamSpeak3::SEPARATOR_CELL, 2);
+    list($type, $data) = $evt->split(TeamSpeak3::SEPARATOR_CELL, 2);
 
-      if (empty($data)) {
-          throw new TeamSpeak3_Adapter_Exception('invalid notification event data');
-      }
+    if(empty($data))
+    {
+      throw new TeamSpeak3_Adapter_Exception("invalid notification event data");
+    }
 
-      $fake = new TeamSpeak3_Helper_String(TeamSpeak3::ERROR.TeamSpeak3::SEPARATOR_CELL.'id'.TeamSpeak3::SEPARATOR_PAIR. 0 .TeamSpeak3::SEPARATOR_CELL.'msg'.TeamSpeak3::SEPARATOR_PAIR.'ok');
-      $repl = new TeamSpeak3_Adapter_ServerQuery_Reply([$data, $fake], $type);
+    $fake = new TeamSpeak3_Helper_String(TeamSpeak3::ERROR . TeamSpeak3::SEPARATOR_CELL . "id" . TeamSpeak3::SEPARATOR_PAIR . 0 . TeamSpeak3::SEPARATOR_CELL . "msg" . TeamSpeak3::SEPARATOR_PAIR . "ok");
+    $repl = new TeamSpeak3_Adapter_ServerQuery_Reply(array($data, $fake), $type);
 
-      $this->type = $type->substr(strlen(TeamSpeak3::EVENT));
-      $this->data = $repl->toList();
-      $this->mesg = $data;
+    $this->type = $type->substr(strlen(TeamSpeak3::EVENT));
+    $this->data = $repl->toList();
+    $this->mesg = $data;
 
-      TeamSpeak3_Helper_Signal::getInstance()->emit('notifyEvent', $this, $con);
-      TeamSpeak3_Helper_Signal::getInstance()->emit('notify'.ucfirst($this->type), $this, $con);
+    TeamSpeak3_Helper_Signal::getInstance()->emit("notifyEvent", $this, $con);
+    TeamSpeak3_Helper_Signal::getInstance()->emit("notify" . ucfirst($this->type), $this, $con);
   }
 
   /**
@@ -92,7 +92,7 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    */
   public function getType()
   {
-      return $this->type;
+    return $this->type;
   }
 
   /**
@@ -102,7 +102,7 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    */
   public function getData()
   {
-      return $this->data;
+    return $this->data;
   }
 
   /**
@@ -112,7 +112,7 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    */
   public function getMessage()
   {
-      return $this->mesg;
+    return $this->mesg;
   }
 
   /**
@@ -120,7 +120,7 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    */
   public function offsetExists($offset)
   {
-      return array_key_exists($offset, $this->data) ? true : false;
+    return array_key_exists($offset, $this->data) ? TRUE : FALSE;
   }
 
   /**
@@ -128,11 +128,12 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    */
   public function offsetGet($offset)
   {
-      if (!$this->offsetExists($offset)) {
-          throw new TeamSpeak3_Adapter_ServerQuery_Exception('invalid parameter', 0x602);
-      }
+    if(!$this->offsetExists($offset))
+    {
+      throw new TeamSpeak3_Adapter_ServerQuery_Exception("invalid parameter", 0x602);
+    }
 
-      return $this->data[$offset];
+    return $this->data[$offset];
   }
 
   /**
@@ -140,7 +141,7 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    */
   public function offsetSet($offset, $value)
   {
-      throw new TeamSpeak3_Node_Exception("event '".$this->getType()."' is read only");
+    throw new TeamSpeak3_Node_Exception("event '" . $this->getType() . "' is read only");
   }
 
   /**
@@ -148,7 +149,7 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    */
   public function offsetUnset($offset)
   {
-      unset($this->data[$offset]);
+    unset($this->data[$offset]);
   }
 
   /**
@@ -156,7 +157,7 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    */
   public function __get($offset)
   {
-      return $this->offsetGet($offset);
+    return $this->offsetGet($offset);
   }
 
   /**
@@ -164,6 +165,6 @@ class Teamspeak3_Adapter_ServerQuery_Event implements ArrayAccess
    */
   public function __set($offset, $value)
   {
-      $this->offsetSet($offset, $value);
+    $this->offsetSet($offset, $value);
   }
 }

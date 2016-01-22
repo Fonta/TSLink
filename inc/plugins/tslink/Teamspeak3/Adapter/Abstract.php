@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package   TeamSpeak3
  * @version   1.1.23
- *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -31,7 +31,7 @@
  */
 abstract class TeamSpeak3_Adapter_Abstract
 {
-    /**
+  /**
    * Stores user-provided options.
    *
    * @var array
@@ -49,16 +49,16 @@ abstract class TeamSpeak3_Adapter_Abstract
    * The TeamSpeak3_Adapter_Abstract constructor.
    *
    * @param  array $options
-   *
    * @return TeamSpeak3_Adapter_Abstract
    */
   public function __construct(array $options)
   {
-      $this->options = $options;
+    $this->options = $options;
 
-      if ($this->transport === null) {
-          $this->syn();
-      }
+    if($this->transport === null)
+    {
+      $this->syn();
+    }
   }
 
   /**
@@ -73,7 +73,6 @@ abstract class TeamSpeak3_Adapter_Abstract
    * server.
    *
    * @throws TeamSpeak3_Adapter_Exception
-   *
    * @return void
    */
   abstract protected function syn();
@@ -85,7 +84,7 @@ abstract class TeamSpeak3_Adapter_Abstract
    */
   public function __sleep()
   {
-      return ['options'];
+    return array("options");
   }
 
   /**
@@ -95,7 +94,7 @@ abstract class TeamSpeak3_Adapter_Abstract
    */
   public function __wakeup()
   {
-      $this->syn();
+    $this->syn();
   }
 
   /**
@@ -105,7 +104,7 @@ abstract class TeamSpeak3_Adapter_Abstract
    */
   public function getProfiler()
   {
-      return TeamSpeak3_Helper_Profiler::get(spl_object_hash($this));
+    return TeamSpeak3_Helper_Profiler::get(spl_object_hash($this));
   }
 
   /**
@@ -115,7 +114,7 @@ abstract class TeamSpeak3_Adapter_Abstract
    */
   public function getTransport()
   {
-      return $this->transport;
+    return $this->transport;
   }
 
   /**
@@ -124,18 +123,17 @@ abstract class TeamSpeak3_Adapter_Abstract
    *
    * @param  array  $options
    * @param  string $transport
-   *
    * @throws TeamSpeak3_Adapter_Exception
-   *
    * @return void
    */
-  protected function initTransport($options, $transport = 'TeamSpeak3_Transport_TCP')
+  protected function initTransport($options, $transport = "TeamSpeak3_Transport_TCP")
   {
-      if (!is_array($options)) {
-          throw new TeamSpeak3_Adapter_Exception('transport parameters must provided in an array');
-      }
+    if(!is_array($options))
+    {
+      throw new TeamSpeak3_Adapter_Exception("transport parameters must provided in an array");
+    }
 
-      $this->transport = new $transport($options);
+    $this->transport = new $transport($options);
   }
 
   /**
@@ -146,7 +144,7 @@ abstract class TeamSpeak3_Adapter_Abstract
    */
   public function getTransportHost()
   {
-      return $this->getTransport()->getConfig('host', '0.0.0.0');
+    return $this->getTransport()->getConfig("host", "0.0.0.0");
   }
 
   /**
@@ -157,6 +155,6 @@ abstract class TeamSpeak3_Adapter_Abstract
    */
   public function getTransportPort()
   {
-      return $this->getTransport()->getConfig('port', '0');
+    return $this->getTransport()->getConfig("port", "0");
   }
 }

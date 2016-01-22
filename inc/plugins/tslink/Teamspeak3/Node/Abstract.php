@@ -19,8 +19,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
+ * @package   TeamSpeak3
  * @version   1.1.23
- *
  * @author    Sven 'ScP' Paulsen
  * @copyright Copyright (c) 2010 by Planet TeamSpeak. All rights reserved.
  */
@@ -31,7 +31,7 @@
  */
 abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAccess, Countable
 {
-    /**
+  /**
    * @ignore
    */
   protected $parent = null;
@@ -54,24 +54,23 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
   /**
    * @ignore
    */
-  protected $nodeInfo = [];
+  protected $nodeInfo = array();
 
   /**
    * @ignore
    */
-  protected $storage = [];
+  protected $storage = array();
 
   /**
    * Sends a prepared command to the server and returns the result.
    *
    * @param  string  $cmd
-   * @param  bool $throw
-   *
+   * @param  boolean $throw
    * @return TeamSpeak3_Adapter_ServerQuery_Reply
    */
-  public function request($cmd, $throw = true)
+  public function request($cmd, $throw = TRUE)
   {
-      return $this->getParent()->request($cmd, $throw);
+    return $this->getParent()->request($cmd, $throw);
   }
 
   /**
@@ -79,12 +78,11 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    *
    * @param  string $cmd
    * @param  array  $params
-   *
    * @return TeamSpeak3_Helper_String
    */
-  public function prepare($cmd, array $params = [])
+  public function prepare($cmd, array $params = array())
   {
-      return $this->getParent()->prepare($cmd, $params);
+    return $this->getParent()->prepare($cmd, $params);
   }
 
   /**
@@ -92,12 +90,11 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    *
    * @param  string $cmd
    * @param  array  $params
-   *
    * @return TeamSpeak3_Adapter_ServerQuery_Reply
    */
-  public function execute($cmd, array $params = [])
+  public function execute($cmd, array $params = array())
   {
-      return $this->request($this->prepare($cmd, $params));
+    return $this->request($this->prepare($cmd, $params));
   }
 
   /**
@@ -108,61 +105,61 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function getParent()
   {
-      return $this->parent;
+    return $this->parent;
   }
 
   /**
    * Returns the primary ID of the current node.
    *
-   * @return int
+   * @return integer
    */
   public function getId()
   {
-      return $this->nodeId;
+    return $this->nodeId;
   }
 
   /**
    * Returns TRUE if the node icon has a local source.
    *
    * @param  string $key
-   *
-   * @return bool
+   * @return boolean
    */
   public function iconIsLocal($key)
   {
-      return ($this[$key] > 0 && $this[$key] < 1000) ? true : false;
+    return ($this[$key] > 0 && $this[$key] < 1000) ? TRUE : FALSE;
   }
 
   /**
    * Returns the internal path of the node icon.
    *
    * @param  string $key
-   *
    * @return TeamSpeak3_Helper_String
    */
   public function iconGetName($key)
   {
-      $iconid = ($this[$key] < 0) ? (pow(2, 32)) - ($this[$key] * -1) : $this[$key];
+    $iconid = ($this[$key] < 0) ? (pow(2, 32))-($this[$key]*-1) : $this[$key];
 
-      return new TeamSpeak3_Helper_String('/icon_'.$iconid);
+    return new TeamSpeak3_Helper_String("/icon_" . $iconid);
   }
 
   /**
    * Returns a possible classname for the node which can be used as a HTML property.
    *
    * @param  string $prefix
-   *
    * @return string
    */
-  public function getClass($prefix = 'ts3_')
+  public function getClass($prefix = "ts3_")
   {
-      if ($this instanceof TeamSpeak3_Node_Channel && $this->isSpacer()) {
-          return $prefix.'spacer';
-      } elseif ($this instanceof TeamSpeak3_Node_Client && $this['client_type']) {
-          return $prefix.'query';
-      }
+    if($this instanceof TeamSpeak3_Node_Channel && $this->isSpacer())
+    {
+      return $prefix . "spacer";
+    }
+    elseif($this instanceof TeamSpeak3_Node_Client && $this["client_type"])
+    {
+      return $prefix . "query";
+    }
 
-      return $prefix.TeamSpeak3_Helper_String::factory(get_class($this))->section('_', 2)->toLower();
+    return $prefix . TeamSpeak3_Helper_String::factory(get_class($this))->section("_", 2)->toLower();
   }
 
   /**
@@ -190,28 +187,29 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    * Returns the HTML code to display a TeamSpeak 3 viewer.
    *
    * @param  TeamSpeak3_Viewer_Interface $viewer
-   *
    * @return string
    */
   public function getViewer(TeamSpeak3_Viewer_Interface $viewer)
   {
-      $html = $viewer->fetchObject($this);
+    $html = $viewer->fetchObject($this);
 
-      $iterator = new RecursiveIteratorIterator($this, RecursiveIteratorIterator::SELF_FIRST);
+    $iterator = new RecursiveIteratorIterator($this, RecursiveIteratorIterator::SELF_FIRST);
 
-      foreach ($iterator as $node) {
-          $siblings = [];
+    foreach($iterator as $node)
+    {
+      $siblings = array();
 
-          for ($level = 0; $level < $iterator->getDepth(); $level++) {
-              $siblings[] = ($iterator->getSubIterator($level)->hasNext()) ? 1 : 0;
-          }
-
-          $siblings[] = (!$iterator->getSubIterator($level)->hasNext()) ? 1 : 0;
-
-          $html .= $viewer->fetchObject($node, $siblings);
+      for($level = 0; $level < $iterator->getDepth(); $level++)
+      {
+        $siblings[] = ($iterator->getSubIterator($level)->hasNext()) ? 1 : 0;
       }
 
-      return $html;
+      $siblings[] = (!$iterator->getSubIterator($level)->hasNext()) ? 1 : 0;
+
+      $html .= $viewer->fetchObject($node, $siblings);
+    }
+
+    return $html;
   }
 
   /**
@@ -219,80 +217,99 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    *
    * @param  array $nodes
    * @param  array $rules
-   *
    * @return array
    */
-  protected function filterList(array $nodes = [], array $rules = [])
+  protected function filterList(array $nodes = array(), array $rules = array())
   {
-      if (!empty($rules)) {
-          foreach ($nodes as $node) {
-              if (!$node instanceof self) {
-                  continue;
-              }
+    if(!empty($rules))
+    {
+      foreach($nodes as $node)
+      {
+        if(!$node instanceof TeamSpeak3_Node_Abstract) continue;
 
-              $props = $node->getInfo(false);
-              $props = array_intersect_key($props, $rules);
-              $match = true;
+        $props = $node->getInfo(FALSE);
+        $props = array_intersect_key($props, $rules);
+        $match = TRUE;
 
-              foreach ($props as $key => $val) {
-                  if ($val instanceof TeamSpeak3_Helper_String) {
-                      $match = $val->contains($rules[$key], true);
-                  } else {
-                      $match = $val == $rules[$key];
-                  }
-
-                  if ($match === false) {
-                      unset($nodes[$node->getId()]);
-                  }
-              }
+        foreach($props as $key => $val)
+        {
+          if($val instanceof TeamSpeak3_Helper_String)
+          {
+            $match = $val->contains($rules[$key], TRUE);
           }
-      }
+          else
+          {
+            $match = $val == $rules[$key];
+          }
 
-      return $nodes;
+          if($match === FALSE)
+          {
+            unset($nodes[$node->getId()]);
+          }
+        }
+      }
+    }
+
+    return $nodes;
   }
 
   /**
    * Returns all information available on this node. If $convert is enabled, some property
    * values will be converted to human-readable values.
    *
-   * @param  bool $extend
-   * @param  bool $convert
-   *
+   * @param  boolean $extend
+   * @param  boolean $convert
    * @return array
    */
-  public function getInfo($extend = true, $convert = false)
+  public function getInfo($extend = TRUE, $convert = FALSE)
   {
-      if ($extend) {
-          $this->fetchNodeInfo();
+    if($extend)
+    {
+      $this->fetchNodeInfo();
+    }
+
+    if($convert)
+    {
+      $info = $this->nodeInfo;
+
+      foreach($info as $key => $val)
+      {
+        $key = TeamSpeak3_Helper_String::factory($key);
+
+        if($key->contains("_bytes_"))
+        {
+          $info[$key->toString()] = TeamSpeak3_Helper_Convert::bytes($val);
+        }
+        elseif($key->contains("_bandwidth_"))
+        {
+          $info[$key->toString()] = TeamSpeak3_Helper_Convert::bytes($val) . "/s";
+        }
+        elseif($key->contains("_packets_"))
+        {
+          $info[$key->toString()] = number_format($val, null, null, ".");
+        }
+        elseif($key->contains("_packetloss_"))
+        {
+          $info[$key->toString()] = sprintf("%01.2f", floatval($val->toString())*100) . "%";
+        }
+        elseif($key->endsWith("_uptime"))
+        {
+          $info[$key->toString()] = TeamSpeak3_Helper_Convert::seconds($val);
+        }
+        elseif($key->endsWith("_version"))
+        {
+          $info[$key->toString()] = TeamSpeak3_Helper_Convert::version($val);
+        }
+        elseif($key->endsWith("_icon_id"))
+        {
+          $info[$key->toString()] = $this->iconGetName($key)->filterDigits();
+        }
       }
 
-      if ($convert) {
-          $info = $this->nodeInfo;
+      return $info;
+    }
 
-          foreach ($info as $key => $val) {
-              $key = TeamSpeak3_Helper_String::factory($key);
-
-              if ($key->contains('_bytes_')) {
-                  $info[$key->toString()] = TeamSpeak3_Helper_Convert::bytes($val);
-              } elseif ($key->contains('_bandwidth_')) {
-                  $info[$key->toString()] = TeamSpeak3_Helper_Convert::bytes($val).'/s';
-              } elseif ($key->contains('_packets_')) {
-                  $info[$key->toString()] = number_format($val, null, null, '.');
-              } elseif ($key->contains('_packetloss_')) {
-                  $info[$key->toString()] = sprintf('%01.2f', floatval($val->toString()) * 100).'%';
-              } elseif ($key->endsWith('_uptime')) {
-                  $info[$key->toString()] = TeamSpeak3_Helper_Convert::seconds($val);
-              } elseif ($key->endsWith('_version')) {
-                  $info[$key->toString()] = TeamSpeak3_Helper_Convert::version($val);
-              } elseif ($key->endsWith('_icon_id')) {
-                  $info[$key->toString()] = $this->iconGetName($key)->filterDigits();
-              }
-          }
-
-          return $info;
-      }
-
-      return $this->nodeInfo;
+    return $this->nodeInfo;
   }
 
   /**
@@ -300,20 +317,21 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    *
    * @param  string $property
    * @param  mixed  $default
-   *
    * @return mixed
    */
   public function getProperty($property, $default = null)
   {
-      if (!$this->offsetExists($property)) {
-          $this->fetchNodeInfo();
-      }
+    if(!$this->offsetExists($property))
+    {
+      $this->fetchNodeInfo();
+    }
 
-      if (!$this->offsetExists($property)) {
-          return $default;
-      }
+    if(!$this->offsetExists($property))
+    {
+      return $default;
+    }
 
-      return $this->nodeInfo[(string) $property];
+    return $this->nodeInfo[(string) $property];
   }
 
   /**
@@ -323,7 +341,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function __toString()
   {
-      return get_class($this);
+    return get_class($this);
   }
 
   /**
@@ -333,7 +351,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function toString()
   {
-      return $this->__toString();
+    return $this->__toString();
   }
 
   /**
@@ -343,7 +361,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function toArray()
   {
-      return $this->nodeList;
+    return $this->nodeList;
   }
 
   /**
@@ -351,18 +369,17 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    *
    * @param  string $name
    * @param  array  $args
-   *
    * @throws TeamSpeak3_Node_Exception
-   *
    * @return mixed
    */
   public function __call($name, array $args)
   {
-      if ($this->getParent() instanceof self) {
-          return call_user_func_array([$this->getParent(), $name], $args);
-      }
+    if($this->getParent() instanceof TeamSpeak3_Node_Abstract)
+    {
+      return call_user_func_array(array($this->getParent(), $name), $args);
+    }
 
-      throw new TeamSpeak3_Node_Exception("node method '".$name."()' does not exist");
+    throw new TeamSpeak3_Node_Exception("node method '" . $name . "()' does not exist");
   }
 
   /**
@@ -370,12 +387,11 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    *
    * @param  string $key
    * @param  mixed  $val
-   *
    * @return void
    */
   protected function setStorage($key, $val)
   {
-      $this->storage[$key] = $val;
+    $this->storage[$key] = $val;
   }
 
   /**
@@ -383,24 +399,22 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    *
    * @param  string $key
    * @param  mixed  $default
-   *
    * @return mixed
    */
   protected function getStorage($key, $default = null)
   {
-      return (array_key_exists($key, $this->storage) && !empty($this->storage[$key])) ? $this->storage[$key] : $default;
+    return (array_key_exists($key, $this->storage) && !empty($this->storage[$key])) ? $this->storage[$key] : $default;
   }
 
   /**
    * Deletes data from the internal storage array.
    *
    * @param  string $key
-   *
    * @return void
    */
   protected function delStorage($key)
   {
-      unset($this->storage[$key]);
+    unset($this->storage[$key]);
   }
 
   /**
@@ -410,7 +424,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function __sleep()
   {
-      return ['parent', 'storage', 'nodeId'];
+    return array("parent", "storage", "nodeId");
   }
 
   /**
@@ -418,7 +432,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   protected function fetchNodeList()
   {
-      $this->nodeList = [];
+    $this->nodeList = array();
   }
 
   /**
@@ -426,7 +440,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   protected function fetchNodeInfo()
   {
-      return;
+    return;
   }
 
   /**
@@ -434,7 +448,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   protected function resetNodeInfo()
   {
-      $this->nodeInfo = [];
+    $this->nodeInfo = array();
   }
 
   /**
@@ -442,9 +456,10 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   protected function verifyNodeList()
   {
-      if ($this->nodeList === null) {
-          $this->fetchNodeList();
-      }
+    if($this->nodeList === null)
+    {
+      $this->fetchNodeList();
+    }
   }
 
   /**
@@ -452,7 +467,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   protected function resetNodeList()
   {
-      $this->nodeList = null;
+    $this->nodeList = null;
   }
 
   /**
@@ -460,9 +475,9 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function count()
   {
-      $this->verifyNodeList();
+    $this->verifyNodeList();
 
-      return count($this->nodeList);
+    return count($this->nodeList);
   }
 
   /**
@@ -470,9 +485,9 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function current()
   {
-      $this->verifyNodeList();
+    $this->verifyNodeList();
 
-      return current($this->nodeList);
+    return current($this->nodeList);
   }
 
   /**
@@ -480,9 +495,9 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function getChildren()
   {
-      $this->verifyNodeList();
+    $this->verifyNodeList();
 
-      return $this->current();
+    return $this->current();
   }
 
   /**
@@ -490,9 +505,9 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function hasChildren()
   {
-      $this->verifyNodeList();
+    $this->verifyNodeList();
 
-      return $this->current()->count() > 0;
+    return $this->current()->count() > 0;
   }
 
   /**
@@ -500,9 +515,9 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function hasNext()
   {
-      $this->verifyNodeList();
+    $this->verifyNodeList();
 
-      return $this->key() + 1 < $this->count();
+    return $this->key()+1 < $this->count();
   }
 
   /**
@@ -510,9 +525,9 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function key()
   {
-      $this->verifyNodeList();
+    $this->verifyNodeList();
 
-      return key($this->nodeList);
+    return key($this->nodeList);
   }
 
   /**
@@ -520,9 +535,9 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function valid()
   {
-      $this->verifyNodeList();
+    $this->verifyNodeList();
 
-      return $this->key() !== null;
+    return $this->key() !== null;
   }
 
   /**
@@ -530,9 +545,9 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function next()
   {
-      $this->verifyNodeList();
+    $this->verifyNodeList();
 
-      return next($this->nodeList);
+    return next($this->nodeList);
   }
 
   /**
@@ -540,9 +555,9 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function rewind()
   {
-      $this->verifyNodeList();
+    $this->verifyNodeList();
 
-      return reset($this->nodeList);
+    return reset($this->nodeList);
   }
 
   /**
@@ -550,7 +565,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function offsetExists($offset)
   {
-      return array_key_exists((string) $offset, $this->nodeInfo) ? true : false;
+    return array_key_exists((string) $offset, $this->nodeInfo) ? TRUE : FALSE;
   }
 
   /**
@@ -558,15 +573,17 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function offsetGet($offset)
   {
-      if (!$this->offsetExists($offset)) {
-          $this->fetchNodeInfo();
-      }
+    if(!$this->offsetExists($offset))
+    {
+      $this->fetchNodeInfo();
+    }
 
-      if (!$this->offsetExists($offset)) {
-          throw new TeamSpeak3_Adapter_ServerQuery_Exception('invalid parameter', 0x602);
-      }
+    if(!$this->offsetExists($offset))
+    {
+      throw new TeamSpeak3_Adapter_ServerQuery_Exception("invalid parameter", 0x602);
+    }
 
-      return $this->nodeInfo[(string) $offset];
+    return $this->nodeInfo[(string) $offset];
   }
 
   /**
@@ -574,11 +591,12 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function offsetSet($offset, $value)
   {
-      if (method_exists($this, 'modify')) {
-          return $this->modify([(string) $offset => $value]);
-      }
+    if(method_exists($this, "modify"))
+    {
+      return $this->modify(array((string) $offset => $value));
+    }
 
-      throw new TeamSpeak3_Node_Exception("node '".get_class($this)."' is read only");
+    throw new TeamSpeak3_Node_Exception("node '" . get_class($this) . "' is read only");
   }
 
   /**
@@ -586,7 +604,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function offsetUnset($offset)
   {
-      unset($this->nodeInfo[(string) $offset]);
+    unset($this->nodeInfo[(string) $offset]);
   }
 
   /**
@@ -594,7 +612,7 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function __get($offset)
   {
-      return $this->offsetGet($offset);
+    return $this->offsetGet($offset);
   }
 
   /**
@@ -602,6 +620,6 @@ abstract class TeamSpeak3_Node_Abstract implements RecursiveIterator, ArrayAcces
    */
   public function __set($offset, $value)
   {
-      $this->offsetSet($offset, $value);
+    $this->offsetSet($offset, $value);
   }
 }
