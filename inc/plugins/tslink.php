@@ -77,7 +77,6 @@
         } else {
             // Insert our memberstatus column into the database.
             $db->query('ALTER TABLE '.TABLE_PREFIX.'users ADD (`memberstatus` int(10) NOT NULL DEFAULT 0)');
-            $db->query('ALTER TABLE '.TABLE_PREFIX."users ADD (`ts_uids` varchar(1024) NOT NULL DEFAULT '')");
         }
 
         if ($db->table_exists('tslink_uids')) {

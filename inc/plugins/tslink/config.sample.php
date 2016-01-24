@@ -10,7 +10,9 @@
     $username = 'database_username';
     $password = 'database_password';
     $database = 'database_name';
-    $table = 'mybb_users'; // better not to change this setting
+
+    // The users table in the DB. This should be just fine.
+    $table = TABLE_PREFIX.'users';
 
     // Teamspeak connection.
     $ts3_server = 'ip_address_of_the_teamspeak_server';
