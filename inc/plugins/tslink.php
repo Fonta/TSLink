@@ -301,39 +301,39 @@
 
     function tslink_mybb_hooks()
     {
-    	global $mybb, $plugins;
+        global $mybb, $plugins;
 
-    	// Define hooks when the plugin is enabled in the settings.
-	    if ($mybb->settings['tslink_settings_enabled']) {
+        // Define hooks when the plugin is enabled in the settings.
+        if ($mybb->settings['tslink_settings_enabled']) {
 
-	        // Global hook
-	        $plugins->add_hook('global_start', 'tslink_global');
+            // Global hook
+            $plugins->add_hook('global_start', 'tslink_global');
 
-	        if ($mybb->settings['tslink_settings_onregister']) {
-	            // Hook the function to add the user to a certain group.
-	            // You can use other hooks like member_do_register_end - just take a look at the mybb documentation.
-	            $plugins->add_hook('member_activate_accountactivated', 'tslink_update_uids', $givenip);
-	            $plugins->add_hook('fb_register_end', 'tslink_update_uids', $givenip);
-	        }
+            if ($mybb->settings['tslink_settings_onregister']) {
+                // Hook the function to add the user to a certain group.
+                // You can use other hooks like member_do_register_end - just take a look at the mybb documentation.
+                $plugins->add_hook('member_activate_accountactivated', 'tslink_update_uids', $givenip);
+                $plugins->add_hook('fb_register_end', 'tslink_update_uids', $givenip);
+            }
 
-	        if ($mybb->settings['tslink_settings_admincp']) {
-	            //Hooks for the AdminCP
-	            $plugins->add_hook('admin_load', 'tslink_admin');
-	            $plugins->add_hook('admin_user_menu', 'tslink_admin_user_menu');
-	            $plugins->add_hook('admin_user_action_handler', 'tslink_admin_user_action_handler');
-	        }
+            if ($mybb->settings['tslink_settings_admincp']) {
+                //Hooks for the AdminCP
+                $plugins->add_hook('admin_load', 'tslink_admin');
+                $plugins->add_hook('admin_user_menu', 'tslink_admin_user_menu');
+                $plugins->add_hook('admin_user_action_handler', 'tslink_admin_user_action_handler');
+            }
 
-	        if ($mybb->settings['tslink_settings_modcp']) {
-	            // Hooks for the ModCP.
-	            $plugins->add_hook('modcp_start', 'tslink_modcp');
-	        }
+            if ($mybb->settings['tslink_settings_modcp']) {
+                // Hooks for the ModCP.
+                $plugins->add_hook('modcp_start', 'tslink_modcp');
+            }
 
-	        if ($mybb->settings['tslink_settings_usercp']) {
-	            // Hooks for the UserCP.
-	            $plugins->add_hook('usercp_menu', 'tslink_usercp_menu', 40);
-	            $plugins->add_hook('usercp_start', 'tslink_usercp');
-	        }
-	    }
+            if ($mybb->settings['tslink_settings_usercp']) {
+                // Hooks for the UserCP.
+                $plugins->add_hook('usercp_menu', 'tslink_usercp_menu', 40);
+                $plugins->add_hook('usercp_start', 'tslink_usercp');
+            }
+        }
     }
-    
+
     tslink_mybb_hooks();
