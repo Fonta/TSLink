@@ -21,7 +21,7 @@
             'website'         => 'http://www.bug-community.com',
             'author'          => 'Fonta',
             'authorsite'      => '',
-            'version'         => '1.2',
+            'version'         => '1.2.1',
             'guid'            => '',
             'compatibility'   => '18*',
         ];
