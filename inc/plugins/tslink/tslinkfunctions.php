@@ -100,7 +100,7 @@
                 admin_redirect('index.php?module=user-tslink');
             }
 
-            if (!$mybb->input['action'] || $mybb->input['action'] == "conntest") {
+            if (!$mybb->input['action'] || $mybb->input['action'] == 'conntest') {
                 $page->output_header($lang->tslink);
 
                 $sub_tabs['tslink'] = [
@@ -114,11 +114,9 @@
                     'link'        => 'index.php?module=user-tslink&action=conntest',
                     'description' => $lang->tslink_admin_tsinfo_desc,
                 ];
-
             }
 
-            if ($mybb->input['action'] == "conntest") {
-
+            if ($mybb->input['action'] == 'conntest') {
                 require __DIR__.'/config.php';
 
                 $page->output_nav_tabs($sub_tabs, 'tslink-conntest');
@@ -132,7 +130,7 @@
 
                     $form_container->output_row($lang->tslink_admin_server_version, $ts3_VirtualServer->version()['version']);
                     $form_container->output_row($lang->tslink_admin_server_platform, $ts3_VirtualServer->version()['platform']);
-                    $form_container->output_row($lang->tslink_admin_server_online_clients, $ts3_VirtualServer['virtualserver_clientsonline']. "/" .$ts3_VirtualServer['virtualserver_maxclients']);
+                    $form_container->output_row($lang->tslink_admin_server_online_clients, $ts3_VirtualServer['virtualserver_clientsonline'].'/'.$ts3_VirtualServer['virtualserver_maxclients']);
 
                     $form_container->end();
                     $form->end();
@@ -147,7 +145,6 @@
             }
 
             if (!$mybb->input['action']) {
-
                 $page->output_nav_tabs($sub_tabs, 'tslink');
 
                 $form = new Form('index.php?module=user-tslink', 'post');
