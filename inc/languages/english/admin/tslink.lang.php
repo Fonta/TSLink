@@ -28,3 +28,10 @@ $l['tslink_admin_row_status'] = 'Current Status';
 $l['tslink_admin_row_changestatus0'] = 'Member';
 $l['tslink_admin_row_changestatus1'] = 'Donating Member';
 $l['tslink_admin_row_changestatus2'] = 'VIP Member';
+
+$l['tslink_admin_tsinfo_title'] = 'TS Info';
+$l['tslink_admin_tsinfo_full_title'] = 'Teamspeak Server Info';
+$l['tslink_admin_tsinfo_desc'] = 'This page displays some simple information received from the TeamSpeak server.';
+$l['tslink_admin_server_version'] = 'Server Version';
+$l['tslink_admin_server_platform'] = 'Server Platform';
+$l['tslink_admin_server_online_clients'] = 'Clients Online';

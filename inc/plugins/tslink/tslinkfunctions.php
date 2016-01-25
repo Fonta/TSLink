@@ -100,7 +100,7 @@
                 admin_redirect('index.php?module=user-tslink');
             }
 
-            if (!$mybb->input['action']) {
+            if (!$mybb->input['action'] || $mybb->input['action'] == "conntest") {
                 $page->output_header($lang->tslink);
 
                 $sub_tabs['tslink'] = [
@@ -108,6 +108,45 @@
                     'link'        => 'index.php?module=user-tslink',
                     'description' => $lang->tslink_admin_tab_home_desc,
                 ];
+
+                $sub_tabs['tslink-conntest'] = [
+                    'title'       => $lang->tslink_admin_tsinfo_title,
+                    'link'        => 'index.php?module=user-tslink&action=conntest',
+                    'description' => $lang->tslink_admin_tsinfo_desc,
+                ];
+
+            }
+
+            if ($mybb->input['action'] == "conntest") {
+
+                require __DIR__.'/config.php';
+
+                $page->output_nav_tabs($sub_tabs, 'tslink-conntest');
+
+                try {
+                    // Connect to teamspeak server, authenticate and spawn an object for the virtual server on the server port.
+                    $ts3_VirtualServer = TeamSpeak3::factory("serverquery://$ts3_username:$ts3_password@$ts3_server:$ts3_query_port/?server_port=$ts3_server_port&nickname=$ts3_nickname");
+
+                    $form = new Form('index.php?module=user-tslink&action=conntest', 'post');
+                    $form_container = new FormContainer($lang->tslink_admin_tsinfo_full_title);
+
+                    $form_container->output_row($lang->tslink_admin_server_version, $ts3_VirtualServer->version()['version']);
+                    $form_container->output_row($lang->tslink_admin_server_platform, $ts3_VirtualServer->version()['platform']);
+                    $form_container->output_row($lang->tslink_admin_server_online_clients, $ts3_VirtualServer['virtualserver_clientsonline']. "/" .$ts3_VirtualServer['virtualserver_maxclients']);
+
+                    $form_container->end();
+                    $form->end();
+
+                    // Close teamspeak connection
+                    unset($ts3_VirtualServer);
+                } catch (Exception $e) {
+                    echo $e;
+                }
+
+                $page->output_footer();
+            }
+
+            if (!$mybb->input['action']) {
 
                 $page->output_nav_tabs($sub_tabs, 'tslink');
 
@@ -314,9 +353,6 @@
                         $ts_cldbid = $ConnectDB->real_escape_string($ts3_Client['cldbid']);
                         mysqli_query($ConnectDB, 'INSERT INTO '.TABLE_PREFIX."tslink_uids (`uid`, `ts_uid`, `ts_cldbid`) VALUES ('".$mybb_uid."', '".$ts_uid."', '".$ts_cldbid."')");
                     } catch (Exception $e) {
-                        echo $e;
-                        die();
-
                         // Catches the error(s) if any. But don't do anything with it.
                     }
                 }
@@ -325,6 +361,9 @@
 
         // Close connection
         $ConnectDB->close();
+
+        // Close teamspeak connection
+        unset($ts3_VirtualServer);
 
         // Now we finally have all unique id's for this user's ip, let's update his groups
         tslink_update_groups($mybb_uid);

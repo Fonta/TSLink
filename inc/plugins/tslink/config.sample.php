@@ -11,8 +11,9 @@
     $password = 'database_password';
     $database = 'database_name';
 
-    // The users table in the DB. This should be just fine.
+    // The MyBB users table in the DB. This should be just fine, but if you are also using this plugin from outside MyBB you'll have to enter it fully like in the second (disabled) line.
     $table = TABLE_PREFIX.'users';
+    #$table = 'mybb_users';
 
     // Teamspeak connection.
     $ts3_server = 'ip_address_of_the_teamspeak_server';
@@ -33,10 +34,15 @@
     // Define which groups should have access to the TS Link ModCP module.
     $tslink_modcp_groups = ('15');
 
+   
     // Define the user's ip address.
+    if (!isset($givenip)) {
+        $givenip = '';
+    }
+
     if ($givenip == '') {
         $givenip = $_SERVER['REMOTE_ADDR'];
         $mybb_ip = bin2hex(inet_pton($givenip));
     } else {
-        $mybb_ip = bin2hex(inet_pton($givenip));
+        $mybb_ip = bin2hex(inet_pton($givenip));    
     }

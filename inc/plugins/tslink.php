@@ -303,6 +303,8 @@
     {
     	global $mybb, $plugins;
 
+        require MYBB_ROOT.'inc/plugins/tslink/config.php';
+
     	// Define hooks when the plugin is enabled in the settings.
 	    if ($mybb->settings['tslink_settings_enabled']) {
 

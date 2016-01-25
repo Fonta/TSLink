@@ -8,7 +8,6 @@ $l['setting_group_tslink'] = 'TeamSpeak Link';
 $l['setting_group_tslink_desc'] = 'Update groepen op Teamspeak automatisch na registratie of handmatig door de gebruiker via het GebruikersCS ';
 $l['setting_tslink_enable'] = 'Teamspeak Link ingeschakeld';
 $l['setting_tslink_enable_desc'] = 'Wil je dat deze plugin uberhaupt iets doet?';
-
 $l['setting_tslink_onregister'] = 'Automatisch bijwerken TeamSpeak groepen bij registratie';
 $l['setting_tslink_onregister_desc'] = 'Zet deze optie aan als je wilt dat de gebruiker zijn groepen op TeamSpeak automatisch bijgewerkt worden na registratie op het forum';
 $l['setting_tslink_admincp'] = 'AdminCS status wijzigingen';
@@ -29,3 +28,10 @@ $l['tslink_admin_row_status'] = 'Huidige Status';
 $l['tslink_admin_row_changestatus0'] = 'Member';
 $l['tslink_admin_row_changestatus1'] = 'Donating Member';
 $l['tslink_admin_row_changestatus2'] = 'VIP Member';
+
+$l['tslink_admin_tsinfo_title'] = 'TS Info';
+$l['tslink_admin_tsinfo_full_title'] = 'Teamspeak Server Info';
+$l['tslink_admin_tsinfo_desc'] = 'Deze pagina laat enige basis informatie over de TeamSpeak server zien.';
+$l['tslink_admin_server_version'] = 'Server Versie';
+$l['tslink_admin_server_platform'] = 'Server Platform';
+$l['tslink_admin_server_online_clients'] = 'Verbonden Gebruikers';
