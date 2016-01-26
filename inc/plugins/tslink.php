@@ -13,7 +13,7 @@
 
     define('IN_LINKTS', 1);
 
-	// Plugin Info
+    // Plugin Info
     function tslink_info()
     {
         return [
@@ -24,7 +24,7 @@
             'authorsite'      => 'http://www.bug-community.com',
             'version'         => '1.2.2',
             'compatibility'   => '18*',
-            "codename"        => "TSLink"
+            'codename'        => 'TSLink',
         ];
     }
 
