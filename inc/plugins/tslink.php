@@ -13,6 +13,10 @@
 
     define('IN_LINKTS', 1);
 
+    // Plugin version
+    define('TSLINK_VER', '1220');
+
+    // Plugin Info
     function tslink_info()
     {
         return [
@@ -20,10 +24,10 @@
             'description'     => 'Automatically add a user to a desired group on teamspeak after registration. Or let the user do this manually through the UserCP.',
             'website'         => 'http://www.bug-community.com',
             'author'          => 'Fonta',
-            'authorsite'      => '',
-            'version'         => '1.2.1',
-            'guid'            => '',
+            'authorsite'      => 'http://www.bug-community.com',
+            'version'         => '1.2.2',
             'compatibility'   => '18*',
+            "codename"        => "tslink"
         ];
     }
 
