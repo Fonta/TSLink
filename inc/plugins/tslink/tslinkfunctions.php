@@ -6,7 +6,7 @@
     }
 
     // Include the Teamspeak Framework.
-    require_once 'Teamspeak3/TeamSpeak3.php';
+    require __DIR__.'/ts3admin.class.php';
 
     function simple_array_intersect($a, $b)
     {
@@ -121,24 +121,37 @@
 
                 $page->output_nav_tabs($sub_tabs, 'tslink-conntest');
 
-                try {
-                    // Connect to teamspeak server, authenticate and spawn an object for the virtual server on the server port.
-                    $ts3_VirtualServer = TeamSpeak3::factory("serverquery://$ts3_username:$ts3_password@$ts3_server:$ts3_query_port/?server_port=$ts3_server_port&nickname=$ts3_nickname");
+                #build a new ts3admin object
+                $ts3 = new ts3admin($ts3_server, $ts3_query_port);
+
+                if($ts3->getElement('success', $ts3->connect())) {
+                    #login as serveradmin
+                    $ts3->login($ts3_username, $ts3_password);
+                    
+                    #select teamspeakserver
+                    $ts3->selectServer($ts3_server_port);
 
                     $form = new Form('index.php?module=user-tslink&action=conntest', 'post');
                     $form_container = new FormContainer($lang->tslink_admin_tsinfo_full_title);
 
-                    $form_container->output_row($lang->tslink_admin_server_version, $ts3_VirtualServer->version()['version']);
-                    $form_container->output_row($lang->tslink_admin_server_platform, $ts3_VirtualServer->version()['platform']);
-                    $form_container->output_row($lang->tslink_admin_server_online_clients, $ts3_VirtualServer['virtualserver_clientsonline'].'/'.$ts3_VirtualServer['virtualserver_maxclients']);
+                    $form_container->output_row($lang->tslink_admin_server_version, $ts3->version()['data']['version']);
+                    $form_container->output_row($lang->tslink_admin_server_platform, $ts3->version()['data']['platform']);
+                    $form_container->output_row($lang->tslink_admin_server_online_clients, $ts3->serverInfo()['data']["virtualserver_clientsonline"].'/'.$ts3->serverInfo()['data']["virtualserver_maxclients"]);
 
                     $form_container->end();
                     $form->end();
 
-                    // Close teamspeak connection
-                    unset($ts3_VirtualServer);
-                } catch (Exception $e) {
-                    echo $e;
+                } else {
+                    echo 'Connection could not be established.';
+                }
+
+                /**
+                 * This code retuns all errors from the debugLog
+                 */
+                if(count($ts3->getDebugLog()) > 0) {
+                    foreach($ts3->getDebugLog() as $logEntry) {
+                        echo '<script>alert("'.$logEntry.'");</script>';
+                    }
                 }
 
                 $page->output_footer();
@@ -288,79 +301,101 @@
         }
     }
 
-    function tslink_update_uids($givenip)
-    {
-        require __DIR__.'/config.php';
+	function tslink_update_uids($givenip)
+	{
+		require __DIR__.'/config.php';
 
-        // Connect to the database.
-        $ConnectDB = new mysqli($hostname, $username, $password, $database);
+		// Connect to the database.
+		$ConnectDB = new mysqli($hostname, $username, $password, $database);
 
-        // check connection
-        if ($ConnectDB->connect_errno) {
-            die($ConnectDB->connect_error);
-        }
+		// check connection
+		if ($ConnectDB->connect_errno) {
+		    die($ConnectDB->connect_error);
+		}
 
-        // Get the member from the mybb database.
-        $mybb_user_query = "SELECT * FROM $table WHERE HEX(lastip) = '$mybb_ip' LIMIT 1";
-        $mybb_users = $ConnectDB->query($mybb_user_query) or trigger_error($ConnectDB->error."[$mybb_user_query]");
-        $mybb_user = $mybb_users->fetch_array(MYSQLI_ASSOC);
+		// Get the member from the mybb database.
+		$mybb_user_query = "SELECT * FROM $table WHERE HEX(lastip) = '$mybb_ip' LIMIT 1";
+		$mybb_users = $ConnectDB->query($mybb_user_query) or trigger_error($ConnectDB->error."[$mybb_user_query]");
+		$mybb_user = $mybb_users->fetch_array(MYSQLI_ASSOC);
 
-        // Get the memberstatus from the user.
-        $mybb_uid = $ConnectDB->real_escape_string($mybb_user['uid']);
+		// Get the memberstatus from the user.
+		$mybb_uid = $ConnectDB->real_escape_string($mybb_user['uid']);
 
-        // Connect to teamspeak server, authenticate and spawn an object for the virtual server on the server port.
-        $ts3_VirtualServer = TeamSpeak3::factory("serverquery://$ts3_username:$ts3_password@$ts3_server:$ts3_query_port/?server_port=$ts3_server_port&nickname=tslink_bot");
+		// Build a new ts3admin object.
+		$ts3 = new ts3admin($ts3_server, $ts3_query_port);
 
-        // Get the users from the teamspeak database.
-        // Define how many records we want to query at once.
-        // The maximum amount of records TeamSpeak will reply is 200.
-        $maxaantalperque = 200;
+		// Connect to the TS server.
+		if($ts3->getElement('success', $ts3->connect())) {
 
-        // Get the total amount of entries in the database.
-        $DBClientEntries = $ts3_VirtualServer->execute('clientdblist -count', ['duration' => 1])->toList('count');
+			// Login to the TS server.
+			if($ts3->getElement('success', $ts3->login($ts3_username, $ts3_password))) {
 
-        // Calculate how many times we have to do a query until we have all entries from the teamspeak database.
-        $aantalqueries = $DBClientEntries['count'] / $maxaantalperque;
-        $aantalqueries = ceil($aantalqueries);
+				// Select virtual server.
+				if($ts3->getElement('success', $ts3->selectServer($ts3_server_port))) {
 
-        // Query the teamspeak database as many times as needed.
-        $i = 1;
-        while ($i <= $aantalqueries) {
-            if ($i == 1) {
-                $maxaantalvorige = 0;
-            }
-            $maxaantaldezeque = $i * $maxaantalperque;
-            try {
-                $ClientArrays[$i] = $ts3_VirtualServer->execute('clientdblist', ['start' => $maxaantalvorige, 'duration' => $maxaantaldezeque])->toAssocArray('cldbid');
-            } catch (Exception $e) {
-                // Catches the error(s) if any. But don't do anything with it.
-            }
-            $maxaantalvorige = $maxaantaldezeque + 1;
-            $i++;
-        }
+					// Get the users from the teamspeak database.
+					// Define how many records we want to query at once.
+					// The maximum amount of records TeamSpeak will reply is 200.
+					$maxaantalperque = 200;
 
-        // Lets see if we can find the user in the teamspeak database.
-        foreach ($ClientArrays as $Clients) {
-            foreach ($Clients as $ts3_Client) {
-                // Check if the user's ip address is known in the teamspeak database.
-                if ($ts3_Client['client_lastip'] == $givenip) {
-                    try {
-                        // Put the user's client unique identifier and database id into the database for later usage.
-                        $ts_uid = $ConnectDB->real_escape_string($ts3_Client['client_unique_identifier']);
-                        $ts_cldbid = $ConnectDB->real_escape_string($ts3_Client['cldbid']);
-                        mysqli_query($ConnectDB, 'INSERT INTO '.TABLE_PREFIX."tslink_uids (`uid`, `ts_uid`, `ts_cldbid`) VALUES ('".$mybb_uid."', '".$ts_uid."', '".$ts_cldbid."')");
-                    } catch (Exception $e) {
-                        // Catches the error(s) if any. But don't do anything with it.
-                    }
-                }
-            }
-        }
+					// Get the total amount of entries in the database.
+					$DBClientEntriescount = $ts3->clientDbList($start = 0, $duration = 1, $count = true);
+					foreach ($DBClientEntriescount['data'] as $clientindb) {
+						$DBClientEntries = $clientindb['count'];
+					}
 
-        // Close connection
-        $ConnectDB->close();
+					// Calculate how many times we have to do a query until we have all entries from the teamspeak database.
+					$aantalqueries = $DBClientEntries / $maxaantalperque;
+					$aantalqueries = ceil($aantalqueries);
 
-        // Close teamspeak connection
-        unset($ts3_VirtualServer);
+					// Query the teamspeak database as many times as needed.
+					$i = 1;
+					while ($i <= $aantalqueries) {
+						if ($i == 1) {
+							$maxaantalvorige = 0;
+						}
+						$maxaantaldezeque = $i * $maxaantalperque;
+						try {
+							$ClientArrays[$i] = $ts3->clientDbList($start = $maxaantalvorige, $duration = $maxaantaldezeque, $count = false);
+						} catch (Exception $e) {
+							// Catches the error(s) if any. But don't do anything with it.
+						}
+						$maxaantalvorige = $maxaantaldezeque + 1;
+						$i++;
+					}
+
+					// Lets see if we can find the user in the teamspeak database.
+					foreach ($ClientArrays as $ClientArray) {
+						foreach ($ClientArray as $Clients) {
+							if (is_array($Clients) && count($Clients) > 0) {
+								foreach ($Clients as $ts3_Client) {
+									// Check if the user's ip address is known in the teamspeak database.
+									if ($ts3_Client['client_lastip'] == $givenip) {
+										try {
+											// Put the user's client unique identifier and database id into the database for later usage.
+											$ts_uid = $ConnectDB->real_escape_string($ts3_Client['client_unique_identifier']);
+											$ts_cldbid = $ConnectDB->real_escape_string($ts3_Client['cldbid']);
+											mysqli_query($ConnectDB, 'INSERT INTO '.TABLE_PREFIX."tslink_uids (`uid`, `ts_uid`, `ts_cldbid`) VALUES ('".$mybb_uid."', '".$ts_uid."', '".$ts_cldbid."')");
+										} catch (Exception $e) {
+											// Catches the error(s) if any. But don't do anything with it.
+										}
+									}
+								}
+							}
+						}
+					}
+		        } else {
+					echo '<p>Could not select the virtual server.</p> <p>Please check the TS server port in the config!</p> <p>Also make sure this (UDP) port is open in the outgoing firewall!</p>';
+				}
+			} else {
+				echo '<p>Could not login to the TS server.</p> <p>Please check the username and password in the config!</p>';
+			}
+        } else {
+			echo '<p>Connection to the TS server could not be established.</p> <p>Please check the TS server and TS server query port in the config!</p> <p>Also make sure this (TCP) port is open in the outgoing firewall!</p>';
+		}
+
+		// Close connection
+		$ConnectDB->close();
 
         // Now we finally have all unique id's for this user's ip, let's update his groups
         tslink_update_groups($mybb_uid);
@@ -395,50 +430,63 @@
             $ServerGroupID_ToAdd = $ts3_sgid_member;
         }
 
-        // Get the user's unique id's from the mybb database
-        $get_ts_uids = "SELECT * FROM mybb_tslink_uids WHERE uid = '$mybb_uid' ";
-        $ts_unique_ids = $ConnectDB->query($get_ts_uids);
+		// Get the user's unique id's from the mybb database
+		$get_ts_uids = "SELECT * FROM mybb_tslink_uids WHERE uid = '$mybb_uid' ";
+		$ts_unique_ids = $ConnectDB->query($get_ts_uids);
 
-        // Connect to teamspeak server, authenticate and spawn an object for the virtual server on the server port.
-        $ts3_VirtualServer = TeamSpeak3::factory("serverquery://$ts3_username:$ts3_password@$ts3_server:$ts3_query_port/?server_port=$ts3_server_port&nickname=$ts3_nickname");
+		// Build a new ts3admin object.
+		$ts3 = new ts3admin($ts3_server, $ts3_query_port);
 
-        foreach ($ts_unique_ids as $ts_unique_id) {
+		// Connect to the TS server.
+		if($ts3->getElement('success', $ts3->connect())) {
 
-            // First lets remove all groups the user is member of.
-            // First get all servergroups the user is member of.
-            $ClientServerGroups = $ts3_VirtualServer->execute('servergroupsbyclientid', ['cldbid' => $ts_unique_id['ts_cldbid']])->toAssocArray('sgid');
-            $c = 0;
+			// Login to the TS server.
+			if($ts3->getElement('success', $ts3->login($ts3_username, $ts3_password))) {
 
-            // For every servergroup found, remove it.
-            foreach ($ClientServerGroups as $Client_ServerGroup) {
-                $csg["$c"] = $Client_ServerGroup['sgid'];
-                $c++;
-                foreach ($csg as $ClientServerGroupID) {
-                    // Except for the servergroups we don't want to have removed.
-                        if (in_array($ClientServerGroupID, $ts3_sgid_dont_remove)) {
-                            // The servergroup given shouldn't be removed so don't do anything.
-                        } else {
-                            try {
-                                $ts3_VirtualServer->execute('servergroupdelclient', ['sgid' => $ClientServerGroupID, 'cldbid' => $ts_unique_id['ts_cldbid']]);
-                            } catch (Exception $e) {
-                                // Catches the error(s) if any. But don't do anything with it.
-                            }
-                        }
-                }
-            }
-            try {
-                // Add the user to the servergroup.
-                $ts3_VirtualServer->execute('servergroupaddclient', ['sgid' => $ServerGroupID_ToAdd, 'cldbid' => $ts_unique_id['ts_cldbid']]);
-            } catch (Exception $e) {
-                // Catches the error(s) if any. But don't do anything with it.
-            }
-        }
+				// Select virtual server.
+				if($ts3->getElement('success', $ts3->selectServer($ts3_server_port))) {
 
+					foreach ($ts_unique_ids as $ts_unique_id) {
+					    // First lets remove all groups the user is member of.
+					    // First get all servergroups the user is member of.
+					    $ClientServerGroups = $ts3->servergroupsbyclientid($ts_unique_id['ts_cldbid']);
+					    $c = 0;
+
+					    // For every servergroup found, remove it.
+					    foreach ($ClientServerGroups['data'] as $Client_ServerGroup) {
+					        $csg["$c"] = $Client_ServerGroup['sgid'];
+					        $c++;
+					        foreach ($csg as $ClientServerGroupID) {
+					            // Except for the servergroups we don't want to have removed.
+								if (in_array($ClientServerGroupID, $ts3_sgid_dont_remove)) {
+								    // The servergroup given shouldn't be removed so don't do anything.
+								} else {
+								    try {
+								    	$ts3->serverGroupDeleteClient($ClientServerGroupID,$ts_unique_id['ts_cldbid']);
+								    } catch (Exception $e) {
+								        // Catches the error(s) if any. But don't do anything with it.
+								    }
+								}
+					        }
+					    }
+					    try {
+					        // Add the user to the servergroup. 
+					        $ts3->serverGroupAddClient($ServerGroupID_ToAdd,$ts_unique_id['ts_cldbid']);
+					    } catch (Exception $e) {
+					        // Catches the error(s) if any. But don't do anything with it.
+					    }
+					}
+				} else {
+					echo '<p>Could not select the virtual server.</p> <p>Please check the TS server port in the config!</p> <p>Also make sure this (UDP) port is open in the outgoing firewall!</p>';
+				}
+			} else {
+				echo '<p>Could not login to the TS server.</p> <p>Please check the username and password in the config!</p>';
+			}
+        } else {
+			echo '<p>Connection to the TS server could not be established.</p> <p>Please check the TS server and TS server query port in the config!</p> <p>Also make sure this (TCP) port is open in the outgoing firewall!</p>';
+		}        					
         // Close connection
         $ConnectDB->close();
-
-        // Close teamspeak connection
-        unset($ts3_VirtualServer);
     }
 
     function UpdateMyBBDB_To1($givenip)
