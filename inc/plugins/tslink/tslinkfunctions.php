@@ -449,7 +449,7 @@
                 if ($ts3->getElement('success', $ts3->selectServer($ts3_server_port))) {
                     // Set displayed name in TS to given
                     $ts3->setName($ts3_nickname);
-                    
+
                     foreach ($ts_unique_ids as $ts_unique_id) {
                         // First lets remove all groups the user is member of.
                         // First get all servergroups the user is member of.
