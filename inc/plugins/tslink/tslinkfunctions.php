@@ -372,7 +372,7 @@
                             if (is_array($Clients) && count($Clients) > 0) {
                                 foreach ($Clients as $ts3_Client) {
                                     // Check if the user's ip address is known in the teamspeak database.
-                                    if ($ts3_Client['client_lastip'] == $givenip) {
+                                    if(is_array($ts3_Client) && $ts3_Client['client_lastip'] == $givenip){
                                         try {
                                             // Put the user's client unique identifier and database id into the database for later usage.
                                             $ts_uid = $ConnectDB->real_escape_string($ts3_Client['client_unique_identifier']);
