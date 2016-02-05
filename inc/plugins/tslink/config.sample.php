@@ -34,7 +34,8 @@
     // Define which groups should have access to the TS Link ModCP module.
     $tslink_modcp_groups = ('15');
 
-    // Define the user's ip address.
+    // DONT CHANGE ANYTHING UNDERNEATH!!!!
+    // Piece of pie to determine which IP to work with.
     if (!isset($givenip)) {
         $givenip = '';
     }

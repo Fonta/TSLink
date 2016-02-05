@@ -80,16 +80,12 @@
             $db->query('ALTER TABLE '.TABLE_PREFIX.'users ADD (`memberstatus` int(10) NOT NULL DEFAULT 0)');
         }
 
-        if ($db->table_exists('tslink_uids')) {
-            // Don't do anything
-        } else {
-            $db->query('CREATE TABLE IF NOT EXISTS '.TABLE_PREFIX.'tslink_uids (
-              uid int(10) NOT NULL,
-              ts_uid varchar(50) NOT NULL,
-              ts_cldbid int(10) DEFAULT NULL,
-              UNIQUE KEY (uid)
-            ) ');
-        }
+        $db->query('CREATE TABLE IF NOT EXISTS '.TABLE_PREFIX.'tslink_uids (
+          uid int(10) NOT NULL,
+          ts_uid varchar(50) NOT NULL,
+          ts_cldbid int(10) DEFAULT NULL,
+          UNIQUE KEY (uid)
+        ) ');
     }
 
     function tslink_is_installed()
