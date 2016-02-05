@@ -377,7 +377,7 @@
                                             // Put the user's client unique identifier and database id into the database for later usage.
                                             $ts_uid = $ConnectDB->real_escape_string($ts3_Client['client_unique_identifier']);
                                             $ts_cldbid = $ConnectDB->real_escape_string($ts3_Client['cldbid']);
-                                            mysqli_query($ConnectDB, "INSERT INTO ".TABLE_PREFIX."tslink_uids (`uid`, `ts_uid`, `ts_cldbid`) VALUES ('".$mybb_uid."', '".$ts_uid."', '".$ts_cldbid."')");
+                                            mysqli_query($ConnectDB, 'INSERT INTO '.TABLE_PREFIX."tslink_uids (`uid`, `ts_uid`, `ts_cldbid`) VALUES ('".$mybb_uid."', '".$ts_uid."', '".$ts_cldbid."')");
                                         } catch (Exception $e) {
                                             // Catches the error(s) if any. But don't do anything with it.
                                         }
@@ -433,7 +433,7 @@
         }
 
         // Get the user's unique id's from the mybb database
-        $get_ts_uids = "SELECT * FROM ".TABLE_PREFIX."tslink_uids WHERE uid = '$mybb_uid' ";
+        $get_ts_uids = 'SELECT * FROM '.TABLE_PREFIX."tslink_uids WHERE uid = '$mybb_uid' ";
         $ts_unique_ids = $ConnectDB->query($get_ts_uids);
 
         // Build a new ts3admin object.
