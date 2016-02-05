@@ -22,7 +22,7 @@
             'website'         => 'http://www.bug-community.com',
             'author'          => 'Fonta',
             'authorsite'      => 'http://www.bug-community.com',
-            'version'         => '1.3.2',
+            'version'         => '1.3.3',
             'compatibility'   => '18*',
             'codename'        => 'TSLink',
         ];
