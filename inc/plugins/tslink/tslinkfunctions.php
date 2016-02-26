@@ -458,7 +458,7 @@
                         $c = 0;
 
                         // For every servergroup found, remove it.
-                        foreach ((array)$ClientServerGroups['data'] as $Client_ServerGroup) {
+                        foreach ((array) $ClientServerGroups['data'] as $Client_ServerGroup) {
                             $csg["$c"] = $Client_ServerGroup['sgid'];
                             $c++;
                             foreach ($csg as $ClientServerGroupID) {
