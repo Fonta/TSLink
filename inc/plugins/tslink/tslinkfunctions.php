@@ -289,6 +289,7 @@
         // Execute the funtion to add the user to his servergroup.
         if ($mybb->input['action'] == 'tslink' and $mybb->request_method == 'post') {
             tslink_update_uids($givenip);
+            redirect('usercp.php?action=tslink');
         }
 
         // Settings page.
@@ -457,7 +458,7 @@
                         $c = 0;
 
                         // For every servergroup found, remove it.
-                        foreach ($ClientServerGroups['data'] as $Client_ServerGroup) {
+                        foreach ((array)$ClientServerGroups['data'] as $Client_ServerGroup) {
                             $csg["$c"] = $Client_ServerGroup['sgid'];
                             $c++;
                             foreach ($csg as $ClientServerGroupID) {
