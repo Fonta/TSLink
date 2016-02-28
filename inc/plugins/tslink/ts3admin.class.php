@@ -1,7 +1,7 @@
 <?PHP
 /**
  *                         ts3admin.class.php
- *                         ------------------                    
+ *                         ------------------
  *   begin                : 18. December 2009
  *   copyright            : (C) 2009-2015 Par0noid Solutions
  *   email                : info@ts3admin.info
@@ -10,31 +10,31 @@
  *
  *
  *  This file is a powerful library for querying TeamSpeak3 servers.
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** 
+/**
  * The ts3admin.class.php is a powerful library that offers functions to communicate with Teamspeak 3 Servers from your website!
- * 
+ *
  * You can do everything, your creativity knows no bounds!
  * That library is faster than all other librarys because its optimized to find the shortest way to your information.
  * No unneeded PHP 5 OOP Stuff, just the basics!
  * There are a lot of professional developers and some big companys using my library.
  * The best thing is that you can use it for free under the terms of the GNU General Public License v3.
  * Take a look on the project website where you can find code examples, a manual and some other stuff.
- * 
+ *
  * @author      Par0noid Solutions <info@ts3admin.info>
  *
  * @version     0.8.0.0
@@ -170,7 +170,7 @@ class ts3admin
 
     /**
      * banClient.
-     * 
+     *
      * Bans the client specified with ID clid from the server. Please note that this will create two separate ban rules for the targeted clients IP address and his unique identifier.
      *
      * <b>Output:</b>
@@ -213,7 +213,7 @@ class ts3admin
 
     /**
      * banDelete.
-     * 
+     *
      * Deletes the ban rule with ID banid from the server.
      *
      * @author     Par0noid Solutions
@@ -233,7 +233,7 @@ class ts3admin
 
     /**
      * banDeleteAll.
-     * 
+     *
      * Deletes all active ban rules from the server.
      *
      * @author     Par0noid Solutions
@@ -251,9 +251,9 @@ class ts3admin
 
     /**
      * banList.
-     * 
+     *
      * Displays a list of active bans on the selected virtual server.
-     * 
+     *
      * <b>Output:</b>
      * <pre>
      * Array
@@ -287,7 +287,7 @@ class ts3admin
 
     /**
      * bindingList.
-     * 
+     *
      * Displays a list of IP addresses used by the server instance on multi-homed machines.
      *
      * <b>Output:</b>
@@ -309,9 +309,9 @@ class ts3admin
 
     /**
      * channelAddPerm.
-     * 
+     *
      * Adds a set of specified permissions to a channel. Multiple permissions can be added by providing the two parameters of each permission. A permission can be specified by permid or permsid.
-     * 
+     *
      * <b>Input-Array like this:</b>
      * <pre>
      * $permissions = array();
@@ -375,9 +375,9 @@ class ts3admin
 
     /**
      * channelClientAddPerm.
-     * 
+     *
      * Adds a set of specified permissions to a client in a specific channel. Multiple permissions can be added by providing the three parameters of each permission. A permission can be specified by permid or permsid.
-     * 
+     *
      * <b>Input-Array like this:</b>
      * <pre>
      * $permissions = array();
@@ -442,7 +442,7 @@ class ts3admin
 
     /**
      * channelClientDelPerm.
-     * 
+     *
      * Removes a set of specified permissions from a client in a specific channel. Multiple permissions can be removed at once. A permission can be specified by permid or permsid.
      *
      * <b>Input-Array like this:</b>
@@ -484,7 +484,7 @@ class ts3admin
 
     /**
      * channelClientPermList.
-     * 
+     *
      * Displays a list of permissions defined for a client in a specific channel.
      *
      * <b>Output:</b>
@@ -520,21 +520,21 @@ class ts3admin
 
     /**
      * channelCreate.
-     * 
+     *
      * Creates a new channel using the given properties and displays its ID. Note that this command accepts multiple properties which means that you're able to specifiy all settings of the new channel at once.
-     * 
+     *
      * <b style="color:red">Hint:</b> don't forget to set channel_flag_semi_permanent = 1 or channel_flag_permanent = 1
-     * 
+     *
      * <b style="color:red">Hint:</b> you'll get an error if you want to create a channel without channel_name
-     * 
+     *
      * <b>Input-Array like this:</b>
      * <pre>
      * $data = array();
-     * 
+     *
      * $data['setting'] = 'value';
      * $data['setting'] = 'value';
      * </pre>
-     * 
+     *
      * <b>Output:</b>
      * <pre>
      * Array
@@ -566,7 +566,7 @@ class ts3admin
 
     /**
      * channelDelete.
-     * 
+     *
      * Deletes an existing channel by ID. If force is set to 1, the channel will be deleted even if there are clients within. The clients will be kicked to the default channel with an appropriate reason message.
      *
      * @author     Par0noid Solutions
@@ -587,7 +587,7 @@ class ts3admin
 
     /**
      * channelDelPerm.
-     * 
+     *
      * Removes a set of specified permissions from a channel. Multiple permissions can be removed at once. A permission can be specified by permid or permsid.
      *
      * <b>Input-Array like this:</b>
@@ -627,13 +627,13 @@ class ts3admin
 
     /**
      * channelEdit.
-     * 
+     *
      * Changes a channels configuration using given properties. Note that this command accepts multiple properties which means that you're able to change all settings of the channel specified with cid at once.
      *
      * <b>Input-Array like this:</b>
      <pre>
      $data = array();
-     
+
      $data['setting'] = 'value';
      $data['setting'] = 'value';
      </pre>
@@ -662,7 +662,7 @@ class ts3admin
 
     /**
      * channelFind.
-     * 
+     *
      * displays a list of channels matching a given name pattern.
      *
      * <b>Output:</b>
@@ -678,7 +678,7 @@ class ts3admin
      *
      * @param string $pattern channelName
      *
-     * @return array channelList 
+     * @return array channelList
      */
     public function channelFind($pattern)
     {
@@ -691,7 +691,7 @@ class ts3admin
 
     /**
      * channelGroupAdd.
-     * 
+     *
      * Creates a new channel group using a given name and displays its ID. The optional type parameter can be used to create ServerQuery groups and template groups.
      *
      * <b>groupDbTypes:</b>
@@ -727,7 +727,7 @@ class ts3admin
 
     /**
      * channelGroupAddPerm.
-     * 
+     *
      * Adds a set of specified permissions to a channel group. Multiple permissions can be added by providing the two parameters of each permission. A permission can be specified by permid or permsid.
      *
      * <b>Input-Array like this:</b>
@@ -793,7 +793,7 @@ class ts3admin
 
     /**
      * channelGroupClientList.
-     * 
+     *
      * Displays all the client and/or channel IDs currently assigned to channel groups. All three parameters are optional so you're free to choose the most suitable combination for your requirement
      *
      * <b>Output:</b>
@@ -825,7 +825,7 @@ class ts3admin
 
     /**
      * channelGroupCopy.
-     * 
+     *
      * Creates a copy of the channel group specified with scgid. If tcgid is set to 0, the server will create a new group. To overwrite an existing group, simply set tcgid to the ID of a designated target group. If a target group is set, the name parameter will be ignored. The type parameter can be used to create ServerQuery groups and template groups.
      *
      * <b>groupDbTypes:</b>
@@ -846,7 +846,7 @@ class ts3admin
      * @author     Par0noid Solutions
      *
      * @param int $scgid sourceChannelGroupID
-     * @param int $tcgid targetChannelGroupID 
+     * @param int $tcgid targetChannelGroupID
      * @param int $name  groupName
      * @param int $type  groupDbType
      *
@@ -863,7 +863,7 @@ class ts3admin
 
     /**
      * channelGroupDelete.
-     * 
+     *
      * Deletes a channel group by ID. If force is set to 1, the channel group will be deleted even if there are clients within.
      *
      * @author     Par0noid Solutions
@@ -884,7 +884,7 @@ class ts3admin
 
     /**
      * channelGroupDelPerm.
-     * 
+     *
      * Removes a set of specified permissions from the channel group. Multiple permissions can be removed at once. A permission can be specified by permid or permsid.
      *
      * <b>Input-Array like this:</b>
@@ -923,9 +923,9 @@ class ts3admin
 
     /**
      * channelGroupList.
-     * 
+     *
      * Displays a list of channel groups available on the selected virtual server.
-     * 
+     *
      * <b>Output:</b>
      * <pre>
      * Array
@@ -958,10 +958,10 @@ class ts3admin
 
     /**
      * channelGroupPermList.
-     * 
+     *
      * Displays a list of permissions assigned to the channel group specified with cgid.
      * If the permsid option is specified, the output will contain the permission names instead of the internal IDs.
-     * 
+     *
      * <b>Output:</b>
      * <pre>
      * Array
@@ -992,7 +992,7 @@ class ts3admin
 
     /**
      * channelGroupRename.
-     * 
+     *
      * Changes the name of a specified channel group.
      *
      * @author     Par0noid Solutions
@@ -1015,15 +1015,15 @@ class ts3admin
      * channelInfo.
      *
      *	Displays detailed configuration information about a channel including ID, topic, description, etc.
-     
+
      * <b>Output:</b>
      * <pre>
      * Array
      * {
      *  [pid] => 0
      *  [channel_name] => Test
-     *  [channel_topic] => 
-     *  [channel_description] => 
+     *  [channel_topic] =>
+     *  [channel_description] =>
      *  [channel_password] => cc97Pm4oOYq0J9fXDAgiWv/qScQ=
      *  [channel_codec] => 2
      *  [channel_codec_quality] => 7
@@ -1042,7 +1042,7 @@ class ts3admin
      *  [channel_filepath] => files\\virtualserver_1\\channel_2
      *  [channel_needed_talk_power] => 0
      *  [channel_forced_silence] => 0
-     *  [channel_name_phonetic] => 
+     *  [channel_name_phonetic] =>
      *  [channel_icon_id] => 0
      *  [seconds_empty] => 61 (If it's a temporary channel with a channel delete delay)
      * }
@@ -1065,7 +1065,7 @@ class ts3admin
 
     /**
      * channelList.
-     * 
+     *
      * Displays a list of channels created on a virtual server including their ID, order, name, etc. The output can be modified using several command options.
      *
      * <b>Possible parameters:</b> [-topic] [-flags] [-voice] [-limits] [-icon]
@@ -1127,7 +1127,7 @@ class ts3admin
 
     /**
      * channelMove.
-     * 
+     *
      * Moves a channel to a new parent channel with the ID cpid. If order is specified, the channel will be sorted right under the channel with the specified ID. If order is set to 0, the channel will be sorted right below the new parent.
      *
      * @author     Par0noid Solutions
@@ -1149,7 +1149,7 @@ class ts3admin
 
     /**
      * channelPermList.
-     * 
+     *
      * Displays a list of permissions defined for a channel.
      *
      * <b>Output:</b>
@@ -1183,7 +1183,7 @@ class ts3admin
 
     /**
      * clientAddPerm.
-     * 
+     *
      * Adds a set of specified permissions to a client. Multiple permissions can be added by providing the three parameters of each permission. A permission can be specified by permid or permsid.
      *
      * <b>Input-Array like this:</b>
@@ -1251,7 +1251,7 @@ class ts3admin
      * clientAvatar.
      *
      * Will return the base64 encoded binary of the clients avatar
-     * 
+     *
      * <pre>
      * $result = $tsAdmin->clientAvatar($uid);
      * You can display it like: echo '<img src="data:image/png;base64,'.$result["data"].'" />';
@@ -1299,7 +1299,7 @@ class ts3admin
 
     /**
      * clientDbDelete.
-     * 
+     *
      * Deletes a clients properties from the database.
      *
      * @author     Par0noid Solutions
@@ -1319,13 +1319,13 @@ class ts3admin
 
     /**
      * clientDbEdit.
-     * 
+     *
      * Changes a clients settings using given properties.
      *
      * <b>Input-Array like this:</b>
      * <pre>
      * $data = array();
-     * 
+     *
      * $data['property'] = 'value';
      * $data['property'] = 'value';
      * </pre>
@@ -1354,7 +1354,7 @@ class ts3admin
 
     /**
      * clientDbFind.
-     * 
+     *
      * Displays a list of client database IDs matching a given pattern. You can either search for a clients last known nickname or his unique identity by using the -uid option.
      *
      * <b>Output:</b>
@@ -1370,7 +1370,7 @@ class ts3admin
      * @param string $pattern clientName
      * @param bool   $uid     set true to add -uid param [optional]
      *
-     * @return array clientList 
+     * @return array clientList
      */
     public function clientDbFind($pattern, $uid = false)
     {
@@ -1396,8 +1396,8 @@ class ts3admin
      *  [client_created] => 1361027850
      *  [client_lastconnected] => 1361027850
      *  [client_totalconnections] => 1
-     *  [client_flag_avatar] => 
-     *  [client_description] => 
+     *  [client_flag_avatar] =>
+     *  [client_description] =>
      *  [client_month_bytes_uploaded] => 0
      *  [client_month_bytes_downloaded] => 0
      *  [client_total_bytes_uploaded] => 0
@@ -1425,7 +1425,7 @@ class ts3admin
 
     /**
      * clientDbList.
-     * 
+     *
      * Displays a list of client identities known by the server including their database ID, last nickname, etc.
      *
      * <b>Possible params:</b> [start={offset}] [duration={limit}] [-count]
@@ -1441,7 +1441,7 @@ class ts3admin
      *  [client_created] => 1361027850
      *  [client_lastconnected] => 1361027850
      *  [client_totalconnections] => 1
-     *  [client_description] => 
+     *  [client_description] =>
      *  [client_lastip] => 127.0.0.1
      * }
      * </pre>
@@ -1465,7 +1465,7 @@ class ts3admin
 
     /**
      * clientDelPerm.
-     * 
+     *
      * Removes a set of specified permissions from a client. Multiple permissions can be removed at once. A permission can be specified by permid or permsid.
      *
      * <b>Input-Array like this:</b>
@@ -1506,13 +1506,13 @@ class ts3admin
 
     /**
      * clientEdit.
-     * 
+     *
      * Changes a clients settings using given properties.
      *
      * <b>Input-Array like this:</b>
      * <pre>
      * $data = array();
-     *	
+     *
      * $data['property'] = 'value';
      * $data['property'] = 'value';
      * </pre>
@@ -1541,7 +1541,7 @@ class ts3admin
 
     /**
      * clientFind.
-     * 
+     *
      * Displays a list of clients matching a given name pattern.
      *
      * <b>Output:</b>
@@ -1570,7 +1570,7 @@ class ts3admin
 
     /**
      * clientGetDbIdFromUid.
-     * 
+     *
      * Displays the database ID matching the unique identifier specified by cluid.
      *
      *	<b>Output:</b>
@@ -1599,7 +1599,7 @@ class ts3admin
 
     /**
      * clientGetIds.
-     * 
+     *
      * Displays all client IDs matching the unique identifier specified by cluid.
      *
      * <b>Output:</b>
@@ -1616,7 +1616,7 @@ class ts3admin
      *
      * @param string $cluid clientUID
      *
-     * @return array clientList 
+     * @return array clientList
      */
     public function clientGetIds($cluid)
     {
@@ -1629,7 +1629,7 @@ class ts3admin
 
     /**
      * clientGetNameFromDbid.
-     * 
+     *
      * Displays the unique identifier and nickname matching the database ID specified by cldbid.
      *
      *	<b>Output:</b>
@@ -1659,7 +1659,7 @@ class ts3admin
 
     /**
      * clientGetNameFromUid.
-     * 
+     *
      * Displays the database ID and nickname matching the unique identifier specified by cluid.
      *
      *	<b>Output:</b>
@@ -1689,7 +1689,7 @@ class ts3admin
 
     /**
      * clientInfo.
-     * 
+     *
      * Displays detailed configuration information about a client including unique ID, nickname, client version, etc.
      *
      * <b>Output:</b>
@@ -1707,10 +1707,10 @@ class ts3admin
      *  [client_outputonly_muted] => 0
      *  [client_input_hardware] => 1
      *  [client_output_hardware] => 1
-     *  [client_default_channel] => 
-     *  [client_meta_data] => 
+     *  [client_default_channel] =>
+     *  [client_meta_data] =>
      *  [client_is_recording] => 0
-     *  [client_login_name] => 
+     *  [client_login_name] =>
      *  [client_database_id] => 2
      *  [client_channel_group_id] => 5
      *  [client_servergroups] => 6
@@ -1718,25 +1718,25 @@ class ts3admin
      *  [client_lastconnected] => 1361027850
      *  [client_totalconnections] => 1
      *  [client_away] => 0
-     *  [client_away_message] => 
+     *  [client_away_message] =>
      *  [client_type] => 0
-     *  [client_flag_avatar] => 
+     *  [client_flag_avatar] =>
      *  [client_talk_power] => 75
      *  [client_talk_request] => 0
-     *  [client_talk_request_msg] => 
-     *  [client_description] => 
+     *  [client_talk_request_msg] =>
+     *  [client_description] =>
      *  [client_is_talker] => 0
      *  [client_month_bytes_uploaded] => 0
      *  [client_month_bytes_downloaded] => 0
      *  [client_total_bytes_uploaded] => 0
      *  [client_total_bytes_downloaded] => 0
      *  [client_is_priority_speaker] => 0
-     *  [client_nickname_phonetic] => 
+     *  [client_nickname_phonetic] =>
      *  [client_needed_serverquery_view_power] => 75
-     *  [client_default_token] => 
+     *  [client_default_token] =>
      *  [client_icon_id] => 0
      *  [client_is_channel_commander] => 0
-     *  [client_country] => 
+     *  [client_country] =>
      *  [client_channel_group_inherited_channel_id] => 2
      *  [client_base64HashClientUID] => jneilbgomklpfnkjclkoggokfdmdlhnbbpmdpagh
      *  [connection_filetransfer_bandwidth_sent] => 0
@@ -1751,7 +1751,7 @@ class ts3admin
      *  [connection_bandwidth_received_last_minute_total] => 88
      *  [connection_connected_time] => 5908749
      *  [connection_client_ip] => 127.0.0.1
-     * } 
+     * }
      * </pre>
      *
      * @author     Par0noid Solutions
@@ -1771,7 +1771,7 @@ class ts3admin
 
     /**
      * clientKick.
-     * 
+     *
      * Kicks one or more clients specified with clid from their currently joined channel or from the server, depending on reasonid. The reasonmsg parameter specifies a text message sent to the kicked clients. This parameter is optional and may only have a maximum of 40 characters.
      *
      * @author     Par0noid Solutions
@@ -1812,7 +1812,7 @@ class ts3admin
 
     /**
      * clientList.
-     * 
+     *
      * Displays a list of clients online on a virtual server including their ID, nickname, status flags, etc. The output can be modified using several command options. Please note that the output will only contain clients which are currently in channels you're able to subscribe to.
      *
      * <b>Possible params:</b> [-uid] [-away] [-voice] [-times] [-groups] [-info] [-icon] [-country] [-ip] [-badges]
@@ -1828,7 +1828,7 @@ class ts3admin
      *  [client_type] => 0
      *  [-uid] => [client_unique_identifier] => nUixbsq/XakrrmbqU8O30R/D8Gc=
      *  [-away] => [client_away] => 0
-     *  [-away] => [client_away_message] => 
+     *  [-away] => [client_away_message] =>
      *  [-voice] => [client_flag_talking] => 0
      *  [-voice] => [client_input_muted] => 0
      *  [-voice] => [client_output_muted] => 0
@@ -1848,13 +1848,13 @@ class ts3admin
      *  [-info] => [client_version] => 3.0.9.2 [Build: 1351504843]
      *  [-info] => [client_platform] => Windows
      *  [-icon] => [client_icon_id] => 0
-     *  [-country] => [client_country] => 
+     *  [-country] => [client_country] =>
      *  [-ip] => [connection_client_ip] => 127.0.0.1
      *  [-badges] => [client_badges] => Overwolf=0
      * }
-     * 
+     *
      * <b>Usage:</b>
-     * 
+     *
      * $ts3->clientList(); //No parameters
      * $ts3->clientList("-uid"); //Single parameter
      * $ts3->clientList("-uid -away -voice -times -groups -info -country -icon -ip -badges"); //Multiple parameters
@@ -1864,7 +1864,7 @@ class ts3admin
      *
      * @param string $params additional parameters [optional]
      *
-     * @return array clientList 
+     * @return array clientList
      */
     public function clientList($params = null)
     {
@@ -1881,7 +1881,7 @@ class ts3admin
 
     /**
      * clientMove.
-     * 
+     *
      * Moves one or more clients specified with clid to the channel with ID cid. If the target channel has a password, it needs to be specified with cpw. If the channel has no password, the parameter can be omitted.
      *
      * @author     Par0noid Solutions
@@ -1903,7 +1903,7 @@ class ts3admin
 
     /**
      * clientPermList.
-     * 
+     *
      * Displays a list of permissions defined for a client.
      *
      * <b>Output:</b>
@@ -1936,7 +1936,7 @@ class ts3admin
 
     /**
      * clientPoke.
-     * 
+     *
      * Sends a poke message to the client specified with clid.
      *
      * @author     Par0noid Solutions
@@ -1957,9 +1957,9 @@ class ts3admin
 
     /**
      * clientSetServerQueryLogin.
-     * 
+     *
      * Updates your own ServerQuery login credentials using a specified username. The password will be auto-generated.
-     * 
+     *
      * <b>Output:</b>
      * <pre>
      * Array
@@ -1981,9 +1981,9 @@ class ts3admin
 
     /**
      * clientUpdate.
-     * 
+     *
      * Change your ServerQuery clients settings using given properties.
-     * 
+     *
      * <b>Input-Array like this:</b>
      * <pre>
      * $data = array();
@@ -2031,7 +2031,7 @@ class ts3admin
 
     /**
      * complainDelete.
-     * 
+     *
      * Deletes the complaint about the client with ID tcldbid submitted by the client with ID fcldbid from the server.
      *
      * @author     Par0noid Solutions
@@ -2052,7 +2052,7 @@ class ts3admin
 
     /**
      * complainDeleteAll.
-     * 
+     *
      * Deletes all complaints about the client with database ID tcldbid from the server.
      *
      * @author     Par0noid Solutions
@@ -2072,7 +2072,7 @@ class ts3admin
 
     /**
      * complainList.
-     * 
+     *
      * Displays a list of complaints on the selected virtual server. If tcldbid is specified, only complaints about the targeted client will be shown.
      *
      * <b>Output:</b>
@@ -2108,9 +2108,9 @@ class ts3admin
 
     /**
      * execOwnCommand.
-     * 
+     *
      * executes a command that isn't defined in class and returns data like your propose
-     * 
+     *
      * <b>Modes:</b>
      * <ul>
      * 	<li><b>0:</b> execute -> return boolean</li>
@@ -2144,7 +2144,7 @@ class ts3admin
 
     /**
      * ftCreateDir.
-     * 
+     *
      * Creates new directory in a channels file repository.
      *
      * @author     Par0noid Solutions
@@ -2166,13 +2166,13 @@ class ts3admin
 
     /**
      * ftDeleteFile.
-     * 
+     *
      * Deletes one or more files stored in a channels file repository.
      *
      * <b>Input-Array like this:</b>
      * <pre>
      * $files = array();
-     *	
+     *
      * $files[] = '/pic1.jpg';
      * $files[] = '/dokumente/test.txt';
      * $files[] = '/dokumente';
@@ -2208,7 +2208,7 @@ class ts3admin
 
     /**
      * ftDownloadFile.
-     * 
+     *
      * Ddownloads a file and returns its contents
      *
      * @author     Par0noid Solutions
@@ -2238,9 +2238,9 @@ class ts3admin
 
     /**
      * ftGetFileInfo.
-     * 
+     *
      * Displays detailed information about one or more specified files stored in a channels file repository.
-     * 
+     *
      *
      * @author     Par0noid Solutions
      *
@@ -2296,7 +2296,7 @@ class ts3admin
 
     /**
      * ftInitDownload.
-     * 
+     *
      * Initializes a file transfer download. clientftfid is an arbitrary ID to identify the file transfer on client-side. On success, the server generates a new ftkey which is required to start downloading the file through TeamSpeak 3's file transfer interface.
      *
      * <b>Output:</b>
@@ -2331,7 +2331,7 @@ class ts3admin
 
     /**
      * ftInitUpload.
-     * 
+     *
      * Initializes a file transfer upload. clientftfid is an arbitrary ID to identify the file transfer on client-side. On success, the server generates a new ftkey which is required to start uploading the file through TeamSpeak 3's file transfer interface.
      *
      * <b>Output:</b>
@@ -2379,7 +2379,7 @@ class ts3admin
 
     /**
      * ftList.
-     * 
+     *
      * Displays a list of running file transfers on the selected virtual server. The output contains the path to which a file is uploaded to, the current transfer rate in bytes per second, etc
      *
      * <b>Output:</b>
@@ -2417,7 +2417,7 @@ class ts3admin
 
     /**
      * ftRenameFile.
-     * 
+     *
      * Renames a file in a channels file repository. If the two parameters tcid and tcpw are specified, the file will be moved into another channels file repository.
      *
      * @author     Par0noid Solutions
@@ -2443,13 +2443,13 @@ class ts3admin
 
     /**
      * ftStop.
-     * 
+     *
      * Stops the running file transfer with server-side ID serverftfid.
      *
      * @author     Par0noid Solutions
      *
      * @param int  $serverftfid serverFileTransferID
-     * @param bool $delete      delete incomplete file [optional] (default: true) 
+     * @param bool $delete      delete incomplete file [optional] (default: true)
      *
      * @return bool success
      */
@@ -2464,7 +2464,7 @@ class ts3admin
 
     /**
      * ftUploadFile.
-     * 
+     *
      * Uploads a file to server
      * To check if upload was successful, you have to search for this file in fileList after
      *
@@ -2494,7 +2494,7 @@ class ts3admin
 
     /**
      * gm.
-     * 
+     *
      * Sends a text message to all clients on all virtual servers in the TeamSpeak 3 Server instance.
      *
      * @author     Par0noid Solutions
@@ -2516,7 +2516,7 @@ class ts3admin
 
     /**
      * hostInfo.
-     * 
+     *
      * Displays detailed connection information about the server instance including uptime, number of virtual servers online, traffic information, etc.
      *
      * <b>Output:</b>
@@ -2555,13 +2555,13 @@ class ts3admin
 
     /**
      * instanceEdit.
-     * 
+     *
      * Changes the server instance configuration using given properties.
      *
      * <b>Input-Array like this:</b>
      * <pre>
      * $data = array();
-     *	
+     *
      * $data['setting'] = 'value';
      * $data['setting'] = 'value';
      * </pre>
@@ -2591,7 +2591,7 @@ class ts3admin
 
     /**
      * instanceInfo.
-     * 
+     *
      * Displays the server instance configuration including database revision number, the file transfer port, default group IDs, etc.
      *
      * <b>Output:</b>
@@ -2625,7 +2625,7 @@ class ts3admin
 
     /**
      * logAdd.
-     * 
+     *
      * Writes a custom entry into the servers log. Depending on your permissions, you'll be able to add entries into the server instance log and/or your virtual servers log. The loglevel parameter specifies the type of the entry.
      *
      * @author     Par0noid Solutions
@@ -2654,7 +2654,7 @@ class ts3admin
 
     /**
      * login.
-     * 
+     *
      * Authenticates with the TeamSpeak 3 Server instance using given ServerQuery login credentials.
      *
      * @author     Par0noid Solutions
@@ -2671,7 +2671,7 @@ class ts3admin
 
     /**
      * logout.
-     * 
+     *
      * Deselects the active virtual server and logs out from the server instance.
      *
      * @author     Par0noid Solutions
@@ -2687,9 +2687,9 @@ class ts3admin
 
     /**
      * logView.
-     * 
+     *
      * Displays a specified number of entries from the servers log. If instance is set to 1, the server will return lines from the master logfile (ts3server_0.log) instead of the selected virtual server logfile.
-     * 
+     *
      * <b>Output:</b>
      * <pre>
      * Array
@@ -2727,7 +2727,7 @@ class ts3admin
 
     /**
      * permIdGetByName.
-     * 
+     *
      * Displays the database ID of one or more permissions specified by permsid.
      *
      * <b>Input-Array like this:</b>
@@ -2748,7 +2748,7 @@ class ts3admin
      *
      * @param string $permsids permNames
      *
-     * @return array permissionList 
+     * @return array permissionList
      */
     public function permIdGetByName($permsids)
     {
@@ -2769,7 +2769,7 @@ class ts3admin
 
     /**
      * permissionList.
-     * 
+     *
      * Displays a list of permissions available on the server instance including ID, name and description.
      * If the new parameter is set the permissionlist will return with the new output format.
      *
@@ -2894,7 +2894,7 @@ class ts3admin
 
     /**
      * permOverview.
-     * 
+     *
      * Displays all permissions assigned to a client for the channel specified with cid. If permid is set to 0, all permissions will be displayed. A permission can be specified by permid or permsid.
      *
      * <b>Output:</b>
@@ -2950,7 +2950,7 @@ class ts3admin
 
     /**
      * selectServer.
-     * 
+     *
      * Selects the virtual server specified with sid or port to allow further interaction. The ServerQuery client will appear on the virtual server and acts like a real TeamSpeak 3 Client, except it's unable to send or receive voice data. If your database contains multiple virtual servers using the same UDP port, use will select a random virtual server using the specified port.
      *
      * @author     Par0noid Solutions
@@ -2998,7 +2998,7 @@ class ts3admin
 
     /**
      * sendMessage.
-     * 
+     *
      * Sends a text message a specified target. The type of the target is determined by targetmode while target specifies the ID of the recipient, whether it be a virtual server, a channel or a client.
      * <b>Hint:</b> You can just write to the channel the query client is in. See link in description for details.
      *
@@ -3036,13 +3036,13 @@ class ts3admin
 
     /**
      * serverCreate.
-     * 
+     *
      * Creates a new virtual server using the given properties and displays its ID, port and initial administrator privilege key. If virtualserver_port is not specified, the server will test for the first unused UDP port. The first virtual server will be running on UDP port 9987 by default. Subsequently started virtual servers will be running on increasing UDP port numbers.
-     * 
+     *
      * <b>Input-Array like this:</b>
      * <pre>
      * $data = array();
-     *	
+     *
      * $data['setting'] = 'value';
      * $data['setting'] = 'value';
      * </pre>
@@ -3082,7 +3082,7 @@ class ts3admin
 
     /**
      * serverDelete.
-     * 
+     *
      * Deletes the virtual server specified with sid. Please note that only virtual servers in stopped state can be deleted.
      *
      * @author     Par0noid Solutions
@@ -3100,13 +3100,13 @@ class ts3admin
 
     /**
      * serverEdit.
-     * 
+     *
      * Changes the selected virtual servers configuration using given properties. Note that this command accepts multiple properties which means that you're able to change all settings of the selected virtual server at once.
      *
      * <b>Input-Array like this:</b>
      * <pre>
      * $data = array();
-     *	
+     *
      * $data['setting'] = 'value';
      * $data['setting'] = 'value';
      * </pre>
@@ -3134,7 +3134,7 @@ class ts3admin
 
     /**
      * serverGroupAdd.
-     * 
+     *
      * Creates a new server group using the name specified with name and displays its ID. The optional type parameter can be used to create ServerQuery groups and template groups. For detailed information, see
      *
      * <b>Output:</b>
@@ -3163,7 +3163,7 @@ class ts3admin
 
     /**
      * serverGroupAddClient.
-     * 
+     *
      * Adds a client to the server group specified with sgid. Please note that a client cannot be added to default groups or template groups.
      *
      * @author     Par0noid Solutions
@@ -3184,7 +3184,7 @@ class ts3admin
 
     /**
      * serverGroupAddPerm.
-     * 
+     *
      * Adds a set of specified permissions to the server group specified with sgid. Multiple permissions can be added by providing the four parameters of each permission. A permission can be specified by permid or permsid.
      *
      * <b>Input-Array like this:</b>
@@ -3194,7 +3194,7 @@ class ts3admin
      * //or you could use
      * $permissions['permissionName'] = array('permissionValue', 'permskip', 'permnegated');
      * </pre>
-     * 
+     *
      * @author     Par0noid Solutions
      *
      * @param int   $sgid        groupID
@@ -3248,20 +3248,20 @@ class ts3admin
         }
         /*
         old code
-        
+
         $error = false;
         $results = array();
-        
+
         if(count($permissions) > 0) {
              $new = array();
- 
+
             $i = 0;
             $k = 0;
             foreach($permissions as $ke => $va) {
                 if($i > 149){ $i = 0; $k++; }else{ $i++; }
                 $new[$k][$ke] = $va;
             }
-            
+
             foreach($new as $perms) {
                 $permissionArray = array();
                 foreach($perms as $key => $value) {
@@ -3271,7 +3271,7 @@ class ts3admin
                 if(!$result['success']) { $error = true; }
                 $results[] = $result;
             }
-            
+
             if($error) {
                 $returnErrors = array();
                 foreach($results as $errorResult) {
@@ -3293,7 +3293,7 @@ class ts3admin
 
     /**
      * serverGroupClientList.
-     * 
+     *
      * Displays the IDs of all clients currently residing in the server group specified with sgid. If you're using the optional -names option, the output will also contain the last known nickname and the unique identifier of the clients.
      *
      * <b>Possible params:</b> -names
@@ -3331,7 +3331,7 @@ class ts3admin
 
     /**
      * serverGroupCopy.
-     * 
+     *
      * Creates a copy of the server group specified with ssgid. If tsgid is set to 0, the server will create a new group. To overwrite an existing group, simply set tsgid to the ID of a designated target group. If a target group is set, the name parameter will be ignored.
      *
      * <b>Output:</b>
@@ -3362,7 +3362,7 @@ class ts3admin
 
     /**
      * serverGroupDelete.
-     * 
+     *
      * Deletes the server group specified with sgid. If force is set to 1, the server group will be deleted even if there are clients within.
      *
      * @author     Par0noid Solutions
@@ -3383,7 +3383,7 @@ class ts3admin
 
     /**
      * serverGroupDeleteClient.
-     * 
+     *
      * Removes a client specified with cldbid from the server group specified with sgid.
      *
      * @author     Par0noid Solutions
@@ -3404,7 +3404,7 @@ class ts3admin
 
     /**
      * serverGroupDeletePerm.
-     * 
+     *
      * Removes a set of specified permissions from the server group specified with sgid. Multiple permissions can be removed at once. A permission can be specified by permid or permsid.
      *
      * <b>Input-Array like this:</b>
@@ -3444,7 +3444,7 @@ class ts3admin
 
     /**
      * serverGroupList.
-     * 
+     *
      * Displays a list of server groups available. Depending on your permissions, the output may also contain global ServerQuery groups and template groups.
      *
      * <b>Output:</b>
@@ -3474,7 +3474,7 @@ class ts3admin
 
     /**
      * serverGroupPermList.
-     * 
+     *
      * Displays a list of permissions assigned to the server group specified with sgid. If the permsid option is specified, the output will contain the permission names instead of the internal IDs.
      *
      * <b>Output:</b>
@@ -3512,7 +3512,7 @@ class ts3admin
 
     /**
      * serverGroupRename.
-     * 
+     *
      * Changes the name of the server group specified with sgid.
      *
      * @author     Par0noid Solutions
@@ -3533,7 +3533,7 @@ class ts3admin
 
     /**
      * serverGroupsByClientID.
-     * 
+     *
      * Displays all server groups the client specified with cldbid is currently residing in.
      *
      * <b>Output:</b>
@@ -3563,9 +3563,9 @@ class ts3admin
 
     /**
      * serverIdGetByPort.
-     * 
+     *
      * Displays the database ID of the virtual server running on the UDP port specified by virtualserver_port.
-     * 
+     *
      * <b>Output:</b>
      * <pre>
      * Array
@@ -3587,9 +3587,9 @@ class ts3admin
 
     /**
      * serverInfo.
-     * 
+     *
      * Displays detailed configuration information about the selected virtual server including unique ID, number of clients online, configuration, etc.
-     *	
+     *
      * <b>Output:</b>
      * <pre>
      * Array
@@ -3600,13 +3600,13 @@ class ts3admin
      *  [virtualserver_platform] => Windows
      *  [virtualserver_version] => 3.0.6.1 [Build: 1340956745]
      *  [virtualserver_maxclients] => 32
-     *  [virtualserver_password] => 
+     *  [virtualserver_password] =>
      *  [virtualserver_clientsonline] => 2
      *  [virtualserver_channelsonline] => 2
      *  [virtualserver_created] => 1361027787
      *  [virtualserver_uptime] => 2804
      *  [virtualserver_codec_encryption_mode] => 0
-     *  [virtualserver_hostmessage] => 
+     *  [virtualserver_hostmessage] =>
      *  [virtualserver_hostmessage_mode] => 0
      *  [virtualserver_filebase] => files\\virtualserver_1
      *  [virtualserver_default_server_group] => 8
@@ -3615,8 +3615,8 @@ class ts3admin
      *  [virtualserver_default_channel_admin_group] => 5
      *  [virtualserver_max_download_total_bandwidth] => 18446744073709551615
      *  [virtualserver_max_upload_total_bandwidth] => 18446744073709551615
-     *  [virtualserver_hostbanner_url] => 
-     *  [virtualserver_hostbanner_gfx_url] => 
+     *  [virtualserver_hostbanner_url] =>
+     *  [virtualserver_hostbanner_gfx_url] =>
      *  [virtualserver_hostbanner_gfx_interval] => 0
      *  [virtualserver_complain_autoban_count] => 5
      *  [virtualserver_complain_autoban_time] => 1200
@@ -3629,9 +3629,9 @@ class ts3admin
      *  [virtualserver_antiflood_points_needed_ip_block] => 250
      *  [virtualserver_client_connections] => 1
      *  [virtualserver_query_client_connections] => 6
-     *  [virtualserver_hostbutton_tooltip] => 
-     *  [virtualserver_hostbutton_url] => 
-     *  [virtualserver_hostbutton_gfx_url] => 
+     *  [virtualserver_hostbutton_tooltip] =>
+     *  [virtualserver_hostbutton_url] =>
+     *  [virtualserver_hostbutton_gfx_url] =>
      *  [virtualserver_queryclientsonline] => 1
      *  [virtualserver_download_quota] => 18446744073709551615
      *  [virtualserver_upload_quota] => 18446744073709551615
@@ -3641,7 +3641,7 @@ class ts3admin
      *  [virtualserver_total_bytes_uploaded] => 0
      *  [virtualserver_port] => 9987
      *  [virtualserver_autostart] => 1
-     *  [virtualserver_machine_id] => 
+     *  [virtualserver_machine_id] =>
      *  [virtualserver_needed_identity_security_level] => 8
      *  [virtualserver_log_client] => 0
      *  [virtualserver_log_query] => 0
@@ -3650,7 +3650,7 @@ class ts3admin
      *  [virtualserver_log_server] => 0
      *  [virtualserver_log_filetransfer] => 0
      *  [virtualserver_min_client_version] => 12369
-     *  [virtualserver_name_phonetic] => 
+     *  [virtualserver_name_phonetic] =>
      *  [virtualserver_icon_id] => 0
      *  [virtualserver_reserved_slots] => 0
      *  [virtualserver_total_packetloss_speech] => 0.0000
@@ -3658,7 +3658,7 @@ class ts3admin
      *  [virtualserver_total_packetloss_control] => 0.0000
      *  [virtualserver_total_packetloss_total] => 0.0000
      *  [virtualserver_total_ping] => 0.0000
-     *  [virtualserver_ip] => 
+     *  [virtualserver_ip] =>
      *  [virtualserver_weblist_enabled] => 1
      *  [virtualserver_ask_for_privilegekey] => 0
      *  [virtualserver_hostbanner_mode] => 0
@@ -3705,7 +3705,7 @@ class ts3admin
 
     /**
      * serverList.
-     * 
+     *
      * Displays a list of virtual servers including their ID, status, number of clients online, etc. If you're using the -all option, the server will list all virtual servers stored in the database. This can be useful when multiple server instances with different machine IDs are using the same database. The machine ID is used to identify the server instance a virtual server is associated with. The status of a virtual server can be either online, offline, deploy running, booting up, shutting down and virtual online. While most of them are self-explanatory, virtual online is a bit more complicated. Please note that whenever you select a virtual server which is currently stopped, it will be started in virtual mode which means you are able to change its configuration, create channels or change permissions, but no regular TeamSpeak 3 Client can connect. As soon as the last ServerQuery client deselects the virtual server, its status will be changed back to offline.
      *
      * <b>Possible params:</b> [-uid] [-short] [-all] [-onlyoffline]
@@ -3724,7 +3724,7 @@ class ts3admin
      *  [virtualserver_name] => TeamSpeak ]I[ Server
      *  [virtualserver_autostart] => 1
      *  [virtualserver_machine_id] =>
-     *  [-uid] => [virtualserver_unique_identifier] => bYrybKl/APfKq7xzpIJ1Xb6C06U= 
+     *  [-uid] => [virtualserver_unique_identifier] => bYrybKl/APfKq7xzpIJ1Xb6C06U=
      * }
      * </pre>
      *
@@ -3741,7 +3741,7 @@ class ts3admin
 
     /**
      * serverProcessStop.
-     * 
+     *
      * Stops the entire TeamSpeak 3 Server instance by shutting down the process.
      *
      * @author     Par0noid Solutions
@@ -3755,7 +3755,7 @@ class ts3admin
 
     /**
      * serverRequestConnectionInfo.
-     * 
+     *
      * Displays detailed connection information about the selected virtual server including uptime, traffic information, etc.
      *
      * <b>Output:</b>
@@ -3795,7 +3795,7 @@ class ts3admin
 
     /**
      * serverSnapshotCreate.
-     * 
+     *
      * Displays a snapshot of the selected virtual server containing all settings, groups and known client identities. The data from a server snapshot can be used to restore a virtual servers configuration, channels and permissions using the serversnapshotdeploy command.
      *
      * @author     Par0noid Solutions
@@ -3813,7 +3813,7 @@ class ts3admin
 
     /**
      * serverSnapshotDeploy.
-     * 
+     *
      * Restores the selected virtual servers configuration using the data from a previously created server snapshot. Please note that the TeamSpeak 3 Server does NOT check for necessary permissions while deploying a snapshot so the command could be abused to gain additional privileges.
      *
      * @author     Par0noid Solutions
@@ -3833,7 +3833,7 @@ class ts3admin
 
     /**
      * serverStart.
-     * 
+     *
      * Starts the virtual server specified with sid. Depending on your permissions, you're able to start either your own virtual server only or all virtual servers in the server instance.
      *
      * @author     Par0noid Solutions
@@ -3849,7 +3849,7 @@ class ts3admin
 
     /**
      * serverStop.
-     * 
+     *
      * Stops the virtual server specified with sid. Depending on your permissions, you're able to stop either your own virtual server only or all virtual servers in the server instance.
      *
      * @author     Par0noid Solutions
@@ -3865,7 +3865,7 @@ class ts3admin
 
     /**
      * serverTemppasswordAdd.
-     * 
+     *
      * Sets a new temporary server password specified with pw. The temporary password will be valid for the number of seconds specified with duration. The client connecting with this password will automatically join the channel specified with tcid. If tcid is set to 0, the client will join the default channel.
      *
      * @author     Par0noid Solutions
@@ -3889,9 +3889,9 @@ class ts3admin
 
     /**
      * serverTemppasswordDel.
-     * 
+     *
      * Deletes the temporary server password specified with pw.
-     * 
+     *
      * @author     Par0noid Solutions
      *
      * @param string $pw temporary password
@@ -3909,7 +3909,7 @@ class ts3admin
 
     /**
      * serverTemppasswordList.
-     * 
+     *
      * Returns a list of active temporary server passwords. The output contains the clear-text password, the nickname and unique identifier of the creating client.
      *
      * <b>Output:</b>
@@ -3963,7 +3963,7 @@ class ts3admin
 
     /**
      * setName.
-     * 
+     *
      * Sets your nickname in server query
      *
      * @author     Par0noid Solutions
@@ -3979,14 +3979,14 @@ class ts3admin
 
     /**
      * tokenAdd.
-     * 
+     *
      * Create a new token. If tokentype is set to 0, the ID specified with tokenid1 will be a server group ID. Otherwise, tokenid1 is used as a channel group ID and you need to provide a valid channel ID using tokenid2. The tokencustomset parameter allows you to specify a set of custom client properties. This feature can be used when generating tokens to combine a website account database with a TeamSpeak user. The syntax of the value needs to be escaped using the ServerQuery escape patterns and has to follow the general syntax of:
      * ident=ident1 value=value1|ident=ident2 value=value2|ident=ident3 value=value3
      *
      * <b>Input-Array like this:</b>
      * <pre>
      * $customFieldSet = array();
-     *	
+     *
      * $customFieldSet['ident'] = 'value';
      * $customFieldSet['ident'] = 'value';
      * </pre>
@@ -4028,7 +4028,7 @@ class ts3admin
 
     /**
      * tokenDelete.
-     * 
+     *
      * Deletes an existing token matching the token key specified with token.
      *
      * @author     Par0noid Solutions
@@ -4048,7 +4048,7 @@ class ts3admin
 
     /**
      * tokenList.
-     * 
+     *
      * Displays a list of privilege keys available including their type and group IDs. Tokens can be used to gain access to specified server or channel groups. A privilege key is similar to a client with administrator privileges that adds you to a certain permission group, but without the necessity of a such a client with administrator privileges to actually exist. It is a long (random looking) string that can be used as a ticket into a specific server group.
      *
      * <b>Output:</b>
@@ -4066,7 +4066,7 @@ class ts3admin
      *
      * @author     Par0noid Solutions
      *
-     * @return array tokenListist 
+     * @return array tokenListist
      */
     public function tokenList()
     {
@@ -4079,7 +4079,7 @@ class ts3admin
 
     /**
      * tokenUse.
-     * 
+     *
      * Use a token key gain access to a server or channel group. Please note that the server will automatically delete the token after it has been used.
      *
      * @author     Par0noid Solutions
@@ -4099,7 +4099,7 @@ class ts3admin
 
     /**
      * version.
-     * 
+     *
      * Displays the servers version information including platform and build number.
      *
      * <b>Output:</b>
@@ -4123,7 +4123,7 @@ class ts3admin
 
     /**
      * whoAmI.
-     * 
+     *
      * Displays information about your current ServerQuery connection including your loginname, etc.
      *
      * <b>Output:</b>
@@ -4165,7 +4165,7 @@ class ts3admin
      * Array
      * {
      *  [success] => false
-     *  [errors] => Array 
+     *  [errors] => Array
      *  [data] => false
      * }
      * </pre>
@@ -4184,7 +4184,7 @@ class ts3admin
 
     /**
      * convertSecondsToStrTime.
-     * 
+     *
      * Converts seconds to a strTime (bsp. 5d 1h 23m 19s)
      *
      * @author     Par0noid Solutions
@@ -4202,7 +4202,7 @@ class ts3admin
 
     /**
      * convertSecondsToArrayTime.
-     * 
+     *
      * Converts seconds to a array: time
      *
      * <b>Output:</b>
@@ -4235,23 +4235,23 @@ class ts3admin
 
     /**
      * getElement.
-     * 
+     *
      * Returns the given associated element from an array
      * This can be used to get a result in a one line operation
-     * 
+     *
      * For example you got this array:
      * <pre>
      * Array
      * {
      *  [success] => false
-     *  [errors] => Array 
+     *  [errors] => Array
      *  [data] => false
      * }
      * </pre>
      * Now you can grab the element like this:
      * <pre>
      * $ts = new ts3admin('***', '***');
-     * 
+     *
      * if($ts->getElement('success', $ts->connect())) {
      *  //operation
      * }
@@ -4271,11 +4271,11 @@ class ts3admin
 
     /**
      * succeeded.
-     * 
+     *
      * Succeeded will check the success element of a return array
      * <pre>
      * $ts = new ts3admin('***', '***');
-     * 
+     *
      * if($ts->succeeded($ts->connect())) {
      *  //operation
      * }
@@ -4302,7 +4302,7 @@ class ts3admin
 
     /**
      * __construct.
-     * 
+     *
      * @author	Par0noid Solutions
      *
      * @param string $host      ts3host
@@ -4328,7 +4328,7 @@ class ts3admin
 
     /**
      * __destruct.
-     * 
+     *
      * @author	Par0noid Solutions
      *
      * @return void
@@ -4340,9 +4340,9 @@ class ts3admin
 
     /**
      * __call.
-     * 
+     *
      * prevents your website from php errors if you want to execute a method which doesn't exists
-     * 
+     *
      * @author	Par0noid Solutions
      *
      * @param string $name method name
@@ -4359,7 +4359,7 @@ class ts3admin
 
     /**
      * isConnected.
-     * 
+     *
      * Checks if the connection is established
      *
      * @author     Par0noid Solutions
@@ -4377,7 +4377,7 @@ class ts3admin
 
     /**
      * generateOutput.
-     * 
+     *
      * Builds a method return as array
      *
      * @author     Par0noid Solutions
@@ -4395,7 +4395,7 @@ class ts3admin
 
     /**
      * unEscapeText.
-     * 
+     *
      * Turns escaped chars to normals
      *
      * @author     Par0noid Solutions
@@ -4415,7 +4415,7 @@ class ts3admin
 
     /**
      * escapeText.
-     * 
+     *
      * Escapes chars that we can use it in the query
      *
      * @author     Par0noid Solutions
@@ -4440,7 +4440,7 @@ class ts3admin
 
     /**
      * splitBanIds.
-     * 
+     *
      * Splits banIds to array
      *
      * @author     Par0noid Solutions
@@ -4465,7 +4465,7 @@ class ts3admin
 
     /**
      * connect.
-     * 
+     *
      * Connects to a ts3instance query port
      *
      * @author     Par0noid Solutions
@@ -4501,7 +4501,7 @@ class ts3admin
 
     /**
      * executeCommand.
-     * 
+     *
      * Executes a command and fetches the response
      *
      * @author     Par0noid Solutions
@@ -4556,9 +4556,9 @@ class ts3admin
 
     /**
      * getData.
-     * 
+     *
      * Parses data from query and returns an array
-     * 
+     *
      * @author		Par0noid Solutions
      *
      * @param string $mode    select return mode ('boolean', 'array', 'multi', 'plain')
@@ -4661,9 +4661,9 @@ class ts3admin
 
     /**
      * ftSendKey.
-     * 
+     *
      * Sends down/upload-key to ftHost
-     * 
+     *
      * @author     Par0noid Solutions
      *
      * @param string $key
@@ -4678,9 +4678,9 @@ class ts3admin
 
     /**
      * ftSendData.
-     * 
+     *
      * Sends data to ftHost
-     * 
+     *
      * @author     Par0noid Solutions
      *
      * @param mixed $data
@@ -4697,9 +4697,9 @@ class ts3admin
 
     /**
      * ftRead.
-     * 
+     *
      * Reads data from ftHost
-     * 
+     *
      * @author     Par0noid Solutions
      *
      * @param int $size
@@ -4722,7 +4722,7 @@ class ts3admin
 
     /**
      * getDebugLog.
-     * 
+     *
      * Returns the debug log
      *
      * <b>Output:</b>
@@ -4745,7 +4745,7 @@ class ts3admin
 
     /**
      * addDebugLog.
-     * 
+     *
      * Adds an entry to debugLog
      *
      * @author     Par0noid Solutions
