@@ -86,7 +86,6 @@
           ts_cldbid int(10) DEFAULT NULL,
           UNIQUE KEY (uid)
         ) ');
-
     }
 
     function tslink_is_installed()
@@ -346,8 +345,8 @@
 
         $forUser = $mybb->user['username'];
 
-        tslink_log("=============================================================\n=================== ".date("d-m-Y H:i:s")." =====================\n=============================================================\n", $forUser);
-        tslink_log("Started by user on account activation - IP address of user (".$givenip.") - doing tslink_update_uids & tslink_update_groups", $forUser);
+        tslink_log("=============================================================\n=================== ".date('d-m-Y H:i:s')." =====================\n=============================================================\n", $forUser);
+        tslink_log('Started by user on account activation - IP address of user ('.$givenip.') - doing tslink_update_uids & tslink_update_groups', $forUser);
         $logging_material = tslink_update_uids($givenip);
         tslink_log($logging_material, $forUser);
     }
