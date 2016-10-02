@@ -22,7 +22,7 @@
             'website'         => 'http://www.bug-community.com',
             'author'          => 'Fonta',
             'authorsite'      => 'http://www.bug-community.com',
-            'version'         => '1.3.4',
+            'version'         => '1.3.5',
             'compatibility'   => '18*',
             'codename'        => 'TSLink',
         ];
@@ -86,6 +86,7 @@
           ts_cldbid int(10) DEFAULT NULL,
           UNIQUE KEY (uid)
         ) ');
+
     }
 
     function tslink_is_installed()
@@ -136,26 +137,26 @@
             'template'         => $db->escape_string('
 <tr>
 <td class="tcat smalltext">
-	<div class="expcolimage">
-		<img src="{$theme[\'imgdir\']}/collapse{$collapsedimg[\'usercptslink\']}.png" id="usercptslink_img" class="expander" alt="[-]" title="[-]" />
-	</div>
-	<div>
-		<span>
-		<strong>{$lang->tslink_menu_title}</strong>
-		</span>
-	</div>
+    <div class="expcolimage">
+        <img src="{$theme[\'imgdir\']}/collapse{$collapsedimg[\'usercptslink\']}.png" id="usercptslink_img" class="expander" alt="[-]" title="[-]" />
+    </div>
+    <div>
+        <span>
+        <strong>{$lang->tslink_menu_title}</strong>
+        </span>
+    </div>
 </td>
 </tr>
 <tbody style="{$collapsed[\'usercptslink_e\']}" id="usercptslink_e">
-	<tr>
-		<td class="trow1 smalltext">
-			<a href="usercp.php?action=tslink" class="usercp_nav_item usercp_nav_tslink">{$lang->tslink_menu_link}</a>
-		</td>
-	</tr>
+    <tr>
+        <td class="trow1 smalltext">
+            <a href="usercp.php?action=tslink" class="usercp_nav_item usercp_nav_tslink">{$lang->tslink_menu_link}</a>
+        </td>
+    </tr>
 </tbody>
 <style type="text/css">
 .usercp_nav_tslink {
-	background: url(\'images/tslink/teamspeak3-icon.png\') no-repeat left center;
+    background: url(\'images/tslink/teamspeak3-icon.png\') no-repeat left center;
 }
 </style>'),
             'sid'            => '-2',
@@ -176,31 +177,31 @@
  {$header}
 <table width="100%" border="0" align="center">
 <tr>
-	 {$usercpnav}
-	<td valign="top">
-		 {$inlinesuccess}
-			<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
-			<thead>
-			<tr>
-				<th class="thead">
-					<img style="padding-top:3px;" src="images/tslink/teamspeak3.png" height="16px"> <strong>{$lang->tslink_title}</strong>
-				</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td class="trow1">
-				<p>{$lang->tslink_usercp_message}</p>
-				</td>
-			</tr>
-			</tbody>
-			</table>
-			<div style="text-align:center;">
-			<form name="LinkTS" method="post" action="usercp.php?action=tslink">
-				<input type="submit" class="button" value="{$lang->tslink_usercp_submit_button}" name="tslink_dolink" />
-			</form>
-		</div>
-	</td>
+     {$usercpnav}
+    <td valign="top">
+         {$inlinesuccess}
+            <table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
+            <thead>
+            <tr>
+                <th class="thead">
+                    <img style="padding-top:3px;" src="images/tslink/teamspeak3.png" height="16px"> <strong>{$lang->tslink_title}</strong>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="trow1">
+                <p>{$lang->tslink_usercp_message}</p>
+                </td>
+            </tr>
+            </tbody>
+            </table>
+            <div style="text-align:center;">
+            <form name="LinkTS" method="post" action="usercp.php?action=tslink">
+                <input type="submit" class="button" value="{$lang->tslink_usercp_submit_button}" name="tslink_dolink" />
+            </form>
+        </div>
+    </td>
 </tr>
 </table>
  {$footer}
@@ -215,13 +216,13 @@
             'tid'              => null,
             'title'            => 'tslink_modcp_menu',
             'template'         => $db->escape_string('<tr>
-	<td class="tcat smalltext">
-		<div class="expcolimage"><img src="{$theme[\'imgdir\']}/collapse{$collapsedimg[\'modcptslink\']}.png" id="modcptslink_img" class="expander" alt="[-]" title="[-]" /></div>
-	<div><span><strong>{$lang->tslink_menu_title}</strong></span></div>
-	</td>
+    <td class="tcat smalltext">
+        <div class="expcolimage"><img src="{$theme[\'imgdir\']}/collapse{$collapsedimg[\'modcptslink\']}.png" id="modcptslink_img" class="expander" alt="[-]" title="[-]" /></div>
+    <div><span><strong>{$lang->tslink_menu_title}</strong></span></div>
+    </td>
 </tr>
 <tbody style="{$collapsed[\'modcptslink_e\']}" id="modcptslink_e">
-	<tr><td class="trow1 smalltext"><a href="modcp.php?action=tslink" class="modcp_nav_item modcp_nav_tslink">{$lang->tslink_menu_link}</a></td></tr>
+    <tr><td class="trow1 smalltext"><a href="modcp.php?action=tslink" class="modcp_nav_item modcp_nav_tslink">{$lang->tslink_menu_link}</a></td></tr>
 </tbody>
 <style type="text/css">.modcp_nav_tslink { background: url(\'images/tslink/teamspeak3-icon.png\') no-repeat left center;}</style>'),
             'sid'            => '-2',
@@ -311,8 +312,8 @@
             if ($mybb->settings['tslink_settings_onregister']) {
                 // Hook the function to add the user to a certain group.
                 // You can use other hooks like member_do_register_end - just take a look at the mybb documentation.
-                $plugins->add_hook('member_activate_accountactivated', 'tslink_update_uids', $givenip);
-                $plugins->add_hook('fb_register_end', 'tslink_update_uids', $givenip);
+                $plugins->add_hook('member_activate_accountactivated', 'tslink_update_uids_with_log', $givenip);
+                $plugins->add_hook('fb_register_end', 'tslink_update_uids_with_log', $givenip);
             }
 
             if ($mybb->settings['tslink_settings_admincp']) {
@@ -336,3 +337,17 @@
     }
 
     tslink_mybb_hooks();
+
+    function tslink_update_uids_with_log($givenip)
+    {
+        global $mybb, $plugins;
+
+        require MYBB_ROOT.'inc/plugins/tslink/config.php';
+
+        $forUser = $mybb->user['username'];
+
+        tslink_log("=============================================================\n=================== ".date("d-m-Y H:i:s")." =====================\n=============================================================\n", $forUser);
+        tslink_log("Started by user on account activation - IP address of user (".$givenip.") - doing tslink_update_uids & tslink_update_groups", $forUser);
+        $logging_material = tslink_update_uids($givenip);
+        tslink_log($logging_material, $forUser);
+    }

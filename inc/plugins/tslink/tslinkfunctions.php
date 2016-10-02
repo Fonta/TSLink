@@ -77,23 +77,30 @@
             $page->add_breadcrumb_item($lang->tslink_plugin_name, 'index.php?module=tslink');
 
             if ($mybb->input['action'] == 'tslink_changestatus') {
-                $uid = intval($mybb->input['uid']);
+                $mybb_uid = intval($mybb->input['uid']);
                 $changeto = intval($mybb->input['changeto']);
 
-                $db->query('UPDATE '.TABLE_PREFIX."users SET memberstatus= '".$changeto."' WHERE uid='".$uid."'");
+                $db->query('UPDATE '.TABLE_PREFIX."users SET memberstatus= '".$changeto."' WHERE uid='".$mybb_uid."'");
 
-                $queryip = $db->simple_select('users', 'lastip', "uid='$uid'");
-                $bin_ip_in_db = $db->fetch_field($queryip, 'lastip');
+                $queryUser = $db->simple_select('users', 'username, lastip', "uid='$mybb_uid'");
+                $bin_ip_in_db = $db->fetch_field($queryUser, 'lastip');
                 $givenip = my_inet_ntop($db->unescape_binary($bin_ip_in_db));
+                $forUser = $db->fetch_field($queryUser, 'username');
 
                 // If there's an ip of the user in de database, update the unique id's in the database
                 if (!empty($givenip)) {
-                    tslink_update_uids($givenip);
+                    tslink_log("=============================================================\n=================== ".date("d-m-Y H:i:s")." =====================\n=============================================================\n", $forUser);
+                    tslink_log("Started on AdminCP by ".$mybb->user['username']." - IP address of user available (".$givenip.") - doing tslink_update_uids & tslink_update_groups", $forUser);
+                    $tslink_update_uids_results = tslink_update_uids($givenip);
+                    tslink_log($tslink_update_uids_results, $forUser);
                     $message = $lang->tslink_status_changed;
                 }
                 // If there's no lastip of the user in the database - dont try to update the unique id's in the database
                 if (empty($givenip)) {
-                    tslink_update_groups($uid);
+                    tslink_log("=============================================================\n=================== ".date("d-m-Y H:i:s")." =====================\n=============================================================\n", $forUser);
+                    tslink_log("Started on AdminCP ".$mybb->user['username']." - IP address of user NOT available - only doing tslink_update_groups to update previously registered TS uids", $forUser);
+                    $tslink_update_groups_results = tslink_update_groups($mybb_uid);
+                    tslink_log($tslink_update_groups_results, $forUser);
                     $message = $lang->tslink_status_changed;
                 }
 
@@ -220,18 +227,25 @@
 
             $db->query('UPDATE '.TABLE_PREFIX."users SET memberstatus= '".$changeto."' WHERE uid='".$mybb_uid."'");
 
-            $queryip = $db->simple_select('users', 'lastip', "uid='$mybb_uid'");
-            $bin_ip_in_db = $db->fetch_field($queryip, 'lastip');
+            $queryUser = $db->simple_select('users', 'username, lastip', "uid='$mybb_uid'");
+            $bin_ip_in_db = $db->fetch_field($queryUser, 'lastip');
             $givenip = my_inet_ntop($db->unescape_binary($bin_ip_in_db));
+            $forUser = $db->fetch_field($queryUser, 'username');
 
             // If there's an ip of the user in de database, update the unique id's in the database
             if (!empty($givenip)) {
-                tslink_update_uids($givenip);
+                tslink_log("=============================================================\n=================== ".date("d-m-Y H:i:s")." =====================\n=============================================================\n", $forUser);
+                tslink_log("Started on ModCP by ".$mybb->user['username']." - IP address of user available (".$givenip.") - doing tslink_update_uids & tslink_update_groups", $forUser);
+                $tslink_update_uids_results = tslink_update_uids($givenip);
+                tslink_log($tslink_update_uids_results, $forUser);
                 $message = $lang->tslink_status_changed;
             }
             // If there's no lastip of the user in the database - dont try to update the unique id's in the database
             if (empty($givenip)) {
-                tslink_update_groups($mybb_uid);
+                tslink_log("=============================================================\n=================== ".date("d-m-Y H:i:s")." =====================\n=============================================================\n", $forUser);
+                tslink_log("Started on ModCP ".$mybb->user['username']." - IP address of user NOT available - only doing tslink_update_groups to update previously registered TS uids", $forUser);
+                $tslink_update_groups_results = tslink_update_groups($mybb_uid);
+                tslink_log($tslink_update_groups_results, $forUser);
                 $message = $lang->tslink_status_changed;
             }
 
@@ -253,18 +267,18 @@
                 if ($users['memberstatus'] == '0') {
                     $status = 'Member';
                     $linktochange = '<a href="modcp.php?action=tslink_dochange&amp;uid='.$users['uid'].'&amp;changeto=1">'.$lang->tslink_modcp_changestatus1.' </a>-
-								 		<a href="modcp.php?action=tslink_dochange&amp;uid='.$users['uid'].'&amp;changeto=2"> '.$lang->tslink_modcp_changestatus2.'</a>
-										';
+                                        <a href="modcp.php?action=tslink_dochange&amp;uid='.$users['uid'].'&amp;changeto=2"> '.$lang->tslink_modcp_changestatus2.'</a>
+                                        ';
                 } elseif ($users['memberstatus'] == '1') {
                     $status = 'Donating Member';
                     $linktochange = '<a href="modcp.php?action=tslink_dochange&amp;uid='.$users['uid'].'&amp;changeto=0">'.$lang->tslink_modcp_changestatus0.' </a>-
-								 		<a href="modcp.php?action=tslink_dochange&amp;uid='.$users['uid'].'&amp;changeto=2"> '.$lang->tslink_modcp_changestatus2.'</a>
-										';
+                                        <a href="modcp.php?action=tslink_dochange&amp;uid='.$users['uid'].'&amp;changeto=2"> '.$lang->tslink_modcp_changestatus2.'</a>
+                                        ';
                 } elseif ($users['memberstatus'] == '2') {
                     $status = 'VIP Member';
                     $linktochange = '<a href="modcp.php?action=tslink_dochange&amp;uid='.$users['uid'].'&amp;changeto=0">'.$lang->tslink_modcp_changestatus0.' </a>-
-								 		<a href="modcp.php?action=tslink_dochange&amp;uid='.$users['uid'].'&amp;changeto=1"> '.$lang->tslink_modcp_changestatus1.'</a>
-										';
+                                        <a href="modcp.php?action=tslink_dochange&amp;uid='.$users['uid'].'&amp;changeto=1"> '.$lang->tslink_modcp_changestatus1.'</a>
+                                        ';
                 }
 
                 eval('$tslink_rows .= "'.$templates->get('tslink_modcp_row').'";');
@@ -286,9 +300,14 @@
     {
         global $mybb, $lang, $inlinesuccess;
 
+        require __DIR__.'/config.php';
+
         // Execute the funtion to add the user to his servergroup.
         if ($mybb->input['action'] == 'tslink' and $mybb->request_method == 'post') {
-            tslink_update_uids($givenip);
+            tslink_log("=============================================================\n=================== ".date("d-m-Y H:i:s")." =====================\n=============================================================\n");
+            tslink_log("Started on UserCP by user - IP address of user (".$givenip.") - doing tslink_update_uids & tslink_update_groups");
+            $tslink_update_uids_results = tslink_update_uids($givenip);
+            tslink_log($tslink_update_uids_results);
             redirect('usercp.php?action=tslink');
         }
 
@@ -307,6 +326,9 @@
     function tslink_update_uids($givenip)
     {
         require __DIR__.'/config.php';
+        
+        $messages = array();
+        $messages[] = "First we gonna update the user his TS uids in the database.";
 
         // Connect to the database.
         $ConnectDB = new mysqli($hostname, $username, $password, $database);
@@ -317,9 +339,11 @@
         }
 
         // Get the member from the mybb database.
-        $mybb_user_query = "SELECT * FROM $table WHERE HEX(lastip) = '$mybb_ip' LIMIT 1";
+        $mybb_user_query = "SELECT * FROM $table WHERE (HEX(lastip) = '$mybb_ip' OR HEX(regip) = '$mybb_ip') LIMIT 1";
+        $messages['mybb_user_query'] = $mybb_user_query;
         $mybb_users = $ConnectDB->query($mybb_user_query) or trigger_error($ConnectDB->error."[$mybb_user_query]");
         $mybb_user = $mybb_users->fetch_array(MYSQLI_ASSOC);
+        $messages['found_user'] = "User ID: ".$mybb_user['uid']." Username: ".$mybb_user['username'];
 
         // Get the memberstatus from the user.
         $mybb_uid = $ConnectDB->real_escape_string($mybb_user['uid']);
@@ -329,12 +353,15 @@
 
         // Connect to the TS server.
         if ($ts3->getElement('success', $ts3->connect())) {
+            $messages['ts3_connect'] = "Successful";
 
             // Login to the TS server.
             if ($ts3->getElement('success', $ts3->login($ts3_username, $ts3_password))) {
+                $messages['ts3_login'] = "Successful";
 
                 // Select virtual server.
                 if ($ts3->getElement('success', $ts3->selectServer($ts3_server_port))) {
+                    $messages['ts3_virtual_server_select'] = "Successful";
 
                     // Get the users from the teamspeak database.
                     // Define how many records we want to query at once.
@@ -346,6 +373,7 @@
                     foreach ($DBClientEntriescount['data'] as $clientindb) {
                         $DBClientEntries = $clientindb['count'];
                     }
+                    $messages['ts3_DBClientEntries'] = $DBClientEntries;
 
                     // Calculate how many times we have to do a query until we have all entries from the teamspeak database.
                     $aantalqueries = $DBClientEntries / $maxaantalperque;
@@ -374,12 +402,15 @@
                                 foreach ($Clients as $ts3_Client) {
                                     // Check if the user's ip address is known in the teamspeak database.
                                     if (is_array($ts3_Client) && $ts3_Client['client_lastip'] == $givenip) {
+                                        $ts3_client_found_on_ip = true;
+                                        $messages['ts3_client_found_on_ip'][$ts3_Client['cldbid']] = $ts3_Client['client_unique_identifier'];
                                         try {
                                             // Put the user's client unique identifier and database id into the database for later usage.
                                             $ts_uid = $ConnectDB->real_escape_string($ts3_Client['client_unique_identifier']);
                                             $ts_cldbid = $ConnectDB->real_escape_string($ts3_Client['cldbid']);
                                             mysqli_query($ConnectDB, 'INSERT INTO '.TABLE_PREFIX."tslink_uids (`uid`, `ts_uid`, `ts_cldbid`) VALUES ('".$mybb_uid."', '".$ts_uid."', '".$ts_cldbid."')");
                                         } catch (Exception $e) {
+                                            $messages['ts3_client_found_on_ip'][$ts3_Client['cldbid']]['error_saving_uid_to_db'] = $e;
                                             // Catches the error(s) if any. But don't do anything with it.
                                         }
                                     }
@@ -387,25 +418,42 @@
                             }
                         }
                     }
+                    if (!$ts3_client_found_on_ip) {
+                        $messages['ts3_client_found_on_ip'] = "No clients found in the TS database with the same IP.";
+                    }
                 } else {
                     echo '<p>Could not select the virtual server.</p> <p>Please check the TS server port in the config!</p> <p>Also make sure this (UDP) port is open in the outgoing firewall!</p>';
+                    $messages['ts3_virtual_server_select'] = "Could not select the virtual server.";
                 }
             } else {
                 echo '<p>Could not login to the TS server.</p> <p>Please check the username and password in the config!</p>';
+                $messages['ts3_login'] = "Could not login to the TS server. Please check the username and password in the config!";
             }
         } else {
             echo '<p>Connection to the TS server could not be established.</p> <p>Please check the TS server and TS server query port in the config!</p> <p>Also make sure this (TCP) port is open in the outgoing firewall!</p>';
+            $messages['ts3_connect'] = "Connection to the TS server could not be established.";
+        }
+
+        if (count($ts3->getDebugLog()) > 0) {
+        	$messages['ts3_uids_update_debuglog'] = $ts3->getDebugLog();
         }
 
         // Close connection
         $ConnectDB->close();
 
         // Now we finally have all unique id's for this user's ip, let's update his groups
-        tslink_update_groups($mybb_uid);
+        $messages[] = tslink_update_groups($mybb_uid);
+
+        return $messages;
     }
 
     function tslink_update_groups($mybb_uid)
     {
+        if (!isset($messages)) {
+            $messages = array();
+        }
+        $messages[] = "In the following part we gonna update the user his groups on the TS server."; 
+
         require __DIR__.'/config.php';
 
         // Connect to the database.
@@ -418,11 +466,14 @@
 
         // Get the member from the mybb database.
         $getit = "SELECT * FROM $table WHERE uid = '$mybb_uid' LIMIT 1";
+        $messages['getit_query'] = $getit;
         $rows = $ConnectDB->query($getit);
         $row = $rows->fetch_array(MYSQLI_ASSOC);
+        $messages['found_member'] = "User ID: ".$row['uid']." Username: ".$row['username'];
 
         // Get the memberstatus from the user.
         $memberstatus = $row['memberstatus'];
+        $messages['memberstatus'] = $memberstatus;
 
         // Let's determine which servergroup to use according to the status of the user.
         if ($memberstatus == '2') {
@@ -432,22 +483,31 @@
         } else {
             $ServerGroupID_ToAdd = $ts3_sgid_member;
         }
+        $messages['ServerGroupID_ToAdd'] = $ServerGroupID_ToAdd;
 
         // Get the user's unique id's from the mybb database
         $get_ts_uids = 'SELECT * FROM '.TABLE_PREFIX."tslink_uids WHERE uid = '$mybb_uid' ";
+        $messages['get_ts_uids_query'] = $get_ts_uids;
         $ts_unique_ids = $ConnectDB->query($get_ts_uids);
+        foreach ($ts_unique_ids as $ts_unique_id) {
+            $messages['registered_ts_db_entries'][] = "TS UID: ".$ts_unique_id['ts_uid']." TS CLDBID: ".$ts_unique_id['ts_cldbid'];
+        }
+        $messages['groups_wont_be_removed'] = implode(",", $ts3_sgid_dont_remove);
 
         // Build a new ts3admin object.
         $ts3 = new ts3admin($ts3_server, $ts3_query_port);
 
         // Connect to the TS server.
         if ($ts3->getElement('success', $ts3->connect())) {
+            $messages['ts_connection'] = "Successful";
 
             // Login to the TS server.
             if ($ts3->getElement('success', $ts3->login($ts3_username, $ts3_password))) {
+                $messages['ts3_login'] = "Successful";
 
                 // Select virtual server.
                 if ($ts3->getElement('success', $ts3->selectServer($ts3_server_port))) {
+                    $messages['ts3_virtual_server_select'] = "Successful";
                     // Set displayed name in TS to given
                     $ts3->setName($ts3_nickname);
 
@@ -455,43 +515,76 @@
                         // First lets remove all groups the user is member of.
                         // First get all servergroups the user is member of.
                         $ClientServerGroups = $ts3->servergroupsbyclientid($ts_unique_id['ts_cldbid']);
+                        $csg = array();
                         $c = 0;
 
+                        if (is_array($ClientServerGroups['data'])) {
+    						foreach ($ClientServerGroups['data'] as $ClientServerGroup) {
+    							$messages['found_groups']['CLDBID_'.$ts_unique_id['ts_cldbid']][] = "sgid: ".$ClientServerGroup['sgid']." Name: ".$ClientServerGroup['name'];
+    						}
+                        }
+
                         // For every servergroup found, remove it.
-                        foreach ((array) $ClientServerGroups['data'] as $Client_ServerGroup) {
-                            $csg["$c"] = $Client_ServerGroup['sgid'];
-                            $c++;
-                            foreach ($csg as $ClientServerGroupID) {
+                        if (is_array($ClientServerGroups['data'])) {
+                            foreach ($ClientServerGroups['data'] as $Client_ServerGroup) {
+                                $csg[] = $Client_ServerGroup['sgid'];
+                            }
+                        }
+                        
+                        foreach ($csg as $ClientServerGroupID) {
                                 // Except for the servergroups we don't want to have removed.
-                                if (in_array($ClientServerGroupID, $ts3_sgid_dont_remove)) {
-                                    // The servergroup given shouldn't be removed so don't do anything.
-                                } else {
+                                if (!in_array($ClientServerGroupID, $ts3_sgid_dont_remove)) {
                                     try {
-                                        $ts3->serverGroupDeleteClient($ClientServerGroupID, $ts_unique_id['ts_cldbid']);
+                                        $messages['SGID_'.$ClientServerGroupID]['removing_from'][] = "CLDBID: ".$ts_unique_id['ts_cldbid'];
+                                        $removeResults = $ts3->serverGroupDeleteClient($ClientServerGroupID, $ts_unique_id['ts_cldbid']);
+                                        if ($removeResults['success']) {
+                                        	$messages['SGID_'.$ClientServerGroupID]['removing_from_result']['CLDBID_'.$ts_unique_id['ts_cldbid']] = "Succes.";	
+                                        } else {
+                                        	$messages['SGID_'.$ClientServerGroupID]['removing_from_result']['CLDBID_'.$ts_unique_id['ts_cldbid']] = $removeResults['errors'];
+                                        }
+                                        
                                     } catch (Exception $e) {
                                         // Catches the error(s) if any. But don't do anything with it.
                                     }
                                 }
                             }
-                        }
+                        $c++;
+                        
                         try {
                             // Add the user to the servergroup.
-                            $ts3->serverGroupAddClient($ServerGroupID_ToAdd, $ts_unique_id['ts_cldbid']);
+                            $messages['SGID_'.$ServerGroupID_ToAdd]['adding_to'][] = "CLDBID: ".$ts_unique_id['ts_cldbid'];
+                            $serverGroupAddClientResults = $ts3->serverGroupAddClient($ServerGroupID_ToAdd, $ts_unique_id['ts_cldbid']);
+                            if ($serverGroupAddClientResults['success']) {
+                            	$messages['SGID_'.$ServerGroupID_ToAdd]['adding_to_result']['CLDBID_'.$ts_unique_id['ts_cldbid']] =  "Succes.";	
+                            } else {
+                            	$messages['SGID_'.$ServerGroupID_ToAdd]['adding_to_result']['CLDBID_'.$ts_unique_id['ts_cldbid']] = $serverGroupAddClientResults['errors'];
+                            }
+                            #$messages[$ServerGroupID_ToAdd]['adding_to_result'][] = $serverGroupAddClientResults;
                         } catch (Exception $e) {
                             // Catches the error(s) if any. But don't do anything with it.
                         }
                     }
+
                 } else {
                     echo '<p>Could not select the virtual server.</p> <p>Please check the TS server port in the config!</p> <p>Also make sure this (UDP) port is open in the outgoing firewall!</p>';
+                    $messages['ts3_virtual_server_select'] = "Could not select the virtual server.";
                 }
             } else {
                 echo '<p>Could not login to the TS server.</p> <p>Please check the username and password in the config!</p>';
+                $messages['ts3_login'] = "Could not login to the TS server. Please check the username and password in the config!";
             }
         } else {
             echo '<p>Connection to the TS server could not be established.</p> <p>Please check the TS server and TS server query port in the config!</p> <p>Also make sure this (TCP) port is open in the outgoing firewall!</p>';
+            $messages['ts3_connect'] = "Connection to the TS server could not be established.";
+        }
+
+        if (count($ts3->getDebugLog()) > 0) {
+        	$messages['ts3_add_remove_debuglog'] = $ts3->getDebugLog();
         }
         // Close connection
         $ConnectDB->close();
+
+        return $messages;
     }
 
     function UpdateMyBBDB_To1($givenip)
@@ -548,8 +641,41 @@
 
         // Update the MyBB database.
         $UpdateMyBBDBQuery = "UPDATE $table SET memberstatus = '$memberstatus' WHERE HEX(lastip) = '$mybb_ip'";
-        $ConnectDB->query($UpdateMyBBDBQuery);
+        $UpdateMyBBDBResult = $ConnectDB->query($UpdateMyBBDBQuery);
+
+        return $UpdateMyBBDBResult;
 
         // Close connection
         $ConnectDB->close();
+    }
+
+    function tslink_log($loginput, $forUser = NULL)
+    {
+    	global $mybb;
+        require __DIR__.'/config.php';
+
+        if (!isset($forUser)) {
+            $forUser = $mybb->user['username'];
+        }
+        $logfile = __DIR__."/log/".$forUser.".log";
+
+        if (!file_exists(__DIR__.'/log/')) {
+        	try {
+		    	mkdir(__DIR__.'/log/', 0777, true);
+		    } catch (\Exception $e) {
+				echo "Error while creating log directory!";
+				return;
+			}
+		}
+
+        if ($tslink_log) {
+			if (is_array($loginput)) {
+				$loginput = print_r($loginput,1);
+				error_log($loginput."\n", 3, $logfile);
+			} else {
+				error_log($loginput."\n", 3, $logfile);
+			}
+		
+        }
+
     }
