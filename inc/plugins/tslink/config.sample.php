@@ -39,6 +39,7 @@ $ts3_sgid_vip_member = '35'; // the group id of the group which should be set wh
 // Define the servergroups the plugin shouldn't even try to remove.
 $ts3_sgid_dont_remove = ['6', '14', '10', '33'];
 
+$tslink_log = true; // set this option to true or false to enable/disable logging.
 
 // DONT CHANGE ANYTHING UNDERNEATH!!!!
 // Piece of pie to determine which IP to work with.
