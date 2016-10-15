@@ -394,7 +394,7 @@
                         $maxaantalvorige = $maxaantaldezeque + 1;
                         $i++;
                     }
-                    $messages['looking_for_ip'] = "Start search in TS DB for entries with ip: ".$givenip;
+                    $messages['looking_for_ip'] = 'Start search in TS DB for entries with ip: '.$givenip;
                     // Lets see if we can find the user in the teamspeak database.
                     foreach ($ClientArrays as $ClientArray) {
                         foreach ($ClientArray as $Clients) {
