@@ -39,6 +39,8 @@ $ts3_sgid_vip_member = '35'; // the group id of the group which should be set wh
 // Define the servergroups the plugin shouldn't even try to remove.
 $ts3_sgid_dont_remove = ['6', '14', '10', '33'];
 
+// Should we log actions performed by the plugin?
+// If set to true, make sure the log folder inside the tsling folder is writable!
 $tslink_log = true; // set this option to true or false to enable/disable logging.
 
 // DONT CHANGE ANYTHING UNDERNEATH!!!!
@@ -48,7 +50,11 @@ if (!isset($givenip)) {
 }
 
 if ($givenip == '') {
-    $givenip = $_SERVER['REMOTE_ADDR'];
+    if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+        $givenip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+    } else {
+        $givenip = $_SERVER['REMOTE_ADDR'];
+    }
     $mybb_ip = bin2hex(inet_pton($givenip));
 } else {
     $mybb_ip = bin2hex(inet_pton($givenip));
