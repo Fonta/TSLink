@@ -22,7 +22,7 @@
             'website'         => 'http://www.bug-community.com',
             'author'          => 'Fonta',
             'authorsite'      => 'http://www.bug-community.com',
-            'version'         => '1.3.5',
+            'version'         => '1.3.4',
             'compatibility'   => '18*',
             'codename'        => 'TSLink',
         ];
@@ -86,6 +86,7 @@
           ts_cldbid int(10) DEFAULT NULL,
           UNIQUE KEY (uid)
         ) ');
+
     }
 
     function tslink_is_installed()
@@ -134,30 +135,30 @@
             'tid'              => null,
             'title'            => 'tslink_usercp_menu',
             'template'         => $db->escape_string('
-<tr>
-<td class="tcat smalltext">
-    <div class="expcolimage">
-        <img src="{$theme[\'imgdir\']}/collapse{$collapsedimg[\'usercptslink\']}.png" id="usercptslink_img" class="expander" alt="[-]" title="[-]" />
-    </div>
-    <div>
-        <span>
-        <strong>{$lang->tslink_menu_title}</strong>
-        </span>
-    </div>
-</td>
-</tr>
-<tbody style="{$collapsed[\'usercptslink_e\']}" id="usercptslink_e">
-    <tr>
-        <td class="trow1 smalltext">
-            <a href="usercp.php?action=tslink" class="usercp_nav_item usercp_nav_tslink">{$lang->tslink_menu_link}</a>
-        </td>
-    </tr>
-</tbody>
-<style type="text/css">
-.usercp_nav_tslink {
-    background: url(\'images/tslink/teamspeak3-icon.png\') no-repeat left center;
-}
-</style>'),
+                                <tr>
+                                <td class="tcat smalltext">
+                                    <div class="expcolimage">
+                                        <img src="{$theme[\'imgdir\']}/collapse{$collapsedimg[\'usercptslink\']}.png" id="usercptslink_img" class="expander" alt="[-]" title="[-]" />
+                                    </div>
+                                    <div>
+                                        <span>
+                                        <strong>{$lang->tslink_menu_title}</strong>
+                                        </span>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tbody style="{$collapsed[\'usercptslink_e\']}" id="usercptslink_e">
+                                    <tr>
+                                        <td class="trow1 smalltext">
+                                            <a href="usercp.php?action=tslink" class="usercp_nav_item usercp_nav_tslink">{$lang->tslink_menu_link}</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <style type="text/css">
+                                .usercp_nav_tslink {
+                                    background: url(\'images/tslink/teamspeak3-icon.png\') no-repeat left center;
+                                }
+                                </style>'),
             'sid'            => '-2',
             'version'        => $mybb->version + 1,
         ];
@@ -167,45 +168,45 @@
             'tid'              => null,
             'title'            => 'tslink_usercp_settings',
             'template'         => $db->escape_string('
-<html>
-<head>
-<title>{$lang->tslink_title} - {$mybb->settings[\'bbname\']}</title>
-{$headerinclude}
-</head>
-<body>
- {$header}
-<table width="100%" border="0" align="center">
-<tr>
-     {$usercpnav}
-    <td valign="top">
-         {$inlinesuccess}
-            <table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
-            <thead>
-            <tr>
-                <th class="thead">
-                    <img style="padding-top:3px;" src="images/tslink/teamspeak3.png" height="16px"> <strong>{$lang->tslink_title}</strong>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="trow1">
-                <p>{$lang->tslink_usercp_message}</p>
-                </td>
-            </tr>
-            </tbody>
-            </table>
-            <div style="text-align:center;">
-            <form name="LinkTS" method="post" action="usercp.php?action=tslink">
-                <input type="submit" class="button" value="{$lang->tslink_usercp_submit_button}" name="tslink_dolink" />
-            </form>
-        </div>
-    </td>
-</tr>
-</table>
- {$footer}
-</body>
-</html>'),
+                                    <html>
+                                    <head>
+                                    <title>{$lang->tslink_title} - {$mybb->settings[\'bbname\']}</title>
+                                    {$headerinclude}
+                                    </head>
+                                    <body>
+                                     {$header}
+                                    <table width="100%" border="0" align="center">
+                                    <tr>
+                                         {$usercpnav}
+                                        <td valign="top">
+                                             {$inlinesuccess}
+                                                <table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
+                                                <thead>
+                                                <tr>
+                                                    <th class="thead">
+                                                        <img style="padding-top:3px;" src="images/tslink/teamspeak3.png" height="16px"> <strong>{$lang->tslink_title}</strong>
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="trow1">
+                                                    <p>{$lang->tslink_usercp_message}</p>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                                </table>
+                                                <div style="text-align:center;">
+                                                <form name="LinkTS" method="post" action="usercp.php?action=tslink">
+                                                    <input type="submit" class="button" value="{$lang->tslink_usercp_submit_button}" name="tslink_dolink" />
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </table>
+                                     {$footer}
+                                    </body>
+                                    </html>'),
             'sid'            => '-2',
             'version'        => $mybb->version + 1,
         ];
@@ -215,15 +216,15 @@
             'tid'              => null,
             'title'            => 'tslink_modcp_menu',
             'template'         => $db->escape_string('<tr>
-    <td class="tcat smalltext">
-        <div class="expcolimage"><img src="{$theme[\'imgdir\']}/collapse{$collapsedimg[\'modcptslink\']}.png" id="modcptslink_img" class="expander" alt="[-]" title="[-]" /></div>
-    <div><span><strong>{$lang->tslink_menu_title}</strong></span></div>
-    </td>
-</tr>
-<tbody style="{$collapsed[\'modcptslink_e\']}" id="modcptslink_e">
-    <tr><td class="trow1 smalltext"><a href="modcp.php?action=tslink" class="modcp_nav_item modcp_nav_tslink">{$lang->tslink_menu_link}</a></td></tr>
-</tbody>
-<style type="text/css">.modcp_nav_tslink { background: url(\'images/tslink/teamspeak3-icon.png\') no-repeat left center;}</style>'),
+                                    <td class="tcat smalltext">
+                                        <div class="expcolimage"><img src="{$theme[\'imgdir\']}/collapse{$collapsedimg[\'modcptslink\']}.png" id="modcptslink_img" class="expander" alt="[-]" title="[-]" /></div>
+                                    <div><span><strong>{$lang->tslink_menu_title}</strong></span></div>
+                                    </td>
+                                </tr>
+                                <tbody style="{$collapsed[\'modcptslink_e\']}" id="modcptslink_e">
+                                    <tr><td class="trow1 smalltext"><a href="modcp.php?action=tslink" class="modcp_nav_item modcp_nav_tslink">{$lang->tslink_menu_link}</a></td></tr>
+                                </tbody>
+                                <style type="text/css">.modcp_nav_tslink { background: url(\'images/tslink/teamspeak3-icon.png\') no-repeat left center;}</style>'),
             'sid'            => '-2',
             'version'        => $mybb->version + 1,
         ];
@@ -233,36 +234,36 @@
             'tid'              => null,
             'title'            => 'tslink_modcp_page_template',
             'template'         => $db->escape_string('<html>
-<head>
-<title>{$lang->tslink_title} - {$mybb->settings[\'bbname\']}</title>
-{$headerinclude}
-</head>
-<body>
-{$header}
-<form action="modcp.php" method="post">
-<input type="hidden" name="my_post_key" value="{$mybb->post_code}" />
-<table width="100%" border="0" align="center">
-<tr>
-{$modcp_nav}
-<td valign="top">
-<table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
-<tr>
-<td class="thead" colspan="3"><strong>{$lang->tslink_title}</strong></td>
-</tr>
-<tr>
-<td class="tcat" align="center" width="20%"><span class="smalltext"><strong>{$lang->tslink_modcp_username}</strong></span></td>
-<td class="tcat" align="center" width="20%"><span class="smalltext"><strong>{$lang->tslink_modcp_status}</strong></span></td>
-<td class="tcat" align="center" width="15%"><span class="smalltext"><strong>{$lang->tslink_modcp_options}</strong></span></td>
-</tr>
-{$tslink_rows}
-</table>
-</td>
-</tr>
-</table>
-</form>
-{$footer}
-</body>
-</html>'),
+                                        <head>
+                                            <title>{$lang->tslink_title} - {$mybb->settings[\'bbname\']}</title>
+                                            {$headerinclude}
+                                        </head>
+                                        <body>
+                                            {$header}
+                                            <form action="modcp.php" method="post">
+                                                <input type="hidden" name="my_post_key" value="{$mybb->post_code}" />
+                                                <table width="100%" border="0" align="center">
+                                                <tr>
+                                                {$modcp_nav}
+                                                <td valign="top">
+                                                    <table border="0" cellspacing="{$theme[\'borderwidth\']}" cellpadding="{$theme[\'tablespace\']}" class="tborder">
+                                                        <tr>
+                                                            <td class="thead" colspan="3"><strong>{$lang->tslink_title}</strong></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tcat" align="center" width="20%"><span class="smalltext"><strong>{$lang->tslink_modcp_username}</strong></span></td>
+                                                            <td class="tcat" align="center" width="20%"><span class="smalltext"><strong>{$lang->tslink_modcp_status}</strong></span></td>
+                                                            <td class="tcat" align="center" width="15%"><span class="smalltext"><strong>{$lang->tslink_modcp_options}</strong></span></td>
+                                                        </tr>
+                                                        {$tslink_rows}
+                                                    </table>
+                                                </td>
+                                                </tr>
+                                                </table>
+                                            </form>
+                                            {$footer}
+                                        </body>
+                                    </html>'),
             'sid'            => '-2',
             'version'        => $mybb->version + 1,
         ];
@@ -271,10 +272,10 @@
         $insert_array = [
         'title'        => 'tslink_modcp_row',
         'template'     => $db->escape_string('<tr>
-<td class="{$alt_bg}" align="center">{$user[\'username\']}</td>
-<td class="{$alt_bg}" align="center">{$status}</td>
-<td class="{$alt_bg}" align="center">{$linktochange}</td>
-</tr>'),
+                                <td class="{$alt_bg}" align="center">{$user[\'username\']}</td>
+                                <td class="{$alt_bg}" align="center">{$status}</td>
+                                <td class="{$alt_bg}" align="center">{$linktochange}</td>
+                            </tr>'),
         'sid'        => '-2',
         'version'    => '',
     ];
@@ -329,7 +330,7 @@
 
             if ($mybb->settings['tslink_settings_usercp']) {
                 // Hooks for the UserCP.
-                $plugins->add_hook('usercp_menu', 'tslink_usercp_menu', 40);
+                $plugins->add_hook('usercp_menu', 'tslink_usercp_menu', 2);
                 $plugins->add_hook('usercp_start', 'tslink_usercp');
             }
         }
@@ -345,8 +346,10 @@
 
         $forUser = $mybb->user['username'];
 
-        tslink_log("=============================================================\n=================== ".date('d-m-Y H:i:s')." =====================\n=============================================================\n", $forUser);
-        tslink_log('Started by user on account activation - IP address of user ('.$givenip.') - doing tslink_update_uids & tslink_update_groups', $forUser);
+        tslink_log("=============================================================\n=================== ".date("d-m-Y H:i:s")." =====================\n=============================================================\n", $forUser);
+        tslink_log("Started by user on account activation - IP address of user (".$givenip.") - doing tslink_update_uids & tslink_update_groups", $forUser);
         $logging_material = tslink_update_uids($givenip);
         tslink_log($logging_material, $forUser);
     }
+
+?>
