@@ -487,37 +487,12 @@
 		// Let's determine which servergroup to use according to the status of the user.
 		if ($memberstatus == '2') {
 			$ServerGroupID_ToAdd = $ts3_sgid_vip_member;
-			$newForumGroup = $mybb_group_vip_member;
 		} elseif ($memberstatus == '1') {
 			$ServerGroupID_ToAdd = $ts3_sgid_don_member;
-			$newForumGroup = $mybb_group_don_member;
 		} else {
 			$ServerGroupID_ToAdd = $ts3_sgid_member;
-			$newForumGroup = $mybb_group_member;
 		}
 		$messages['TS_ServerGroupID_ToAdd'] = $ServerGroupID_ToAdd;
-		$messages['NewForumGroup'] = $newForumGroup;
-		$messages['Current_Usergroup'] = $mybbuser_info['usergroup'];
-		$messages['Current_Additional_groups'] = $mybbuser_info['additionalgroups'];
-
-		$currentUserGroup = $mybbuser_info['usergroup'];
-		$currentUserAddGroups = explode(',', $mybbuser_info['additionalgroups']);
-
-		if (in_array($currentUserGroup, array($mybb_group_vip_member, $mybb_group_don_member, $mybb_group_member))) {
-			$messages['Updating_Usergroup_To'] = $newForumGroup;
-			$ConnectDB->query('UPDATE '.TABLE_PREFIX."users SET usergroup= '".$newForumGroup."' WHERE uid='".$mybb_uid."'");
-
-			$newUserAddGroups = array_diff($currentUserAddGroups, array($mybb_group_vip_member, $mybb_group_don_member, $mybb_group_member));
-			$newUserAddGroupsString = implode(',', $newUserAddGroups);
-			$messages['Updating_Additional_groups_To'] = $newUserAddGroupsString;
-			$ConnectDB->query('UPDATE '.TABLE_PREFIX."users SET additionalgroups= '".$newUserAddGroupsString."' WHERE uid='".$mybb_uid."'");
-		} else {
-			$newUserAddGroups = array_diff($currentUserAddGroups, array($mybb_group_vip_member, $mybb_group_don_member, $mybb_group_member));
-			array_push($newUserAddGroups, $newForumGroup);
-			$newUserAddGroupsString = implode(',', $newUserAddGroups);
-			$messages['Updating_Current_Additional_groups_To'] = $newUserAddGroupsString;
-			$ConnectDB->query('UPDATE '.TABLE_PREFIX."users SET additionalgroups= '".$newUserAddGroupsString."' WHERE uid='".$mybb_uid."'");
-		}
 
 		// Get the user's unique id's from the mybb database
 		$get_ts_uids = 'SELECT * FROM '.TABLE_PREFIX."tslink_uids WHERE uid = '$mybb_uid' ";
