@@ -22,7 +22,7 @@
             'website'         => 'http://www.bug-community.com',
             'author'          => 'Fonta',
             'authorsite'      => 'http://www.bug-community.com',
-            'version'         => '1.3.4',
+            'version'         => '1.3.5',
             'compatibility'   => '18*',
             'codename'        => 'TSLink',
         ];
@@ -132,7 +132,6 @@
         }
 
         $ins = [
-            'tid'              => null,
             'title'            => 'tslink_usercp_menu',
             'template'         => $db->escape_string('
                                 <tr>
@@ -165,7 +164,6 @@
         $db->insert_query('templates', $ins);
 
         $ins = [
-            'tid'              => null,
             'title'            => 'tslink_usercp_settings',
             'template'         => $db->escape_string('
                                     <html>
@@ -213,7 +211,6 @@
         $db->insert_query('templates', $ins);
 
         $ins = [
-            'tid'              => null,
             'title'            => 'tslink_modcp_menu',
             'template'         => $db->escape_string('<tr>
                                     <td class="tcat smalltext">
@@ -231,7 +228,6 @@
         $db->insert_query('templates', $ins);
 
         $ins = [
-            'tid'              => null,
             'title'            => 'tslink_modcp_page_template',
             'template'         => $db->escape_string('<html>
                                         <head>
